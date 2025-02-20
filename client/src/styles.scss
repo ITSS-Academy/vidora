@@ -1,0 +1,388 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "sass:map";
+@use "@angular/material" as mat;
+// Plus imports for other components in your app.
+
+mat.$theme-ignore-duplication-warnings: true; // nó đỏ không cần quan tâm, đừng xóa
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+$my_palettes: (
+  primary: (
+    0: #000000,
+    10: #1b1b1b,
+    20: #303030,
+    25: #3b3b3b,
+    30: #474747,
+    35: #525252,
+    40: #5e5e5e,
+    50: #777777,
+    60: #919191,
+    70: #ababab,
+    80: #c6c6c6,
+    90: #e2e2e2,
+    95: #f1f1f1,
+    98: #f9f9f9,
+    99: #fcfcfc,
+    100: #ffffff,
+  ),
+  secondary: (
+    0: #000000,
+    10: #1b1b1b,
+    20: #303030,
+    25: #3b3b3b,
+    30: #474747,
+    35: #525252,
+    40: #5e5e5e,
+    50: #777777,
+    60: #919191,
+    70: #ababab,
+    80: #c6c6c6,
+    90: #e2e2e2,
+    95: #f1f1f1,
+    98: #f9f9f9,
+    99: #fcfcfc,
+    100: #ffffff,
+  ),
+  tertiary: (
+    0: #000000,
+    10: #1b1b1b,
+    20: #303030,
+    25: #3b3b3b,
+    30: #474747,
+    35: #525252,
+    40: #5e5e5e,
+    50: #777777,
+    60: #919191,
+    70: #ababab,
+    80: #c6c6c6,
+    90: #e2e2e2,
+    95: #f1f1f1,
+    98: #f9f9f9,
+    99: #fcfcfc,
+    100: #ffffff,
+  ),
+  neutral: (
+    0: #000000,
+    10: #1b1b1b,
+    20: #303030,
+    25: #3b3b3b,
+    30: #474747,
+    35: #525252,
+    40: #5e5e5e,
+    50: #777777,
+    60: #919191,
+    70: #ababab,
+    80: #c6c6c6,
+    90: #e2e2e2,
+    95: #f1f1f1,
+    98: #f9f9f9,
+    99: #fcfcfc,
+    100: #ffffff,
+  ),
+  neutral-variant: (
+    0: #000000,
+    10: #1b1b1b,
+    20: #303030,
+    25: #3b3b3b,
+    30: #474747,
+    35: #525252,
+    40: #5e5e5e,
+    50: #777777,
+    60: #919191,
+    70: #ababab,
+    80: #c6c6c6,
+    90: #e2e2e2,
+    95: #f1f1f1,
+    98: #f9f9f9,
+    99: #fcfcfc,
+    100: #ffffff,
+  ),
+  error: (
+    0: #000000,
+    10: #410002,
+    20: #690005,
+    25: #7e0007,
+    30: #93000a,
+    35: #a80710,
+    40: #ba1a1a,
+    50: #de3730,
+    60: #ff5449,
+    70: #ff897d,
+    80: #ffb4ab,
+    90: #ffdad6,
+    95: #ffedea,
+    98: #fff8f7,
+    99: #fffbff,
+    100: #ffffff,
+  ),
+);
+
+$_rest: (
+  secondary: map.get($my_palettes, secondary),
+  neutral: map.get($my_palettes, neutral),
+  neutral-variant: map.get($my_palettes, neutral-variant),
+  error: map.get($my_palettes, error),
+);
+
+$my_primary: map.merge(map.get($my_palettes, primary), $_rest);
+$my_tertiary: map.merge(map.get($my_palettes, tertiary), $_rest);
+
+// Define the light theme object.
+$light-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: $my_primary,
+      tertiary: $my_tertiary,
+    ),
+    typography: (
+      brand-family: "Lexend, sans-serif",
+      plain-family: "Lexend, sans-serif",
+    ),
+    density: (
+      scale: 0,
+    ),
+  )
+);
+
+// Define the dark theme object.
+$dark-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: $my_primary,
+      tertiary: $my_tertiary,
+    ),
+    typography: (
+      brand-family: "Lexend, sans-serif",
+      plain-family: "Lexend, sans-serif",
+    ),
+    density: (
+      scale: 0,
+    ),
+  )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+body.light-theme {
+  @include mat.all-component-themes($light-theme);
+}
+
+body.dark-theme {
+  @include mat.all-component-themes($dark-theme);
+}
+
+// Comment out the line below if you want to use the pre-defined typography utility classes.
+// For more information: https://material.angular.io/guide/typography#using-typography-styles-in-your-application.
+// @include mat.typography-hierarchy($live-session-theme);
+
+// Comment out the line below if you want to use the deprecated `color` inputs.
+// @include mat.color-variants-backwards-compatibility($live-session-theme);
+
+.light-theme {
+  --md-sys-color-primary: rgb(0 0 0);
+  --md-sys-color-surface-tint: rgb(94 94 94);
+  --md-sys-color-on-primary: rgb(255 255 255);
+  --md-sys-color-primary-container: rgb(27 27 27);
+  --md-sys-color-on-primary-container: rgb(132 132 132);
+  --md-sys-color-secondary: rgb(94 94 94);
+  --md-sys-color-on-secondary: rgb(255 255 255);
+  --md-sys-color-secondary-container: rgb(226 226 226);
+  --md-sys-color-on-secondary-container: rgb(100 100 100);
+  --md-sys-color-tertiary: rgb(0 0 0);
+  --md-sys-color-on-tertiary: rgb(255 255 255);
+  --md-sys-color-tertiary-container: rgb(27 27 27);
+  --md-sys-color-on-tertiary-container: rgb(132 132 132);
+  --md-sys-color-error: rgb(186 26 26);
+  --md-sys-color-on-error: rgb(255 255 255);
+  --md-sys-color-error-container: rgb(255 218 214);
+  --md-sys-color-on-error-container: rgb(147 0 10);
+  --md-sys-color-background: rgb(249 249 249);
+  --md-sys-color-on-background: rgb(27 27 27);
+  --md-sys-color-surface: rgb(249 249 249);
+  --md-sys-color-on-surface: rgb(27 27 27);
+  --md-sys-color-surface-variant: rgb(235 224 225);
+  --md-sys-color-on-surface-variant: rgb(76 69 70);
+  --md-sys-color-outline: rgb(126 117 118);
+  --md-sys-color-outline-variant: rgb(207 196 197);
+  --md-sys-color-shadow: rgb(0 0 0);
+  --md-sys-color-scrim: rgb(0 0 0);
+  --md-sys-color-inverse-surface: rgb(48 48 48);
+  --md-sys-color-inverse-on-surface: rgb(241 241 241);
+  --md-sys-color-inverse-primary: rgb(198 198 198);
+  --md-sys-color-primary-fixed: rgb(226 226 226);
+  --md-sys-color-on-primary-fixed: rgb(27 27 27);
+  --md-sys-color-primary-fixed-dim: rgb(198 198 198);
+  --md-sys-color-on-primary-fixed-variant: rgb(71 71 71);
+  --md-sys-color-secondary-fixed: rgb(226 226 226);
+  --md-sys-color-on-secondary-fixed: rgb(27 27 27);
+  --md-sys-color-secondary-fixed-dim: rgb(198 198 198);
+  --md-sys-color-on-secondary-fixed-variant: rgb(71 71 71);
+  --md-sys-color-tertiary-fixed: rgb(226 226 226);
+  --md-sys-color-on-tertiary-fixed: rgb(27 27 27);
+  --md-sys-color-tertiary-fixed-dim: rgb(198 198 198);
+  --md-sys-color-on-tertiary-fixed-variant: rgb(71 71 71);
+  --md-sys-color-surface-dim: rgb(218 218 218);
+  --md-sys-color-surface-bright: rgb(249 249 249);
+  --md-sys-color-surface-container-lowest: rgb(255 255 255);
+  --md-sys-color-surface-container-low: rgb(243 243 243);
+  --md-sys-color-surface-container: rgb(238 238 238);
+  --md-sys-color-surface-container-high: rgb(232 232 232);
+  --md-sys-color-surface-container-highest: rgb(226 226 226);
+}
+
+.dark-theme {
+  --md-sys-color-primary: rgb(198 198 198);
+  --md-sys-color-surface-tint: rgb(198 198 198);
+  --md-sys-color-on-primary: rgb(48 48 48);
+  --md-sys-color-primary-container: rgb(0 0 0);
+  --md-sys-color-on-primary-container: rgb(117 117 117);
+  --md-sys-color-secondary: rgb(198 198 198);
+  --md-sys-color-on-secondary: rgb(48 48 48);
+  --md-sys-color-secondary-container: rgb(71 71 71);
+  --md-sys-color-on-secondary-container: rgb(181 181 181);
+  --md-sys-color-tertiary: rgb(198 198 198);
+  --md-sys-color-on-tertiary: rgb(48 48 48);
+  --md-sys-color-tertiary-container: rgb(0 0 0);
+  --md-sys-color-on-tertiary-container: rgb(117 117 117);
+  --md-sys-color-error: rgb(255 180 171);
+  --md-sys-color-on-error: rgb(105 0 5);
+  --md-sys-color-error-container: rgb(147 0 10);
+  --md-sys-color-on-error-container: rgb(255 218 214);
+  --md-sys-color-background: rgb(19 19 19);
+  --md-sys-color-on-background: rgb(226 226 226);
+  --md-sys-color-surface: rgb(19 19 19);
+  --md-sys-color-on-surface: rgb(226 226 226);
+  --md-sys-color-surface-variant: rgb(76 69 70);
+  --md-sys-color-on-surface-variant: rgb(207 196 197);
+  --md-sys-color-outline: rgb(152 142 144);
+  --md-sys-color-outline-variant: rgb(76 69 70);
+  --md-sys-color-shadow: rgb(0 0 0);
+  --md-sys-color-scrim: rgb(0 0 0);
+  --md-sys-color-inverse-surface: rgb(226 226 226);
+  --md-sys-color-inverse-on-surface: rgb(48 48 48);
+  --md-sys-color-inverse-primary: rgb(94 94 94);
+  --md-sys-color-primary-fixed: rgb(226 226 226);
+  --md-sys-color-on-primary-fixed: rgb(27 27 27);
+  --md-sys-color-primary-fixed-dim: rgb(198 198 198);
+  --md-sys-color-on-primary-fixed-variant: rgb(71 71 71);
+  --md-sys-color-secondary-fixed: rgb(226 226 226);
+  --md-sys-color-on-secondary-fixed: rgb(27 27 27);
+  --md-sys-color-secondary-fixed-dim: rgb(198 198 198);
+  --md-sys-color-on-secondary-fixed-variant: rgb(71 71 71);
+  --md-sys-color-tertiary-fixed: rgb(226 226 226);
+  --md-sys-color-on-tertiary-fixed: rgb(27 27 27);
+  --md-sys-color-tertiary-fixed-dim: rgb(198 198 198);
+  --md-sys-color-on-tertiary-fixed-variant: rgb(71 71 71);
+  --md-sys-color-surface-dim: rgb(19 19 19);
+  --md-sys-color-surface-bright: rgb(57 57 57);
+  --md-sys-color-surface-container-lowest: rgb(14 14 14);
+  --md-sys-color-surface-container-low: rgb(27 27 27);
+  --md-sys-color-surface-container: rgb(31 31 31);
+  --md-sys-color-surface-container-high: rgb(42 42 42);
+  --md-sys-color-surface-container-highest: rgb(53 53 53);
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Lexend", sans-serif;
+}
+
+:root {
+  --heading-font: "Lexend", sans-serif;
+  --text-font: "Lexend", sans-serif;
+
+  --font-heading: var(--heading-font);
+  --font-heading-1: bold 3.125rem/3.5rem var(--font-heading);
+  --font-heading-2: bold 2.75rem/3rem var(--font-heading);
+  --font-heading-3: bold 2.25rem/2.5rem var(--font-heading);
+  --font-heading-4: bold 1.75rem/2rem var(--font-heading);
+  --font-heading-5: bold 1.5rem/1.75rem var(--font-heading);
+  --font-heading-6: bold 1.25rem/1.5rem var(--font-heading);
+
+  --font-text: var(--text-font);
+  --font-text-xl: normal 1.1875rem/1.75rem var(--font-text);
+  --font-text-l: normal 1.0625rem/1.75rem var(--font-text);
+  --font-text-l-2: normal 1.0625rem/1.5rem var(--font-text);
+  --font-text-m: normal 1rem/1.5rem var(--font-text);
+  --font-text-m-2: normal 1rem/1.25rem var(--font-text);
+  --font-text-s: normal 0.8125rem/1.25rem var(--font-text);
+  --font-text-s-2: normal 0.8125rem/1rem var(--font-text);
+  --font-text-xs: normal 0.6875rem/1rem var(--font-text);
+  --font-text-xs-2: normal 0.6875rem/0.8125rem var(--font-text);
+
+  --font-text-xl-bold: 500 1.1875rem/1.75rem var(--font-text);
+  --font-text-l-bold: 500 1.0625rem/1.75rem var(--font-text);
+  --font-text-l-2-bold: 500 1.0625rem/1.5rem var(--font-text);
+  --font-text-m-bold: 500 1rem/1.5rem var(--font-text);
+  --font-text-m-2-bold: 500 1rem/1.25rem var(--font-text);
+  --font-text-s-bold: 500 0.8125rem/1.25rem var(--font-text);
+  --font-text-s-2-bold: 500 0.8125rem/1rem var(--font-text);
+  --font-text-xs-bold: 500 0.6875rem/1rem var(--font-text);
+  --font-text-xs-2-bold: 500 0.6875rem/0.8125rem var(--font-text);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000;
+  opacity: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+
+//.mat-mdc-form-field-subscript-wrapper {
+//  display: none;
+//}
+
+#loading-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
