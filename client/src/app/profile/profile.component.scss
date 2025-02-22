@@ -1,0 +1,12 @@
+.container {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+
+  .sticky-tab-group {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: var(--md-sys-color-surface);
+  }
+}

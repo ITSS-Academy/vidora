@@ -24,10 +24,6 @@ export const routes: Routes = [
       import('./watch/watch.route').then((m) => m.WATCH_ROUTES),
   },
   {
-    path: 'you',
-    loadChildren: () => import('./you/you.route').then((m) => m.YOU_ROUTES),
-  },
-  {
     path: 'playlists',
     loadChildren: () =>
       import('./playlist/playlist.route').then((m) => m.PLAYLIST_ROUTES),
@@ -45,5 +41,19 @@ export const routes: Routes = [
       import('./watch-later/watch-later.route').then(
         (m) => m.WATCH_LATER_ROUTES,
       ),
+  },
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('./profile/profile.route').then((m) => m.PROFILE_ROUTES),
+  },
+  {
+    path: 'search',
+    loadChildren: () =>
+      import('./search/search.route').then((m) => m.SEARCH_ROUTES),
+  },
+  {
+    path: '**',
+    redirectTo: 'home',
   },
 ];

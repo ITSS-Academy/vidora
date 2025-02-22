@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { filter } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { SharedModule } from '../../../shared/modules/shared.module';
 import { ThemeService } from '../../../services/theme.service';
@@ -57,12 +56,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       route: '/watch-later',
       icon: 'schedule',
     },
-
-    {
-      name: 'You',
-      route: '/you',
-      icon: 'account_circle',
-    },
   ];
 
   activeLink = this.navLinks[0];
@@ -78,12 +71,15 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       this.activeLink = this.navLinks[1];
     } else if (this.router.url.includes('history')) {
       this.activeLink = this.navLinks[2];
-    } else if (this.router.url.includes('playlists')) {
+    } else if (
+      this.router.url.includes('playlists') &&
+      !this.router.url.includes('profile')
+    ) {
       this.activeLink = this.navLinks[3];
     } else if (this.router.url.includes('watch-later')) {
       this.activeLink = this.navLinks[4];
-    } else if (this.router.url.includes('you')) {
-      this.activeLink = this.navLinks[5];
+    } else {
+      this.activeLink = this.navLinks[-1];
     }
   }
 
@@ -120,12 +116,15 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       this.activeLink = this.navLinks[1];
     } else if (this.router.url.includes('history')) {
       this.activeLink = this.navLinks[2];
-    } else if (this.router.url.includes('playlists')) {
+    } else if (
+      this.router.url.includes('playlists') &&
+      !this.router.url.includes('profile')
+    ) {
       this.activeLink = this.navLinks[3];
     } else if (this.router.url.includes('watch-later')) {
       this.activeLink = this.navLinks[4];
-    } else if (this.router.url.includes('you')) {
-      this.activeLink = this.navLinks[5];
+    } else {
+      this.activeLink = this.navLinks[-1];
     }
   }
 

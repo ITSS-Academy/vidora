@@ -1,0 +1,15 @@
+<div class="container">
+  <p>profile works!</p>
+
+  <mat-tab-group
+    (selectedTabChange)="onTabChange($event)"
+    class="sticky-tab-group"
+    mat-align-tabs="start"
+    mat-stretch-tabs="false"
+  >
+    <mat-tab label="Home"></mat-tab>
+    <mat-tab label="Videos"></mat-tab>
+    <mat-tab label="Playlist"></mat-tab>
+  </mat-tab-group>
+  <router-outlet></router-outlet>
+</div>

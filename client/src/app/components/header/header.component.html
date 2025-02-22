@@ -4,4 +4,42 @@
     class="menu-icon material-symbols-rounded"
     fontIcon="menu"
   ></mat-icon>
+  <div class="right">
+    <div class="search-container">
+      <div class="search-input">
+        @if (isInputFocused) {
+          <mat-icon
+            class="search-icon material-symbols-rounded"
+            fontIcon="search"
+          ></mat-icon>
+        }
+
+        <input
+          (blur)="onBlur()"
+          (focus)="onFocus()"
+          [(ngModel)]="searchText"
+          placeholder="Search"
+          type="text"
+        />
+        @if (searchText) {
+          <mat-icon
+            class="clear-icon material-symbols-rounded"
+            fontIcon="clear"
+          ></mat-icon>
+        }
+      </div>
+      <div [routerLink]="['/search']" class="search-action">
+        <mat-icon class="material-symbols-rounded" fontIcon="search"></mat-icon>
+      </div>
+    </div>
+    <div [matMenuTriggerFor]="menu" class="profile">
+      <img
+        alt=""
+        src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+      />
+      <mat-menu #menu="matMenu">
+        <button [routerLink]="['/profile']" mat-menu-item>Profile</button>
+      </mat-menu>
+    </div>
+  </div>
 </div>
