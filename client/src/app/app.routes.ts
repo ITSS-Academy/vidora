@@ -4,53 +4,54 @@ export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.route').then((m) => m.HOME_ROUTES),
+    loadChildren: () =>
+      import('./pages/home/home.route').then((m) => m.HOME_ROUTES),
   },
   {
     path: 'history',
     loadChildren: () =>
-      import('./history/history.route').then((m) => m.HISTORY_ROUTES),
+      import('./pages/history/history.route').then((m) => m.HISTORY_ROUTES),
   },
   {
     path: 'subscriptions',
     loadChildren: () =>
-      import('./subscriptions/subscriptions.route').then(
+      import('./pages/subscriptions/subscriptions.route').then(
         (m) => m.SUBSCRIPTIONS_ROUTES,
       ),
   },
   {
     path: 'watch/:id',
     loadChildren: () =>
-      import('./watch/watch.route').then((m) => m.WATCH_ROUTES),
+      import('./pages/watch/watch.route').then((m) => m.WATCH_ROUTES),
   },
   {
     path: 'playlists',
     loadChildren: () =>
-      import('./playlist/playlist.route').then((m) => m.PLAYLIST_ROUTES),
+      import('./pages/playlist/playlist.route').then((m) => m.PLAYLIST_ROUTES),
   },
   {
     path: 'playlist/:id',
     loadChildren: () =>
-      import('./playlist-detail/playlist-detail.route').then(
+      import('./pages/playlist-detail/playlist-detail.route').then(
         (m) => m.PLAYLIST_DETAIL_ROUTES,
       ),
   },
   {
     path: 'watch-later',
     loadChildren: () =>
-      import('./watch-later/watch-later.route').then(
+      import('./pages/watch-later/watch-later.route').then(
         (m) => m.WATCH_LATER_ROUTES,
       ),
   },
   {
     path: 'profile',
     loadChildren: () =>
-      import('./profile/profile.route').then((m) => m.PROFILE_ROUTES),
+      import('./pages/profile/profile.route').then((m) => m.PROFILE_ROUTES),
   },
   {
     path: 'search',
     loadChildren: () =>
-      import('./search/search.route').then((m) => m.SEARCH_ROUTES),
+      import('./pages/search/search.route').then((m) => m.SEARCH_ROUTES),
   },
   {
     path: '**',
