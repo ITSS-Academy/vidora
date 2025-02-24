@@ -1,37 +1,43 @@
-
 <div id="playlist-card-container">
   <div id="playlist-card-content">
     <div class="playlist-thumbnail">
       <div class="some-element-top"></div>
       <div class="some-element-bottom"></div>
-      <img src="{{playlist.image}}" alt="">
-      <div class="play-all-overlay-container" *ngIf="isHovered">
+      <img alt="" src="{{ playlist.image }}" />
+
+      <div class="play-all-overlay-container">
         <div class="play-all-overlay">
           <mat-icon class="material-symbols-rounded">play_arrow</mat-icon>
-          <span>Play All</span></div>
+          <span>Play All</span>
+        </div>
       </div>
     </div>
-      <div class="title">
-        <h3>{{playlist.title}}</h3>
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-          <mat-icon class="material-symbols-rounded">more_vert</mat-icon>
+
+    <div class="title">
+      <h3>{{ playlist.title }}</h3>
+      <button
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+        mat-icon-button
+      >
+        <mat-icon class="material-symbols-rounded">more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon class="material-symbols-rounded">delete</mat-icon>
+          <span>Delete</span>
         </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <mat-icon class="material-symbols-rounded">delete</mat-icon>
-            <span>Delete</span>
-          </button>
-          <button mat-menu-item>
-            <mat-icon class="material-symbols-rounded">edit</mat-icon>
-            <span>Edit</span>
-          </button>
-        </mat-menu>
-      </div>
-      <div class="playlist-media">
-        <span>Private</span>
-        <span> •  </span>
-        <span>Playlist</span>
-      </div>
-      <p>View full playlist</p>
+        <button (click)="editPlaylist()" mat-menu-item>
+          <mat-icon class="material-symbols-rounded">edit</mat-icon>
+          <span>Edit</span>
+        </button>
+      </mat-menu>
     </div>
+    <div class="playlist-media">
+      <span>Private</span>
+      <span>•</span>
+      <span>Playlist</span>
+    </div>
+    <p>View full playlist</p>
   </div>
+</div>

@@ -68,6 +68,7 @@
       height: 32px;
       border-radius: 50%;
       cursor: pointer;
+      margin-left: 10px;
 
       img {
         width: 100%;
@@ -81,4 +82,8 @@
 
 mat-icon::ng-deep {
   color: var(--md-sys-color-primary);
+}
+
+#create-icon {
+  color: var(--md-sys-color-on-primary);
 }

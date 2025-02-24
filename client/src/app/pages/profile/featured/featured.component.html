@@ -1,24 +1,34 @@
 <div id="container">
-  <mat-card class="example-card" appearance="outlined">
+  <mat-card appearance="outlined" class="example-card">
     <mat-card-header>
-      <img mat-card-md-image src="https://i.ytimg.com/vi/8aY26OAbfEI/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLCdFxVJBg0_py36IhkKFh4eZiEvxA"  alt="Image of a Shiba Inu">
+      <img
+        alt="Image of a Shiba Inu"
+        mat-card-md-image
+        src="https://i.ytimg.com/vi/8aY26OAbfEI/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLCdFxVJBg0_py36IhkKFh4eZiEvxA"
+      />
       <mat-card-title-group>
-        <mat-card-title>Hòm 300$ Và Khẩu OP Dragon Lore 100 Củ Của Tôi... /SKINCLUB/</mat-card-title>
+        <mat-card-title
+          >Hòm 300$ Và Khẩu OP Dragon Lore 100 Củ Của Tôi...
+          /SKINCLUB/</mat-card-title
+        >
 
-        <button mat-icon-button  [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <button
+          [matMenuTriggerFor]="menu"
+          aria-label="Example icon-button with a menu"
+          mat-icon-button
+        >
           <mat-icon class="material-symbols-rounded">more_vert</mat-icon>
         </button>
-        <mat-menu #menu="matMenu" >
+        <mat-menu #menu="matMenu">
           <button mat-menu-item>
             <mat-icon class="material-symbols-rounded">Schedule</mat-icon>
             <span>Save to watch later</span>
           </button>
-          <button mat-menu-item>
+          <button (click)="playlistDialog()" mat-menu-item>
             <mat-icon class="material-symbols-rounded">bookmark</mat-icon>
             <span>Save to playlist</span>
           </button>
         </mat-menu>
-
       </mat-card-title-group>
       <div id="subtitle">
         <mat-card-subtitle>1K views</mat-card-subtitle>
