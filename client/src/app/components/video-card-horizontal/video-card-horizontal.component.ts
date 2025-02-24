@@ -8,6 +8,6 @@ import { VideoModule } from '../../../shared/modules/video.module';
   standalone: true,
   imports: [SharedModule, MaterialModule, VideoModule],
   templateUrl: './video-card-horizontal.component.html',
-  styleUrl: './video-card-horizontal.component.scss',
+  styleUrls: ['./video-card-horizontal.component.scss'],
 })
 export class VideoCardHorizontalComponent {}
