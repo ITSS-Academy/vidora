@@ -2,11 +2,12 @@ import { Component, inject } from '@angular/core';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPlaylistDialogComponent } from '../../dialogs/edit-playlist-dialog/edit-playlist-dialog.component';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-playlist-card',
   standalone: true,
-  imports: [MaterialModule],
+  imports: [MaterialModule, NgClass],
   templateUrl: './playlist-card.component.html',
   styleUrl: './playlist-card.component.scss',
 })
@@ -20,6 +21,24 @@ export class PlaylistCardComponent {
   readonly dialog = inject(MatDialog);
 
   editPlaylist() {
+
     const dialogRef = this.dialog.open(EditPlaylistDialogComponent);
   }
+  showOverlay: boolean = false;
+
+  // Handle mouse enter and leave events
+  onMouseEnter() {
+    this.showOverlay = true;
+  }
+
+  onMouseLeave() {
+    this.showOverlay = false;
+  }
+
+  // Handle the "Play All" click event
+  playAll() {
+    console.log('Play All clicked');
+    // Implement your play functionality here
+  }
+
 }

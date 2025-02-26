@@ -1,16 +1,22 @@
 <div id="playlist-card-container">
   <div id="playlist-card-content">
-    <div class="playlist-thumbnail">
-      <div class="some-element-top"></div>
-      <div class="some-element-bottom"></div>
-      <img alt="" src="{{ playlist.image }}" />
-
-      <div class="play-all-overlay-container">
-        <div class="play-all-overlay">
-          <mat-icon class="material-symbols-rounded">play_arrow</mat-icon>
-          <span>Play All</span>
+    <div class="playlist-thumbnail"(mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+      <div class="some-element-top">
+        <img alt="" src="{{ playlist.image }}">
+      </div>
+      <div class="some-element-bottom">
+        <img alt="" src="{{ playlist.image }}">
+      </div>
+      <div class="main">
+        <img alt="" src="{{ playlist.image }}">
+        <div class="play-all-overlay-container" [ngClass]="{'show-overlay': showOverlay}">
+          <div class="play-all-overlay" (click)="playAll()">
+            <mat-icon class="material-symbols-rounded">play_arrow</mat-icon>
+            <span>Play All</span>
+          </div>
         </div>
       </div>
+
     </div>
 
     <div class="title">
