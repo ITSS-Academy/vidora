@@ -274,10 +274,18 @@ export class VideosService {
         throw new HttpException(error, HttpStatus.BAD_REQUEST);
       }
 
-      return data;
+      return this.shuffleArray(data);
     } catch (e) {
       throw new HttpException(e, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  shuffleArray(array: any[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
   }
 
   async getVideoById(videoId: string, userId: string) {
@@ -309,12 +317,14 @@ export class VideosService {
     }
   }
 
-  async getVideoByCategory(categoryId: string) {
+  async getVideosByCategoryId(categoryId: string) {
     try {
-      const { data, error } = await this.supabase
-        .from('videos')
-        .select('*')
-        .eq('category_id', categoryId);
+      const { data, error } = await this.supabase.rpc(
+        'get_videos_by_category_id',
+        {
+          p_category_id: categoryId,
+        },
+      );
 
       if (error) {
         throw new HttpException(error, HttpStatus.BAD_REQUEST);

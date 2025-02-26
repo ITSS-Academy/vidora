@@ -27,3 +27,24 @@ export const createVideo$ = createEffect(
   },
   { functional: true },
 );
+
+export const getVideos$ = createEffect(
+  () => {
+    const actions$ = inject(Actions);
+    const videoService = inject(VideoService);
+    return actions$.pipe(
+      ofType(VideoActions.getAllVideos),
+      exhaustMap(() => {
+        return videoService.getAllVideos().pipe(
+          map((videos) => {
+            return VideoActions.getAllVideosSuccess({ videos });
+          }),
+          catchError((error) => {
+            return of(VideoActions.getAllVideosFailure({ error: error }));
+          }),
+        );
+      }),
+    );
+  },
+  { functional: true },
+);

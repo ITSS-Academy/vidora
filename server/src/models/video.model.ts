@@ -9,10 +9,9 @@ export interface VideoModel {
   dislikes: number;
   user_id: string;
   created_at: string;
-  updated_at: string;
   resume_position: number;
   reaction_type: string;
-  category_id: string;
+  category_id: string[];
 }
 
 export interface CreateVideoModel {

@@ -138,6 +138,13 @@ export class CreateVideoDialogComponent implements OnInit, OnDestroy {
     }
   }
 
+  onEditThumbnailClick() {
+    const fileInput = document.getElementById(
+      'edit-thumbnail-file-input',
+    ) as HTMLInputElement;
+    fileInput.click();
+  }
+
   onThumbnailInputClick() {
     const fileInput = document.getElementById(
       'thumbnail-file-input',

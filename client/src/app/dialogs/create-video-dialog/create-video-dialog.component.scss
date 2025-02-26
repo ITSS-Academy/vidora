@@ -127,7 +127,7 @@
           color: var(--md-sys-color-inverse-primary);
 
           &:hover {
-            filter: brightness(1.4);
+            filter: brightness(var(--brightness-filter));
           }
         }
       }

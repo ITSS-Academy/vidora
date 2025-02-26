@@ -25,4 +25,8 @@ export class VideoService {
   getUploadProgress(): Observable<number> {
     return this.socket.fromEvent<number>('uploadProgress');
   }
+
+  getAllVideos() {
+    return this.http.get('videos/all');
+  }
 }

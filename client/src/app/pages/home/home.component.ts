@@ -16,6 +16,8 @@ import { CategoryState } from '../../../ngrxs/category/category.state';
 import { VideoState } from '../../../ngrxs/video/video.state';
 import { Store } from '@ngrx/store';
 import * as CategoryActions from '../../../ngrxs/category/category.actions';
+import * as VideoActions from '../../../ngrxs/video/video.actions';
+import { VideoModel } from '../../../models/video.model';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +29,7 @@ import * as CategoryActions from '../../../ngrxs/category/category.actions';
 export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription: Subscription[] = [];
   categories$: Observable<CategoryModel[]>;
+  videos$: Observable<VideoModel[]>;
   isGetCategoriesSuccess: Observable<boolean>;
   selectedCategory: CategoryModel | null = null;
 
@@ -43,8 +46,19 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     private cdr: ChangeDetectorRef,
   ) {
     this.categories$ = this.store.select((state) => state.category.categories);
+    this.videos$ = this.store.select((state) => state.video.videos);
     this.isGetCategoriesSuccess = this.store.select(
       (state) => state.category.isGetAllCategoriesSuccess,
+    );
+    this.store.dispatch(VideoActions.getAllVideos());
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(CategoryActions.getAllCategories());
+    this.subscription.push(
+      this.videos$.subscribe((videos) => {
+        console.log('videos', videos);
+      }),
     );
   }
 
@@ -77,11 +91,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {
-    this.store.dispatch(CategoryActions.getAllCategories());
-    this.subscription.push();
-  }
-
   selectCategory(category: CategoryModel) {
     this.selectedCategory = category;
   }
@@ -103,5 +112,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.subscription.forEach((sub) => sub.unsubscribe());
+    this.store.dispatch(VideoActions.clearState());
   }
 }

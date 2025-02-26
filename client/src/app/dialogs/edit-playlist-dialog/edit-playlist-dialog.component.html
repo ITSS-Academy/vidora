@@ -1,18 +1,20 @@
 <div id="edit-container">
   <div id="edit-content">
-    <div class="edit-playlist" (click)="closeDialog()">
+    <div (click)="closeDialog()" class="edit-playlist">
       <h3>Edit playlist</h3>
       <mat-icon class="material-symbols-rounded">close</mat-icon>
     </div>
     <div class="edit-img">
-      <img alt="" src="{{ playlist.image }}">
+      <img alt="" src="{{ playlist.image }}" />
     </div>
     <div class="title-form">
       <form class="example-form">
         <mat-form-field class="example-full-width">
           <mat-label>Title</mat-label>
-          <input matInput #title maxlength="150" placeholder="Playlist 1"/>
-          <mat-hint class="title-length" align="end">{{title.value.length}} / 100</mat-hint>
+          <input #title matInput maxlength="100" placeholder="Playlist 1" />
+          <mat-hint align="end" class="title-length"
+            >{{ title.value.length }} / 100</mat-hint
+          >
         </mat-form-field>
       </form>
     </div>
@@ -21,8 +23,10 @@
       <form class="example-form">
         <mat-form-field class="example-full-width">
           <mat-label>Description</mat-label>
-          <input matInput #description maxlength="1500"/>
-          <mat-hint class="title-length" align="end">{{description.value.length}} / 1500</mat-hint>
+          <input #description matInput maxlength="1500" />
+          <mat-hint align="end" class="title-length"
+            >{{ description.value.length }} / 1500</mat-hint
+          >
         </mat-form-field>
       </form>
     </div>
@@ -36,7 +40,7 @@
       </mat-form-field>
     </div>
     <div class="save-btn">
-      <button mat-raised-button (click)="saveEditPlaylist()">Save</button>
+      <button (click)="saveEditPlaylist()" mat-raised-button>Save</button>
     </div>
-</div>
+  </div>
 </div>
