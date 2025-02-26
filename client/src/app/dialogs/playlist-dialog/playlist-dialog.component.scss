@@ -1,0 +1,42 @@
+#container{
+  width: 100%;
+  height: 100%;
+}
+
+#save{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
+  color: var(--md-sys-color-on-surface);
+}
+
+#save-options{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
+  color: var(--md-sys-color-on-surface);
+}
+
+  #button-add{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+
+  button{
+    background-color: var(--md-sys-color-on-surface);
+  }
+
+  #button-close{
+    cursor: pointer;
+    font-size: 30px;
+    font-weight: 100;
+  }
+
+#button-lock{
+  font-size: 25px;
+  font-weight: 200;
+}
