@@ -1,46 +1,53 @@
 <div id="container">
-  @if (isGetCategoriesSuccess | async) {
-    <div class="carousel-container">
-      @if (isShowLeftButton) {
-        <mat-icon
-          (click)="scrollLeft()"
-          class="material-symbols-rounded"
-          fontIcon="keyboard_arrow_left"
-        >
-        </mat-icon>
-      }
-
-      <cdk-virtual-scroll-viewport
-        #categoryListViewport
-        [ngStyle]="{
-          'mask-image': getMaskImage(),
-        }"
-        class="category-list-wrapper"
-        itemSize="50"
+  <div id="carousel-container">
+    @if (isShowLeftButton) {
+      <mat-icon
+        (click)="scrollLeft()"
+        class="material-symbols-rounded"
+        fontIcon="keyboard_arrow_left"
       >
-        <div class="category-list">
+      </mat-icon>
+    }
+
+    <cdk-virtual-scroll-viewport
+      #categoryListViewport
+      [ngStyle]="{
+        'mask-image': getMaskImage(),
+      }"
+      id="category-list-wrapper"
+      itemSize="50"
+    >
+      <div id="category-list">
+        <mat-chip-option
+          (click)="selectAllVideos()"
+          selected="{{ !selectedCategory }}"
+          >All
+        </mat-chip-option>
+        @for (item of categories$ | async; track $index) {
           <mat-chip-option
-            (click)="selectAllVideos()"
-            selected="{{ !selectedCategory }}"
-            >All
+            (click)="selectCategory(item)"
+            selected="{{ item.id === selectedCategory?.id }}"
+            >{{ item.name }}
           </mat-chip-option>
-          @for (item of categories$ | async; track $index) {
-            <mat-chip-option
-              (click)="selectCategory(item)"
-              selected="{{ item.id === selectedCategory?.id }}"
-              >{{ item.name }}
-            </mat-chip-option>
-          }
-        </div>
-      </cdk-virtual-scroll-viewport>
-      @if (isShowRightButton) {
-        <mat-icon
-          (click)="scrollRight()"
-          class="material-symbols-rounded"
-          fontIcon="keyboard_arrow_right"
-        >
-        </mat-icon>
-      }
-    </div>
-  }
+        }
+      </div>
+    </cdk-virtual-scroll-viewport>
+    @if (isShowRightButton) {
+      <mat-icon
+        (click)="scrollRight()"
+        class="material-symbols-rounded"
+        fontIcon="keyboard_arrow_right"
+      >
+      </mat-icon>
+    }
+  </div>
+  <div id="video-container">
+    <cdk-virtual-scroll-viewport id="scroll" itemSize="50">
+      <div id="video-list">
+        @for (video of videos$ | async; track $index) {
+          <app-video-card-vertical [video]="video"></app-video-card-vertical>
+        }
+      </div>
+    </cdk-virtual-scroll-viewport>
+  </div>
 </div>

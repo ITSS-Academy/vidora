@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SharedModule } from '../../../shared/modules/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { VideoModule } from '../../../shared/modules/video.module';
+import { VideoModel } from '../../../models/video.model';
 
 @Component({
   selector: 'app-video-card-horizontal',
@@ -10,4 +11,6 @@ import { VideoModule } from '../../../shared/modules/video.module';
   templateUrl: './video-card-horizontal.component.html',
   styleUrls: ['./video-card-horizontal.component.scss'],
 })
-export class VideoCardHorizontalComponent {}
+export class VideoCardHorizontalComponent {
+  @Input() video!: VideoModel;
+}

@@ -12,6 +12,10 @@ export interface VideoModel {
   resume_position: number;
   reaction_type: string;
   category_id: string[];
+  user: {
+    username: string;
+    avatar_url: string;
+  };
 }
 
 export interface CreateVideoModel {

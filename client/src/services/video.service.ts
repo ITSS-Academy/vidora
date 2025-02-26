@@ -29,4 +29,20 @@ export class VideoService {
   getAllVideos() {
     return this.http.get('videos/all');
   }
+
+  getVideoById(videoId: string, userId: string) {
+    return this.http.get('videos/', { params: { videoId, userId } });
+  }
+
+  getVideosByCategoryId(categoryId: string) {
+    return this.http.get('videos/category', { params: { categoryId } });
+  }
+
+  increaseViewCount(videoId: string) {
+    return this.http.post('videos/view', { videoId });
+  }
+
+  updateWatchTime(videoId: string, userId: string, watchTime: number) {
+    return this.http.post('videos/watch-time', { videoId, userId, watchTime });
+  }
 }

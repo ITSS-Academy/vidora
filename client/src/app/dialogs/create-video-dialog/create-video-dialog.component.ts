@@ -32,6 +32,7 @@ export class CreateVideoDialogComponent implements OnInit, OnDestroy {
   videoDto!: CreateVideoDto;
   uploadProgress$: Observable<number | null>;
   isCreateVideoSuccess$: Observable<boolean>;
+  isCreateVideoSuccess = false;
 
   constructor(
     private store: Store<{ category: CategoryState; video: VideoState }>,
@@ -62,6 +63,8 @@ export class CreateVideoDialogComponent implements OnInit, OnDestroy {
     this.subscription.push(
       this.isCreateVideoSuccess$.subscribe((isSuccess) => {
         if (isSuccess) {
+          this.store.dispatch(VideoActions.getAllVideos());
+          this.isCreateVideoSuccess = true;
           this.alertService.showAlert(
             `Video uploaded successfully!`,
             'Close',
@@ -76,17 +79,21 @@ export class CreateVideoDialogComponent implements OnInit, OnDestroy {
   }
 
   closeDialog() {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        message:
-          'If you close, the video upload will be cancelled. Are you sure you want to close?',
-      },
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.dialogRef.close();
-      }
-    });
+    if (this.isCreateVideoSuccess) {
+      this.dialogRef.close();
+    } else {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        data: {
+          message:
+            'If you close, the video upload will be cancelled. Are you sure you want to close?',
+        },
+      });
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.dialogRef.close();
+        }
+      });
+    }
   }
 
   onUploadButtonClick() {

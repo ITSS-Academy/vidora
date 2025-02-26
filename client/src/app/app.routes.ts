@@ -20,7 +20,7 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'watch/:id',
+    path: 'watch',
     loadChildren: () =>
       import('./pages/watch/watch.route').then((m) => m.WATCH_ROUTES),
   },
@@ -30,7 +30,7 @@ export const routes: Routes = [
       import('./pages/playlist/playlist.route').then((m) => m.PLAYLIST_ROUTES),
   },
   {
-    path: 'playlist/:id',
+    path: 'playlist',
     loadChildren: () =>
       import('./pages/playlist-detail/playlist-detail.route').then(
         (m) => m.PLAYLIST_DETAIL_ROUTES,

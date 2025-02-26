@@ -42,7 +42,7 @@ export class VideosController {
 
   @Public()
   @Get('all')
-  async getVideos() {
+  async getAllVideos() {
     return await this.videosService.getAllVideos();
   }
 

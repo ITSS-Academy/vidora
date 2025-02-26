@@ -268,7 +268,13 @@ export class VideosService {
 
   async getAllVideos() {
     try {
-      const { data, error } = await this.supabase.from('videos').select('*');
+      const { data, error } = await this.supabase.from('videos').select(`
+    *,
+    user:users (
+      username,
+      avatar_url
+    )
+  `);
 
       if (error) {
         throw new HttpException(error, HttpStatus.BAD_REQUEST);

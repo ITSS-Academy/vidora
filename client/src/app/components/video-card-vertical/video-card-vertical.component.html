@@ -1,17 +1,50 @@
-<div id="container">
-  <mat-card appearance="outlined" class="example-card">
-    <mat-card-header>
-      <img
-        mat-card-avatar
-        src="https://i.ytimg.com/vi/8aY26OAbfEI/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLCdFxVJBg0_py36IhkKFh4eZiEvxA"
-        alt="Photo of a Shiba Inu"
-      />
-      <mat-card-title-group>
-        <mat-card-title>Hòm 300$ Và Khẩu OP Dragon Lore 100 Củ Của Tôi...
-          /SKINCLUB/
-        </mat-card-title>
+<mat-card
+  (click)="onVideoClick($event)"
+  appearance="outlined"
+  class="video-card"
+>
+  <div class="video-container">
+    @if (isHovering) {
+      <vg-player class="video-player" (mouseleave)="onMouseLeave()">
+        <vg-overlay-play></vg-overlay-play>
+        <vg-buffering></vg-buffering>
 
+        <vg-controls>
+          <vg-mute (click)="onMuteClick($event)"></vg-mute>
+        </vg-controls>
+
+        <video
+          #media
+          [vgHls]="video.video_url"
+          [vgMedia]="$any(media)"
+          [muted]="isMuteVolume"
+          autoplay
+          crossorigin
+          playsinline
+          id="hls-video"
+          preload="auto"
+        ></video>
+      </vg-player>
+    }
+    @if (!isHovering) {
+      <img
+        class="thumbnail"
+        (mouseenter)="onMouseEnter()"
+        alt="Thumbnail"
+        mat-card-image
+        [src]="video.thumbnail_url"
+      />
+    }
+  </div>
+
+  <mat-card-content>
+    <div class="content-container">
+      <div class="main-content">
+        <p class="title">{{ video.title }}</p>
+      </div>
+      <div class="actions">
         <button
+          (click)="openDialog($event)"
           [matMenuTriggerFor]="menu"
           aria-label="Example icon-button with a menu"
           mat-icon-button
@@ -19,20 +52,16 @@
           <mat-icon class="material-symbols-rounded">more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <mat-icon class="material-symbols-rounded">Schedule</mat-icon>
-            <span>Save to watch later</span>
+          <button (click)="addToWatchLater()" mat-menu-item>
+            <mat-icon class="material-symbols-rounded">schedule</mat-icon>
+            <span>Save to Watch later</span>
           </button>
-          <button (click)="playlistDialog()" mat-menu-item>
+          <button (click)="openPlaylistDialog()" mat-menu-item>
             <mat-icon class="material-symbols-rounded">bookmark</mat-icon>
             <span>Save to playlist</span>
           </button>
         </mat-menu>
-      </mat-card-title-group>
-      <div id="subtitle">
-        <mat-card-subtitle>1K views</mat-card-subtitle>
-        <mat-card-subtitle>1 hours ago</mat-card-subtitle>
       </div>
-    </mat-card-header>
-  </mat-card>
-</div>
+    </div>
+  </mat-card-content>
+</mat-card>

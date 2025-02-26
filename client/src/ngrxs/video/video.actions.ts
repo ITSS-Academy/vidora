@@ -1,6 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 import { CreateVideoDto, VideoModel } from '../../models/video.model';
 
+export const toggleMuteVolume = createAction('[Video] Toggle Mute Volume');
+
 export const createVideo = createAction(
   '[Video] Create Video',
   props<{ createVideoDto: CreateVideoDto; videoFile: File; imageFile: File }>(),

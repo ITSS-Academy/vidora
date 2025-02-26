@@ -4,6 +4,7 @@ import * as VideoActions from './video.actions';
 
 const initialState: VideoState = {
   videos: [],
+  isMuteVolume: false,
 
   isCreatingVideo: false,
   isCreateVideoSuccess: false,
@@ -66,6 +67,14 @@ export const videoReducer = createReducer(
       ...state,
       isGettingAllVideos: false,
       getAllVideosErrorMessage: action.error,
+    };
+  }),
+
+  on(VideoActions.toggleMuteVolume, (state, action) => {
+    console.log(action.type);
+    return <VideoState>{
+      ...state,
+      isMuteVolume: !state.isMuteVolume,
     };
   }),
 

@@ -2,7 +2,7 @@
   width: 100%;
   height: 100%;
 
-  .carousel-container {
+  #carousel-container {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -11,7 +11,7 @@
     gap: 10px;
   }
 
-  .category-list-wrapper {
+  #category-list-wrapper {
     width: 100%;
     height: 32px;
     overflow-x: auto;
@@ -20,15 +20,35 @@
     &::-webkit-scrollbar {
       display: none;
     }
+
+    #category-list {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
   }
 
-  .category-list {
+  #video-container {
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+
+    #scroll {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      #video-list {
+        width: 100%;
+      }
+    }
   }
 }
 

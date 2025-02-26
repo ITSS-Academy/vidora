@@ -18,11 +18,17 @@ import { Store } from '@ngrx/store';
 import * as CategoryActions from '../../../ngrxs/category/category.actions';
 import * as VideoActions from '../../../ngrxs/video/video.actions';
 import { VideoModel } from '../../../models/video.model';
+import { VideoCardVerticalComponent } from '../../components/video-card-vertical/video-card-vertical.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [SharedModule, MaterialModule, VideoModule],
+  imports: [
+    SharedModule,
+    MaterialModule,
+    VideoModule,
+    VideoCardVerticalComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -66,7 +72,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     this.categoryListViewport.elementScrolled().subscribe(() => {
       const currentOffset =
         this.categoryListViewport.measureScrollOffset('start');
-      console.log('offset', currentOffset);
       this.isShowLeftButton = currentOffset > 10;
       this.isShowRightButton = currentOffset < 1500;
       this.cdr.detectChanges(); // Manually trigger change detection

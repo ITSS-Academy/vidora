@@ -2,6 +2,7 @@ import { VideoModel } from '../../models/video.model';
 
 export interface VideoState {
   videos: VideoModel[];
+  isMuteVolume: boolean;
 
   isGettingAllVideos: boolean;
   isGetAllVideosSuccess: boolean;
