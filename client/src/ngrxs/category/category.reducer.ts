@@ -1,7 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { CategoryState } from './category.state';
 import * as CategoryActions from './category.actions';
-import { CategoryModel } from '../../../../../Vita/client/src/models/category.model';
 
 const initialState: CategoryState = {
   categories: [],
