@@ -1,1 +1,16 @@
-<p>playlist-dialog works!</p>
+<div id="container">
+  <div id="save">
+    <span id="save-to">Save video to...</span>
+    <mat-icon id="button-close" class="material-symbols-rounded" (click)="closeDialog()">close</mat-icon>
+  </div>
+  <div id="save-options">
+    <mat-checkbox class="material-symbols-rounded">Watch later</mat-checkbox>
+    <mat-icon id="button-lock" class="material-symbols-rounded">lock</mat-icon>
+  </div>
+  <div id="button-add">
+    <button mat-flat-button>
+      <mat-icon class="material-symbols-rounded">add</mat-icon>
+      <span>Create new playlist</span>
+    </button>
+  </div>
+</div>
