@@ -4,6 +4,13 @@
   display: flex;
   flex-direction: row;
   align-items: start;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:hover {
+    background-color: var(--md-sys-color-surface);
+  }
 
   #header-container {
     width: 20%;
