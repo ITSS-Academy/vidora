@@ -63,12 +63,15 @@
       }
     }
 
+    .create-btn {
+      margin-right: 10px;
+    }
+
     .profile {
       width: 32px;
       height: 32px;
       border-radius: 50%;
       cursor: pointer;
-      margin-left: 10px;
 
       img {
         width: 100%;
@@ -86,4 +89,8 @@ mat-icon::ng-deep {
 
 #create-icon {
   color: var(--md-sys-color-on-primary);
+}
+
+#menu {
+  width: 500px;
 }

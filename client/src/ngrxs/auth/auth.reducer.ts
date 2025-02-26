@@ -65,4 +65,10 @@ export const authReducer = createReducer(
       idToken: action.idToken,
     };
   }),
+  on(AuthActions.clearState, (state, action) => {
+    console.log(action.type);
+    return <AuthState>{
+      ...initialState,
+    };
+  }),
 );

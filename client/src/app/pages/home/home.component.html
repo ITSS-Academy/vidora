@@ -1,1 +1,46 @@
-<div id="container"></div>
+<div id="container">
+  @if (isGetCategoriesSuccess | async) {
+    <div class="carousel-container">
+      @if (isShowLeftButton) {
+        <mat-icon
+          (click)="scrollLeft()"
+          class="material-symbols-rounded"
+          fontIcon="keyboard_arrow_left"
+        >
+        </mat-icon>
+      }
+
+      <cdk-virtual-scroll-viewport
+        #categoryListViewport
+        [ngStyle]="{
+          'mask-image': getMaskImage(),
+        }"
+        class="category-list-wrapper"
+        itemSize="50"
+      >
+        <div class="category-list">
+          <mat-chip-option
+            (click)="selectAllVideos()"
+            selected="{{ !selectedCategory }}"
+            >All
+          </mat-chip-option>
+          @for (item of categories$ | async; track $index) {
+            <mat-chip-option
+              (click)="selectCategory(item)"
+              selected="{{ item.id === selectedCategory?.id }}"
+              >{{ item.name }}
+            </mat-chip-option>
+          }
+        </div>
+      </cdk-virtual-scroll-viewport>
+      @if (isShowRightButton) {
+        <mat-icon
+          (click)="scrollRight()"
+          class="material-symbols-rounded"
+          fontIcon="keyboard_arrow_right"
+        >
+        </mat-icon>
+      }
+    </div>
+  }
+</div>

@@ -32,7 +32,11 @@
         <mat-icon class="material-symbols-rounded" fontIcon="search"></mat-icon>
       </div>
     </div>
-    <button mat-flat-button>
+    <button
+      (click)="openCreateVideoDialog()"
+      class="create-btn"
+      mat-flat-button
+    >
       <mat-icon
         class="material-symbols-rounded"
         fontIcon="add"
@@ -41,14 +45,39 @@
       Create
     </button>
 
-    <div [matMenuTriggerFor]="menu" class="profile">
-      <img
-        alt=""
-        src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-      />
-      <mat-menu #menu="matMenu">
-        <button [routerLink]="['/profile']" mat-menu-item>Profile</button>
-      </mat-menu>
-    </div>
+    @if ((user$ | async)?.id) {
+      <div [matMenuTriggerFor]="menu" class="profile">
+        <img alt="" src="{{ (user$ | async)?.avatar_url }}" />
+        <mat-menu #menu="matMenu">
+          <button [routerLink]="['/profile']" mat-menu-item>
+            <mat-icon
+              class="material-symbols-rounded"
+              fontIcon="person"
+            ></mat-icon>
+            Profile
+          </button>
+          <button (click)="signOut()" mat-menu-item>
+            <mat-icon
+              class="material-symbols-rounded"
+              fontIcon="logout"
+            ></mat-icon>
+
+            Sign out
+          </button>
+        </mat-menu>
+      </div>
+    } @else {
+      <button
+        mat-stroked-button
+        [routerLink]="['/login']"
+        (click)="signInWithGoogle()"
+      >
+        <mat-icon
+          class="material-symbols-rounded"
+          fontIcon="account_circle"
+        ></mat-icon>
+        Sign in
+      </button>
+    }
   </div>
 </div>

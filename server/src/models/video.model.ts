@@ -12,9 +12,12 @@ export interface VideoModel {
   updated_at: string;
   resume_position: number;
   reaction_type: string;
+  category_id: string;
 }
 
 export interface CreateVideoModel {
   title: string;
   description: string;
+  category_id: string[];
+  playlist_id: string[];
 }

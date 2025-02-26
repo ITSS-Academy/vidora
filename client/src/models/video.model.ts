@@ -17,4 +17,6 @@ export interface VideoModel {
 export interface CreateVideoDto {
   title: string;
   description: string;
+  category_id: string[];
+  playlist_id: string[];
 }

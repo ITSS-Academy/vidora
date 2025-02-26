@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   firebaseConfig: {
     apiKey: 'AIzaSyC0PxFNxwVhVZ_sR-fQpP2jgFNH-UmmDx8',
     authDomain: 'vidora-52761.firebaseapp.com',

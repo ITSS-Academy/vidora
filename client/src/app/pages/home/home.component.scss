@@ -1,4 +1,38 @@
 #container {
   width: 100%;
   height: 100%;
+
+  .carousel-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+  }
+
+  .category-list-wrapper {
+    width: 100%;
+    height: 32px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .category-list {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+}
+
+mat-icon::ng-deep {
+  color: var(--md-sys-color-on-surface);
+  cursor: pointer;
 }
