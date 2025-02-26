@@ -1,49 +1,69 @@
-<div id="playlist-card-container">
-  <div id="playlist-card-content">
-    <div class="playlist-thumbnail"(mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
-      <div class="some-element-top">
-        <img alt="" src="{{ playlist.image }}">
+<mat-card appearance="outlined" class="video-card">
+  <div
+    (click)="viewFullPlaylist()"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+    class="video-container"
+  >
+    <img
+      [src]="playlist.image"
+      alt="Thumbnail"
+      class="thumbnail"
+      mat-card-image
+    />
+    <img
+      [src]="playlist.image"
+      alt="Thumbnail"
+      class="thumbnail"
+      mat-card-image
+    />
+    <img
+      [src]="playlist.image"
+      alt="Thumbnail"
+      class="thumbnail"
+      mat-card-image
+    />
+    <div
+      [ngClass]="{ 'show-overlay': showOverlay }"
+      class="play-all-overlay-container"
+    >
+      <div (click)="playAll()" class="play-all-overlay">
+        <mat-icon class="material-symbols-rounded play-all-icon"
+          >play_arrow
+        </mat-icon>
+        <span class="play-all-text">Play All</span>
       </div>
-      <div class="some-element-bottom">
-        <img alt="" src="{{ playlist.image }}">
-      </div>
-      <div class="main">
-        <img alt="" src="{{ playlist.image }}">
-        <div class="play-all-overlay-container" [ngClass]="{'show-overlay': showOverlay}">
-          <div class="play-all-overlay" (click)="playAll()">
-            <mat-icon class="material-symbols-rounded">play_arrow</mat-icon>
-            <span>Play All</span>
-          </div>
-        </div>
-      </div>
-
     </div>
-
-    <div class="title">
-      <h3>{{ playlist.title }}</h3>
-      <button
-        [matMenuTriggerFor]="menu"
-        aria-label="Example icon-button with a menu"
-        mat-icon-button
-      >
-        <mat-icon class="material-symbols-rounded">more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>
-          <mat-icon class="material-symbols-rounded">delete</mat-icon>
-          <span>Delete</span>
-        </button>
-        <button (click)="editPlaylist()" mat-menu-item>
-          <mat-icon class="material-symbols-rounded">edit</mat-icon>
-          <span>Edit</span>
-        </button>
-      </mat-menu>
-    </div>
-    <div class="playlist-media">
-      <span>Private</span>
-      <span>•</span>
-      <span>Playlist</span>
-    </div>
-    <p>View full playlist</p>
   </div>
-</div>
+
+  <mat-card-content>
+    <div class="content-container">
+      <div class="main-content">
+        <p class="title">{{ playlist.title }}</p>
+        <div class="playlist-media">
+          <span>Private</span>
+          <span>•</span>
+          <span>Playlist</span>
+        </div>
+        <p (click)="viewFullPlaylist()" class="view-playlist">
+          View full playlist
+        </p>
+      </div>
+      <div class="actions">
+        <button [matMenuTriggerFor]="menu" mat-icon-button>
+          <mat-icon class="material-symbols-rounded">more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>
+            <mat-icon class="material-symbols-rounded">delete</mat-icon>
+            <span>Delete</span>
+          </button>
+          <button (click)="editPlaylist()" mat-menu-item>
+            <mat-icon class="material-symbols-rounded">edit</mat-icon>
+            <span>Edit playlist</span>
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

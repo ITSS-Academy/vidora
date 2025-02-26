@@ -246,6 +246,7 @@ body.dark-theme {
   --md-sys-color-surface-container: rgb(241 237 236);
   --md-sys-color-surface-container-high: rgb(235 231 230);
   --md-sys-color-surface-container-highest: rgb(229 226 225);
+  --brightness-filter: 0.6;
 }
 
 .dark-theme {
@@ -298,6 +299,7 @@ body.dark-theme {
   --md-sys-color-surface-container: rgb(32 31 31);
   --md-sys-color-surface-container-high: rgb(43 42 42);
   --md-sys-color-surface-container-highest: rgb(53 52 52);
+  --brightness-filter: 1.4;
 }
 
 html,

@@ -24,5 +24,8 @@
     >
       <router-outlet></router-outlet>
     </div>
+    @if (isHiddenSidebar) {
+      <div class="overlay"></div>
+    }
   </div>
 </div>

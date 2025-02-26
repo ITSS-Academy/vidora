@@ -6,9 +6,10 @@ import {
   UseInterceptors,
   Request,
   Get,
+  UploadedFiles,
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { Multer } from 'multer';
 import { Public } from '../../utils/custom_decorators';
 
@@ -17,15 +18,23 @@ export class VideosController {
   constructor(private videosService: VideosService) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('file')) // Nhận file từ FormData
+  @UseInterceptors(FilesInterceptor('files')) // Nhận nhiều file từ FormData
   async uploadVideo(
-    @UploadedFile() file: Multer.File,
+    @UploadedFiles() files: Multer.File[],
     @Body('createVideoDto') createVideoDto: string,
     @Request() req: any,
   ) {
     const parsedCreateVideoDto = JSON.parse(createVideoDto);
+    const videoFile = files.find((file) => file.mimetype.startsWith('video/'));
+    const imageFile = files.find((file) => file.mimetype.startsWith('image/'));
+
+    if (!videoFile || !imageFile) {
+      throw new Error('Both video and image files are required.');
+    }
+
     return await this.videosService.createVideo(
-      file,
+      videoFile,
+      imageFile,
       parsedCreateVideoDto,
       req.user.id || req.user.uid,
     );
@@ -33,7 +42,7 @@ export class VideosController {
 
   @Public()
   @Get('all')
-  async getVideos() {
+  async getAllVideos() {
     return await this.videosService.getAllVideos();
   }
 
@@ -44,5 +53,24 @@ export class VideosController {
     return await this.videosService.getVideoById(videoId, userId);
   }
 
+  @Public()
+  @Get('category')
+  async getVideosByCategoryId(@Request() req: any) {
+    const { categoryId } = req.query;
+    return await this.videosService.getVideosByCategoryId(categoryId);
+  }
 
+  @Public()
+  @Post('view')
+  async increaseViewCount(@Request() req: any) {
+    const { videoId } = req.query;
+    return await this.videosService.increaseViewCount(videoId);
+  }
+
+  // update watch time
+  @Post('watch-time')
+  async updateWatchTime(@Request() req: any) {
+    const { videoId, userId, watchTime } = req.body;
+    return await this.videosService.updateWatchTime(videoId, userId, watchTime);
+  }
 }
