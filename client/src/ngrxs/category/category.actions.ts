@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {CategoryModel} from '../../models/category.model';
-
+import { CategoryModel } from '../../models/category.model';
 
 export const getAllCategories = createAction('[Category] Get All');
 
