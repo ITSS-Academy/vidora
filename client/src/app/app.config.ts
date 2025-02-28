@@ -19,10 +19,12 @@ import * as AuthEffects from '../ngrxs/auth/auth.effects';
 import * as UserEffects from '../ngrxs/user/user.effects';
 import * as CategoryEffects from '../ngrxs/category/category.effects';
 import * as VideoEffects from '../ngrxs/video/video.effects';
+import * as PlaylistEffects from '../ngrxs/playlist/playlist.effects';
 import { authReducer } from '../ngrxs/auth/auth.reducer';
 import { userReducer } from '../ngrxs/user/user.reducer';
 import { categoryReducer } from '../ngrxs/category/category.reducer';
 import { videoReducer } from '../ngrxs/video/video.reducer';
+import { playlistReducer } from '../ngrxs/playlist/playlist.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,8 +37,15 @@ export const appConfig: ApplicationConfig = {
       user: userReducer,
       category: categoryReducer,
       video: videoReducer,
+      playlist: playlistReducer,
     }),
-    provideEffects(AuthEffects, UserEffects, CategoryEffects, VideoEffects),
+    provideEffects(
+      AuthEffects,
+      UserEffects,
+      CategoryEffects,
+      VideoEffects,
+      PlaylistEffects,
+    ),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideAnimationsAsync(),

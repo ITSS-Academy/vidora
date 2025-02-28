@@ -8,7 +8,7 @@
       [ngClass]="{
         visible: !isSlideBarVisible,
         hidden: isHiddenSidebar,
-        watch: currentUrl.includes('/watch/'),
+        watch: currentUrl.includes('/watch?'),
       }"
       class="side-bar"
     >
@@ -18,7 +18,7 @@
       [ngClass]="{
         visible: !isSlideBarVisible,
         hidden: isHiddenSidebar,
-        watch: currentUrl.includes('/watch/'),
+        watch: currentUrl.includes('/watch?'),
       }"
       class="content"
     >

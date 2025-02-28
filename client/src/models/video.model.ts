@@ -12,7 +12,7 @@ export interface VideoModel {
   reaction_type: string;
   resume_position: number;
   category_id: string;
-  user: {
+  user_data: {
     username: string;
     avatar_url: string;
   };

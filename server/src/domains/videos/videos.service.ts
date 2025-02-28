@@ -270,7 +270,7 @@ export class VideosService {
     try {
       const { data, error } = await this.supabase.from('videos').select(`
     *,
-    user:users (
+    user_data:users (
       username,
       avatar_url
     )
@@ -305,7 +305,7 @@ export class VideosService {
         throw new HttpException(error, HttpStatus.BAD_REQUEST);
       }
 
-      if (userId) {
+      if (userId == null) {
         // Update video history
         const { error } = await this.supabase.rpc('upsert_watch_history', {
           p_video_id: videoId,

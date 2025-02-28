@@ -2,14 +2,14 @@ import {
   Body,
   Controller,
   Post,
-  UploadedFile,
   UseInterceptors,
   Request,
   Get,
+  Req,
   UploadedFiles,
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { Multer } from 'multer';
 import { Public } from '../../utils/custom_decorators';
 
@@ -50,6 +50,8 @@ export class VideosController {
   @Get()
   async getVideoById(@Request() req: any) {
     const { userId, videoId } = req.query;
+    console.log(videoId);
+    console.log(userId);
     return await this.videosService.getVideoById(videoId, userId);
   }
 
@@ -62,7 +64,7 @@ export class VideosController {
 
   @Public()
   @Post('view')
-  async increaseViewCount(@Request() req: any) {
+  async increaseViewCount(@Req() req: any) {
     const { videoId } = req.query;
     return await this.videosService.increaseViewCount(videoId);
   }
