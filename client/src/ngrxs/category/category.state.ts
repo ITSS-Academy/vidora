@@ -1,9 +1,8 @@
-import { CategoryModel } from '../../../../../Vita/client/src/models/category.model';
+import {CategoryModel} from '../../models/category.model';
 
 export interface CategoryState {
-  categories: CategoryModel[];
-
+  categories: any[];
   isGettingAllCategories: boolean;
   isGetAllCategoriesSuccess: boolean;
-  getAllCategoriesErrorMessages: '';
+  getAllCategoriesErrorMessages: string;
 }

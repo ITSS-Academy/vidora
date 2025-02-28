@@ -48,3 +48,24 @@ export const getVideos$ = createEffect(
   },
   { functional: true },
 );
+
+export const getVideosByCategoryId$ = createEffect(
+  () => {
+    const actions$ = inject(Actions);
+    const videoService = inject(VideoService);
+    return actions$.pipe(
+      ofType(VideoActions.getVideoByCategoryId),
+      exhaustMap((action) => {
+        return videoService.getVideosByCategoryId(action.categoryId).pipe(
+          map((videos) => {
+            return VideoActions.getVideoByCategoryIdSuccess({ videos });
+          }),
+          catchError((error) => {
+            return of(VideoActions.getVideoByCategoryIdFailure({ error: error }));
+          }),
+        );
+      }),
+    );
+  },
+  { functional: true },
+);
