@@ -98,10 +98,12 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   selectCategory(category: CategoryModel) {
     this.selectedCategory = category;
+    this.store.dispatch(VideoActions.getVideoByCategoryId({ categoryId: category.id }));
   }
 
   selectAllVideos() {
     this.selectedCategory = null;
+    this.store.dispatch(VideoActions.getAllVideos());
   }
 
   getMaskImage(): string {

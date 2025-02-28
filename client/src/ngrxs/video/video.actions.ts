@@ -27,4 +27,20 @@ export const getAllVideosFailure = createAction(
   props<{ error: string }>(),
 );
 
+export const getVideoByCategoryId = createAction(
+  '[Video] Get Video By Category Id',
+  props<{ categoryId: string }>()
+);
+
+
+export const getVideoByCategoryIdSuccess = createAction(
+  '[Video] Get Video By Category Id Success',
+  props<{ videos: VideoModel[] }>(),
+);
+
+export const getVideoByCategoryIdFailure = createAction(
+  '[Video] Get Video By Category Id Failure',
+  props<{ error: string }>(),
+);
+
 export const clearState = createAction('[Video] Clear State');
