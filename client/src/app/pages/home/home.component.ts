@@ -9,7 +9,6 @@ import {
 import { SharedModule } from '../../../shared/modules/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { VideoModule } from '../../../shared/modules/video.module';
-import { CategoryModel } from '../../../../../../Vita/client/src/models/category.model';
 import { Observable, Subscription } from 'rxjs';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { CategoryState } from '../../../ngrxs/category/category.state';
@@ -19,6 +18,7 @@ import * as CategoryActions from '../../../ngrxs/category/category.actions';
 import * as VideoActions from '../../../ngrxs/video/video.actions';
 import { VideoModel } from '../../../models/video.model';
 import { VideoCardVerticalComponent } from '../../components/video-card-vertical/video-card-vertical.component';
+import {CategoryModel} from '../../../models/category.model';
 
 @Component({
   selector: 'app-home',
