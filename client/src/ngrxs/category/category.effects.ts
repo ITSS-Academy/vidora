@@ -6,6 +6,7 @@ import * as CategoryActions from './category.actions';
 import { CategoryModel } from '../../models/category.model';
 import { CategoryService } from '../../services/category.service';
 
+//All
 export const getAllCategories$ = createEffect(
   () => {
     const actions$ = inject(Actions);

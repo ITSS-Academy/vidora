@@ -3,15 +3,18 @@ import { SharedModule } from '../../../shared/modules/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { VideoModule } from '../../../shared/modules/video.module';
 import { Router } from '@angular/router';
+import {VideoCardVerticalComponent} from '../../components/video-card-vertical/video-card-vertical.component';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [SharedModule, MaterialModule, VideoModule],
+  imports: [SharedModule, MaterialModule, VideoModule, VideoCardVerticalComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent {
+  videos$: Observable<unknown> | undefined;
   constructor(private router: Router) {}
 
   onTabChange(event: any) {

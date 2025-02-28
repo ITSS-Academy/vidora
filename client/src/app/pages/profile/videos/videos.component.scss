@@ -1,0 +1,23 @@
+#video-container {
+  width: 100%;
+  height: 100%;
+
+  #scroll {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    #video-list {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 10px;
+    }
+  }
+}
