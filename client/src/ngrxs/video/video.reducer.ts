@@ -27,6 +27,10 @@ const initialState: VideoState = {
   isIncreasingViewCount: false,
   isIncreaseViewCountSuccess: false,
   increaseViewCountErrorMessages: '',
+
+  isGettingVideoByCategoryId: false,
+  isGetVideoByCategoryIdSuccess: false,
+  getVideoByCategoryIdErrorMessage: '',
 };
 
 export const videoReducer = createReducer(
@@ -83,6 +87,33 @@ export const videoReducer = createReducer(
       ...state,
       isGettingAllVideos: false,
       getAllVideosErrorMessage: action.error,
+    };
+  }),
+
+  on(VideoActions.getVideoByCategoryId, (state, action) => {
+    console.log(action.type);
+    return <VideoState>{
+      ...state,
+      isGettingVideoByCategoryId: true,
+    };
+  }),
+
+  on(VideoActions.getVideoByCategoryIdSuccess, (state, action) => {
+    console.log(action.type);
+    return <VideoState>{
+      ...state,
+      isGettingVideoByCategoryId: false,
+      isGetVideoByCategoryIdSuccess: true,
+      videos: action.videos,
+    };
+  }),
+
+  on(VideoActions.getVideoByCategoryIdFailure, (state, action) => {
+    console.log(action.type);
+    return <VideoState>{
+      ...state,
+      isGettingVideoByCategoryId: false,
+      getVideoByCategoryIdErrorMessage: action.error,
     };
   }),
 

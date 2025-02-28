@@ -13,3 +13,61 @@
   width: 70%;
   height: 100%;
 }
+
+.card {
+  width: 350px;
+  background: #6b463c;
+  border-radius: 16px;
+  padding: 16px;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  height: 100%;
+}
+
+.thumbnail {
+  width: 100%;
+  border-radius: 8px;
+}
+
+h2 {
+  margin: 12px 0 6px;
+}
+
+.details {
+  color: #ccc;
+  font-size: 14px;
+}
+
+.buttons {
+  margin-top: 16px;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #eae5e5;
+    color: black;
+  }
+}
+
+.play {
+  background: white;
+  color: black;
+}
+
+.shuffle {
+  background: #4d332c;
+  color: white;
+}
