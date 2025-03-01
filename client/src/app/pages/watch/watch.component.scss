@@ -3,9 +3,10 @@
   height: 100%;
   display: flex;
   padding: 20px 60px;
+  gap: 20px;
 
   .left {
-    width: calc((100% - 80px) * 0.75);
+    width: 60%;
     height: 100%;
 
     .video-card {
@@ -102,6 +103,7 @@
       margin-bottom: 20px;
       overflow: hidden; /* Ensures overflow content is hidden */
       cursor: pointer;
+      margin-top: 10px;
 
       .content {
         display: -webkit-box;
@@ -110,15 +112,6 @@
         overflow: hidden; /* Ensures overflow content is hidden */
         text-overflow: ellipsis;
         position: relative;
-      }
-
-      .content::after {
-        content: " more...";
-        position: absolute;
-        left: -5px;
-        bottom: 0;
-        background: var(--md-sys-color-surface-container-high);
-        padding-left: 5px;
       }
     }
 
@@ -132,6 +125,19 @@
       .content::after {
         display: none;
       }
+    }
+  }
+
+  .right {
+    width: 40%;
+    height: 100%;
+    margin-left: 10px;
+
+    .video-list {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
   }
 }

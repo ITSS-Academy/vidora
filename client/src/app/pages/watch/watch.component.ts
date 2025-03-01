@@ -21,11 +21,17 @@ import { Store } from '@ngrx/store';
 import * as VideoActions from '../../../ngrxs/video/video.actions';
 import * as PlaylistActions from '../../../ngrxs/playlist/playlist.actions';
 import { filter, take } from 'rxjs/operators';
+import { VideoCardHorizontalComponent } from '../../components/video-card-horizontal/video-card-horizontal.component';
 
 @Component({
   selector: 'app-watch',
   standalone: true,
-  imports: [SharedModule, MaterialModule, VideoModule],
+  imports: [
+    SharedModule,
+    MaterialModule,
+    VideoModule,
+    VideoCardHorizontalComponent,
+  ],
   templateUrl: './watch.component.html',
   styleUrl: './watch.component.scss',
 })
@@ -46,6 +52,7 @@ export class WatchComponent implements OnInit, OnDestroy {
   isPlaying: boolean = false;
   totalViews: number = 0;
   watchHistory: number[] = [];
+  videos$!: Observable<VideoModel[]>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -63,6 +70,8 @@ export class WatchComponent implements OnInit, OnDestroy {
     this.playlistDetail$ = this.store.select(
       (state) => state.playlist.playlistDetail,
     );
+    this.videos$ = this.store.select((state) => state.video.videos);
+    this.store.dispatch(VideoActions.getAllVideos());
   }
 
   toggleDescription(): void {

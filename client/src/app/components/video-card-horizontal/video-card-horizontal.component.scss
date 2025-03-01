@@ -1,6 +1,5 @@
 .card {
   width: 100%;
-  height: calc(200px / 16 * 9);
   display: flex;
   flex-direction: row;
   align-items: start;
@@ -38,6 +37,11 @@
       font-weight: 500;
       color: var(--md-sys-color-on-surface);
       line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .description {
@@ -54,8 +58,8 @@
 
     #menu {
       display: flex;
-      justify-content: center;
-      align-items: center;
+      justify-content: start;
+      align-items: start;
       height: 100%;
       cursor: pointer;
     }
