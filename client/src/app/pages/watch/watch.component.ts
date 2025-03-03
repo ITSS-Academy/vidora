@@ -11,8 +11,8 @@ import { VideoModule } from '../../../shared/modules/video.module';
 import { VideoModel } from '../../../models/video.model';
 import { PlaylistDetailModel } from '../../../models/playlist.model';
 import { UserModel } from '../../../models/user.model';
-import { combineLatestWith, Observable, Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PlaylistState } from '../../../ngrxs/playlist/playlist.state';
 import { UserState } from '../../../ngrxs/user/user.state';
 import { VideoState } from '../../../ngrxs/video/video.state';
@@ -20,8 +20,10 @@ import { VgApiService } from '@videogular/ngx-videogular/core';
 import { Store } from '@ngrx/store';
 import * as VideoActions from '../../../ngrxs/video/video.actions';
 import * as PlaylistActions from '../../../ngrxs/playlist/playlist.actions';
-import { filter, take } from 'rxjs/operators';
+import * as CommentActions from '../../../ngrxs/comment/comment.actions';
+import { filter, map, take } from 'rxjs/operators';
 import { VideoCardHorizontalComponent } from '../../components/video-card-horizontal/video-card-horizontal.component';
+import { CommentState } from '../../../ngrxs/comment/comment.state';
 
 @Component({
   selector: 'app-watch',
@@ -53,6 +55,9 @@ export class WatchComponent implements OnInit, OnDestroy {
   totalViews: number = 0;
   watchHistory: number[] = [];
   videos$!: Observable<VideoModel[]>;
+  filteredVideos$!: Observable<VideoModel[]>;
+  comment: string = '';
+  createCommentFailure: Observable<string>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -60,8 +65,10 @@ export class WatchComponent implements OnInit, OnDestroy {
       video: VideoState;
       user: UserState;
       playlist: PlaylistState;
+      comment: CommentState;
     }>,
     private vgApi: VgApiService,
+    private router: Router,
   ) {
     this.video$ = this.store.select((state) => state.video.video);
     this.isGetVideoSuccess$ = this.store.select(
@@ -72,6 +79,9 @@ export class WatchComponent implements OnInit, OnDestroy {
     );
     this.videos$ = this.store.select((state) => state.video.videos);
     this.store.dispatch(VideoActions.getAllVideos());
+    this.createCommentFailure = this.store.select(
+      (state) => state.comment.createCommentErrorMessage,
+    );
   }
 
   toggleDescription(): void {
@@ -79,42 +89,51 @@ export class WatchComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.filteredVideos$ = this.store
+      .select((state) => state.video.videos)
+      .pipe(
+        map((videos) => videos.filter((video) => video.id !== this.videoId)),
+      );
     this.subscription.push(
-      this.activatedRoute.queryParamMap.subscribe((params: any) => {
-        this.videoId = params.get('v');
-        this.listId = params.get('list');
-        this.startRadio = params.get('start_radio');
+      this.createCommentFailure.subscribe((failure) => {
+        console.error(failure);
       }),
       this.store.select('user', 'user').subscribe((user) => {
         this.user = user;
       }),
-      this.store
-        .select('user', 'isGetUserSuccess')
-        .pipe(combineLatestWith(this.store.select('user', 'isGettingUser')))
-        .subscribe(([isGetSuccess, isGetting]) => {
-          if (isGetSuccess && !isGetting) {
-            if (this.user) {
-              this.store.dispatch(
-                VideoActions.getVideoById({
-                  videoId: this.videoId,
-                  userId: this.user.id,
-                }),
-              );
-            }
-            if (this.listId) {
-              this.store.dispatch(
-                PlaylistActions.getPlaylistById({ id: this.listId }),
-              );
-            }
-          } else {
+      combineLatest([
+        this.activatedRoute.queryParamMap,
+        this.store.select('user', 'isGetUserSuccess'),
+        this.store.select('user', 'isGettingUser'),
+      ]).subscribe(([params, isGetSuccess, isGetting]) => {
+        this.videoId = params.get('v') || '';
+        this.listId = params.get('list');
+        this.startRadio = params.get('start_radio');
+        this.store.dispatch(VideoActions.getAllVideos());
+
+        if (isGetSuccess && !isGetting) {
+          if (this.user) {
             this.store.dispatch(
               VideoActions.getVideoById({
                 videoId: this.videoId,
-                userId: null,
+                userId: this.user.id,
               }),
             );
           }
-        }),
+          if (this.listId) {
+            this.store.dispatch(
+              PlaylistActions.getPlaylistById({ id: this.listId }),
+            );
+          }
+        } else {
+          this.store.dispatch(
+            VideoActions.getVideoById({
+              videoId: this.videoId,
+              userId: null,
+            }),
+          );
+        }
+      }),
       this.isGetVideoSuccess$.subscribe((isGetVideoSuccess) => {
         if (isGetVideoSuccess && this.vgApi) {
           const media = this.vgApi.getDefaultMedia();
@@ -175,6 +194,23 @@ export class WatchComponent implements OnInit, OnDestroy {
       // Reset thời gian xem khi phát lại
       this.totalWatchTime = 0;
       this.currentTime = 0;
+
+      // Play the next video
+      this.playNextVideo();
+    });
+  }
+
+  playNextVideo(): void {
+    this.filteredVideos$.pipe(take(1)).subscribe((videos) => {
+      const currentIndex = videos.findIndex(
+        (video) => video.id === this.videoId,
+      );
+      const nextVideo = videos[currentIndex + 1];
+      if (nextVideo) {
+        this.router.navigate(['/watch'], { queryParams: { v: nextVideo.id } });
+      } else {
+        console.log('No more videos to play.');
+      }
     });
   }
 
@@ -207,6 +243,22 @@ export class WatchComponent implements OnInit, OnDestroy {
 
   onPlayerReady(api: VgApiService): void {
     this.vgApi = api; // Lưu trữ API sau khi khởi tạo
+  }
+
+  createComment(): void {
+    console.log('Creating comment:', this.comment);
+    console.log('Video id', this.videoId);
+    console.log('User id', this.user?.id);
+    this.store.dispatch(
+      CommentActions.createComment({
+        comment: {
+          content: this.comment,
+          video_id: this.videoId,
+          user_id: this.user?.id as string,
+        },
+      }),
+    );
+    this.comment = '';
   }
 
   ngOnDestroy(): void {

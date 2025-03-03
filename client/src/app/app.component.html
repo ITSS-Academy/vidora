@@ -25,7 +25,7 @@
       <router-outlet></router-outlet>
     </div>
     @if (isHiddenSidebar) {
-      <div class="overlay"></div>
+      <div class="overlay" (click)="onOverlayClick()"></div>
     }
   </div>
 </div>

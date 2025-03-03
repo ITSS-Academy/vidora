@@ -24,10 +24,15 @@
   height: 100%;
   margin-left: 10px;
   background: var(--md-sys-color-surface-container-lowest);
+  overflow: hidden;
 }
 
 .content.watch {
   width: 100%;
+}
+
+.content.visible {
+  width: calc(100% - 75px);
 }
 
 .side-bar {
@@ -43,7 +48,7 @@
 
 .overlay {
   position: fixed;
-  top: 70px;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;

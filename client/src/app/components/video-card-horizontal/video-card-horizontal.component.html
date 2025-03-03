@@ -1,28 +1,24 @@
-<mat-card appearance="outlined" class="card">
+<mat-card (click)="onVideoClick(video)" appearance="outlined" class="card">
   <mat-card-header id="header-container">
     <div id="img-container">
-      <img
-        alt=""
-        mat-card-md-image
-        src="https://i.ytimg.com/vi/Zk7Dg30tCDU/hqdefault.jpg?sqp=-oaymwFBCNACELwBSFryq4qpAzMIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB8AEB-AH-CYAC0AWKAgwIABABGHIgQSg3MA8=&rs=AOn4CLA9sqJZr7zYnM6vaGMehv-0odnbOA"
-      />
+      <img alt="" mat-card-md-image src="{{ video.thumbnail_url }}" />
     </div>
   </mat-card-header>
   <mat-card-content id="content-container">
     <div class="tittle">
-      TroyBoi - Afterhours (feat. Diplo & Nina Sky) [Official Music Video]
+      {{ video.title }}
     </div>
     <div class="description">
-      <span class="channel">Mad Decent</span>
-      <span class="views">92M views</span>
-      <span class="date">9 year ago</span>
+      <span class="channel">{{ video.user_data.username }}</span>
+      <span class="views">{{ video.views }} views</span>
+      <span class="date">{{ video.created_at | date: "dd/mm/yyyy" }}</span>
     </div>
   </mat-card-content>
   <mat-action-row id="actions-container">
     <div id="menu">
       <button
+        (click)="$event.stopPropagation()"
         [matMenuTriggerFor]="menu"
-        aria-label="Example icon-button with a menu"
         mat-icon-button
       >
         <mat-icon class="material-symbols-rounded">more_vert</mat-icon>

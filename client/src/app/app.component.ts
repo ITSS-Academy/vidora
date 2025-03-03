@@ -105,4 +105,8 @@ export class AppComponent implements OnInit {
       }
     });
   }
+
+  onOverlayClick() {
+    this.isHiddenSidebar = false;
+  }
 }
