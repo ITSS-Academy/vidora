@@ -112,3 +112,32 @@ export const getPlaylistById$ = createEffect(
   },
   { functional: true },
 );
+
+export const getWatchLaterPlaylistByUserId$ = createEffect(
+  () => {
+    const actions$ = inject(Actions);
+    const playlistService = inject(PlaylistService);
+    return actions$.pipe(
+      ofType(PlaylistActions.getWatchLaterPlaylistByUserId),
+      exhaustMap((action) => {
+        return playlistService
+          .getWatchLaterPlaylistByUserId(action.userId)
+          .pipe(
+            map((response) =>
+              PlaylistActions.getWatchLaterPlaylistByUserIdSuccess({
+                playlist: response as PlaylistDetailModel,
+              }),
+            ),
+            catchError((obj) => {
+              return of(
+                PlaylistActions.getWatchLaterPlaylistByUserIdFailure({
+                  error: obj.error.message,
+                }),
+              );
+            }),
+          );
+      }),
+    );
+  },
+  { functional: true },
+);

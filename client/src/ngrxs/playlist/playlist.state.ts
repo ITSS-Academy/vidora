@@ -23,4 +23,8 @@ export interface PlaylistState {
   isGettingPlaylistById: boolean;
   isGetPlaylistByIdSuccess: boolean;
   getPlaylistByIdErrorMessage: string;
+
+  isGettingWatchLaterPlaylistByUserId: boolean;
+  isGetWatchLaterPlaylistByUserIdSuccess: boolean;
+  getWatchLaterPlaylistByUserIdErrorMessage: string;
 }

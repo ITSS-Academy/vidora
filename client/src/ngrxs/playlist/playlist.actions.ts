@@ -58,3 +58,20 @@ export const getPlaylistByIdFailure = createAction(
   '[Playlist] Get Playlist By Id Failure',
   props<{ error: string }>(),
 );
+
+export const getWatchLaterPlaylistByUserId = createAction(
+  '[Playlist] Get Watch Later Playlist By User Id',
+  props<{ userId: string }>(),
+);
+
+export const getWatchLaterPlaylistByUserIdSuccess = createAction(
+  '[Playlist] Get Watch Later Playlist By User Id Success',
+  props<{ playlist: PlaylistDetailModel }>(),
+);
+
+export const getWatchLaterPlaylistByUserIdFailure = createAction(
+  '[Playlist] Get Watch Later Playlist By User Id Failure',
+  props<{ error: string }>(),
+);
+
+export const clearPlaylistState = createAction('[Playlist] Clear State');
