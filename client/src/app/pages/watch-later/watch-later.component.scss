@@ -79,6 +79,7 @@
         display: flex;
         gap: 10px;
         align-items: center;
+        margin-bottom: 10px;
 
         #user-avatar {
           width: 40px;
@@ -98,6 +99,11 @@
           font-weight: 500;
           color: #f4f4f2;
         }
+      }
+
+      #action {
+        display: flex;
+        gap: 10px;
       }
     }
   }

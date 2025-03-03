@@ -74,4 +74,29 @@ export const getWatchLaterPlaylistByUserIdFailure = createAction(
   props<{ error: string }>(),
 );
 
+export const updatePlaylist = createAction(
+  '[Playlist] Update',
+  props<{ playlistId: string; videoId: string }>(),
+);
+
+export const updatePlaylistSuccess = createAction('[Playlist] Update Success');
+
+export const updatePlaylistFailure = createAction(
+  '[Playlist] Update Failure',
+  props<{ error: string }>(),
+);
+
+export const updateWatchLaterPlaylist = createAction(
+  '[Playlist] Update Watch Later Playlist',
+  props<{ userId: string; videoId: string }>(),
+);
+
+export const updateWatchLaterPlaylistSuccess = createAction(
+  '[Playlist] Update Watch Later Playlist Success',
+);
+
+export const updateWatchLaterPlaylistFailure = createAction(
+  '[Playlist] Update Watch Later Playlist Failure',
+  props<{ error: string }>(),
+);
 export const clearPlaylistState = createAction('[Playlist] Clear State');

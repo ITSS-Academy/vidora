@@ -30,6 +30,14 @@ const initialState: PlaylistState = {
   isGettingWatchLaterPlaylistByUserId: false,
   isGetWatchLaterPlaylistByUserIdSuccess: false,
   getWatchLaterPlaylistByUserIdErrorMessage: '',
+
+  isUpdatingPlaylist: false,
+  isUpdatePlaylistSuccess: false,
+  updatePlaylistErrorMessage: '',
+
+  isUpdatingWatchLaterPlaylist: false,
+  isUpdateWatchLaterPlaylistSuccess: false,
+  updateWatchLaterPlaylistErrorMessage: '',
 };
 
 export const playlistReducer = createReducer(
@@ -153,6 +161,7 @@ export const playlistReducer = createReducer(
     console.log(action.type);
     return <PlaylistState>{
       ...state,
+      playlistDetail: action.playlist,
       isGettingWatchLaterPlaylistByUserId: false,
       isGetWatchLaterPlaylistByUserIdSuccess: true,
     };
@@ -164,6 +173,60 @@ export const playlistReducer = createReducer(
       ...state,
       isGettingWatchLaterPlaylistByUserId: false,
       getWatchLaterPlaylistByUserIdErrorMessage: action.error,
+    };
+  }),
+
+  on(PlaylistActions.updatePlaylist, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isUpdatingPlaylist: true,
+      isUpdatePlaylistSuccess: false,
+    };
+  }),
+
+  on(PlaylistActions.updatePlaylistSuccess, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isUpdatingPlaylist: false,
+      isUpdatePlaylistSuccess: true,
+    };
+  }),
+
+  on(PlaylistActions.updatePlaylistFailure, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isUpdatingPlaylist: false,
+      updatePlaylistErrorMessage: action.error,
+    };
+  }),
+
+  on(PlaylistActions.updateWatchLaterPlaylist, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isUpdatingWatchLaterPlaylist: true,
+      isUpdateWatchLaterPlaylistSuccess: false,
+    };
+  }),
+
+  on(PlaylistActions.updateWatchLaterPlaylistSuccess, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isUpdatingWatchLaterPlaylist: false,
+      isUpdateWatchLaterPlaylistSuccess: true,
+    };
+  }),
+
+  on(PlaylistActions.updateWatchLaterPlaylistFailure, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isUpdatingWatchLaterPlaylist: false,
+      updateWatchLaterPlaylistErrorMessage: action.error,
     };
   }),
 
@@ -190,6 +253,14 @@ export const playlistReducer = createReducer(
       isGettingWatchLaterPlaylistByUserId: false,
       isGetWatchLaterPlaylistByUserIdSuccess: false,
       getWatchLaterPlaylistByUserIdErrorMessage: '',
+
+      isUpdatingPlaylist: false,
+      isUpdatePlaylistSuccess: false,
+      updatePlaylistErrorMessage: '',
+
+      isUpdatingWatchLaterPlaylist: false,
+      isUpdateWatchLaterPlaylistSuccess: false,
+      updateWatchLaterPlaylistErrorMessage: '',
     };
   }),
 );

@@ -25,7 +25,20 @@
         <span id="user-name">{{ (user$ | async)?.username }}</span>
       </div>
       <div id="action">
-        <button (click)="playAll()" mat-flat-button>Play all</button>
+        <button (click)="playAll()" mat-flat-button>
+          <mat-icon
+            class="material-symbols-rounded"
+            fontIcon="play_arrow"
+          ></mat-icon>
+          Play all
+        </button>
+        <button (click)="playShuffle()" mat-stroked-button>
+          <mat-icon
+            class="material-symbols-rounded"
+            fontIcon="shuffle"
+          ></mat-icon>
+          Shuffle
+        </button>
       </div>
     </div>
   </div>
@@ -33,10 +46,12 @@
   <div id="right-container">
     <cdk-virtual-scroll-viewport class="scroll" itemSize="50">
       <div id="video-container">
-        @for (video of (playlistDetail$ | async)?.videos; track $index) {
-          <app-video-card-horizontal
-            [video]="video"
-          ></app-video-card-horizontal>
+        @if (isGetWatchLaterPlaylistByUserIdSuccess$ | async) {
+          @for (video of (playlistDetail$ | async)?.videos; track $index) {
+            <app-video-card-horizontal
+              [video]="video"
+            ></app-video-card-horizontal>
+          }
         }
       </div>
     </cdk-virtual-scroll-viewport>

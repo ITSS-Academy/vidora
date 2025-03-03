@@ -46,7 +46,6 @@ export class AppComponent implements OnInit {
     }>,
   ) {
     onAuthStateChanged(this.auth, async (user) => {
-      console.log('user', user);
       if (user) {
         const token = await user.getIdTokenResult();
         this.store.dispatch(AuthActions.storeIdToken({ idToken: token.token }));

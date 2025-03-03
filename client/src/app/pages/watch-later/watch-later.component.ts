@@ -25,33 +25,49 @@ import * as PlaylistActions from '../../../ngrxs/playlist/playlist.actions';
   styleUrl: './watch-later.component.scss',
 })
 export class WatchLaterComponent implements OnInit, OnDestroy {
+  user$: Observable<UserModel>;
   user!: UserModel;
-  user$: Observable<UserModel | null>;
   playlistDetail$: Observable<PlaylistDetailModel>;
   playlistDetail!: PlaylistDetailModel;
-
+  isGetWatchLaterPlaylistByUserIdSuccess$: Observable<boolean>;
   private subscriptions: Subscription[] = [];
 
   constructor(
     private store: Store<{ playlist: PlaylistState; user: UserState }>,
     private router: Router,
   ) {
-    this.playlistDetail$ = this.store.select('playlist', 'playlistDetail');
     this.user$ = this.store.select('user', 'user');
+    this.playlistDetail$ = this.store.select('playlist', 'playlistDetail');
+    this.isGetWatchLaterPlaylistByUserIdSuccess$ = this.store.select(
+      'playlist',
+      'isGetWatchLaterPlaylistByUserIdSuccess',
+    );
   }
 
   ngOnInit() {
     this.subscriptions.push(
-      this.user$.subscribe((user) => {
-        if (user) {
+      this.store.select('user', 'user').subscribe((user: UserModel) => {
+        if (user.id) {
           this.user = user;
-          this.store.dispatch(
-            PlaylistActions.getWatchLaterPlaylistByUserId({ userId: user.id }),
-          );
+          console.log(user);
         }
       }),
+      this.store
+        .select('user', 'isGetUserSuccess')
+        .subscribe((isGetUserSuccess) => {
+          if (isGetUserSuccess) {
+            console.log(this.user.id);
+            this.store.dispatch(
+              PlaylistActions.getWatchLaterPlaylistByUserId({
+                userId: this.user.id,
+              }),
+            );
+          }
+        }),
       this.playlistDetail$.subscribe((playlistDetail) => {
-        this.playlistDetail = playlistDetail;
+        if (playlistDetail) {
+          this.playlistDetail = playlistDetail;
+        }
       }),
     );
   }
@@ -62,6 +78,19 @@ export class WatchLaterComponent implements OnInit, OnDestroy {
         v: this.playlistDetail.videos[0].id,
         list: this.playlistDetail.playlist.id,
         index: 0,
+      },
+    });
+  }
+
+  playShuffle() {
+    const randomIndex = Math.floor(
+      Math.random() * this.playlistDetail.videos.length,
+    );
+    this.router.navigate(['/watch'], {
+      queryParams: {
+        v: this.playlistDetail.videos[randomIndex].id,
+        list: this.playlistDetail.playlist.id,
+        index: randomIndex,
       },
     });
   }
