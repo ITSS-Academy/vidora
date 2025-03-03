@@ -49,6 +49,7 @@ export const userReducer = createReducer(
     return <UserState>{
       ...state,
       isGettingUser: true,
+      isGetUserSuccess: false,
     };
   }),
   on(UserActions.getUserByIdSuccess, (state, action) => {

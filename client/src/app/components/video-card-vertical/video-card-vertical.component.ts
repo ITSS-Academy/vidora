@@ -13,7 +13,7 @@ import { VideoModule } from '../../../shared/modules/video.module';
 import { PlaylistDialogComponent } from '../../dialogs/playlist-dialog/playlist-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { VideoModel } from '../../../models/video.model';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { UserModel } from '../../../models/user.model';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -21,6 +21,8 @@ import { VideoState } from '../../../ngrxs/video/video.state';
 import { UserState } from '../../../ngrxs/user/user.state';
 import { AlertService } from '../../../services/alert.service';
 import * as VideoActions from '../../../ngrxs/video/video.actions';
+import * as PlaylistActions from '../../../ngrxs/playlist/playlist.actions';
+import { PlaylistState } from '../../../ngrxs/playlist/playlist.state';
 
 @Component({
   selector: 'app-video-card-vertical',
@@ -38,19 +40,33 @@ export class VideoCardVerticalComponent implements OnInit, OnDestroy {
   isMuteVolume!: boolean;
   isHovering: boolean = false;
   user!: UserModel;
-  protected readonly open = open;
+  isUpdateWatchLaterSuccess$!: Observable<boolean>;
 
   constructor(
     private router: Router,
     private store: Store<{
       video: VideoState;
       user: UserState;
+      playlist: PlaylistState;
     }>,
     private alertService: AlertService,
   ) {}
 
   ngOnInit(): void {
     this.subscriptions.push(
+      this.store
+        .select('playlist', 'isUpdateWatchLaterPlaylistSuccess')
+        .subscribe((isUpdateWatchLaterSuccess) => {
+          if (isUpdateWatchLaterSuccess) {
+            this.alertService.showAlert(
+              'Added to Watch Later',
+              'Close',
+              3000,
+              'end',
+              'top',
+            );
+          }
+        }),
       this.store.select('video', 'isMuteVolume').subscribe((isMutedVideo) => {
         this.isMuteVolume = isMutedVideo;
       }),
@@ -114,5 +130,14 @@ export class VideoCardVerticalComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
-  addToWatchLater() {}
+  addToWatchLater() {
+    if (this.user) {
+      this.store.dispatch(
+        PlaylistActions.updateWatchLaterPlaylist({
+          videoId: this.video.id,
+          userId: this.user.id,
+        }),
+      );
+    }
+  }
 }

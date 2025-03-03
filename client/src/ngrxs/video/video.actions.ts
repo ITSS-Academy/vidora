@@ -27,6 +27,49 @@ export const getAllVideosFailure = createAction(
   props<{ error: string }>(),
 );
 
+export const getVideoById = createAction(
+  '[Video] Get Video By Id',
+  props<{ videoId: string; userId: string | null }>(),
+);
+
+export const getVideoByIdSuccess = createAction(
+  '[Video] Get Video By Id Success',
+  props<{ video: VideoModel }>(),
+);
+
+export const getVideoByIdFailure = createAction(
+  '[Video] Get Video By Id Failure',
+  props<{ error: string }>(),
+);
+
+export const increaseViewCount = createAction(
+  '[Video] Increase View Count',
+  props<{ id: string }>(),
+);
+
+export const increaseViewCountSuccess = createAction(
+  '[Video] Increase View Count Success',
+);
+
+export const increaseViewCountFailure = createAction(
+  '[Video] Increase View Count Failure',
+  props<{ error: string }>(),
+);
+
+export const updateWatchTime = createAction(
+  '[Video] Update Watch Time',
+  props<{ videoId: string; userId: string; watchTime: number }>(),
+);
+
+export const updateWatchTimeSuccess = createAction(
+  '[Video] Update Watch Time Success',
+);
+
+export const updateWatchTimeFailure = createAction(
+  '[Video] Update Watch Time Failure',
+  props<{ error: string }>(),
+);
+
 export const getVideoByCategoryId = createAction(
   '[Video] Get Video By Category Id',
   props<{ categoryId: string }>()

@@ -1,23 +1,38 @@
 <div id="container">
   <div id="left-container">
-    <div class="card">
+    <div id="playlist-thumbnail-background">
       <img
-        alt="Video Thumbnail"
-        class="thumbnail"
-        src="https://i.ytimg.com/vi/Zk7Dg30tCDU/hqdefault.jpg?sqp=-oaymwFBCNACELwBSFryq4qpAzMIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB8AEB-AH-CYAC0AWKAgwIABABGHIgQSg3MA8=&rs=AOn4CLA9sqJZr7zYnM6vaGMehv-0odnbOA"
+        [src]="(playlistDetail$ | async)?.playlist?.thumbnail_url"
+        alt="playlist-thumbnail"
       />
-      <h2>Watch later</h2>
-      <p class="details">Cường Hoàng<br />124 videos No views Updated today</p>
-      <div class="buttons">
-        <button mat-flat-button>
+    </div>
+    <div id="playlist-info">
+      <div id="playlist-thumbnail">
+        <img
+          [src]="(playlistDetail$ | async)?.playlist?.thumbnail_url"
+          alt="playlist-thumbnail"
+        />
+      </div>
+
+      <h2 id="playlist-title">
+        {{ (playlistDetail$ | async)?.playlist?.title }}
+      </h2>
+
+      <div id="user-info">
+        <div id="user-avatar">
+          <img [src]="(user$ | async)?.avatar_url" alt="user-avatar" />
+        </div>
+        <span id="user-name">{{ (user$ | async)?.username }}</span>
+      </div>
+      <div id="action">
+        <button (click)="playAll()" mat-flat-button>
           <mat-icon
             class="material-symbols-rounded"
             fontIcon="play_arrow"
           ></mat-icon>
           Play all
         </button>
-
-        <button mat-flat-button>
+        <button (click)="playShuffle()" mat-stroked-button>
           <mat-icon
             class="material-symbols-rounded"
             fontIcon="shuffle"
@@ -27,7 +42,18 @@
       </div>
     </div>
   </div>
+
   <div id="right-container">
-    <app-video-card-horizontal></app-video-card-horizontal>
+    <cdk-virtual-scroll-viewport class="scroll" itemSize="50">
+      <div id="video-container">
+        @if (isGetWatchLaterPlaylistByUserIdSuccess$ | async) {
+          @for (video of (playlistDetail$ | async)?.videos; track $index) {
+            <app-video-card-horizontal
+              [video]="video"
+            ></app-video-card-horizontal>
+          }
+        }
+      </div>
+    </cdk-virtual-scroll-viewport>
   </div>
 </div>

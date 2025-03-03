@@ -1,8 +1,10 @@
 import { createReducer, on } from '@ngrx/store';
 import { VideoState } from './video.state';
 import * as VideoActions from './video.actions';
+import { VideoModel } from '../../models/video.model';
 
 const initialState: VideoState = {
+  video: <VideoModel>{},
   videos: [],
   isMuteVolume: false,
 
@@ -14,9 +16,21 @@ const initialState: VideoState = {
   isGetAllVideosSuccess: false,
   getAllVideosErrorMessage: '',
 
+  isGettingVideoById: false,
+  isGetVideoByIdSuccess: false,
+  getVideoByIdErrorMessage: '',
+
+  isUpdatingWatchTime: false,
+  isUpdateWatchTimeSuccess: false,
+  updateWatchTimeErrorMessages: '',
+
+  isIncreasingViewCount: false,
+  isIncreaseViewCountSuccess: false,
+  increaseViewCountErrorMessages: '',
+
   isGettingVideoByCategoryId: false,
   isGetVideoByCategoryIdSuccess: false,
-  getVideoByIdErrorMessage: '',
+  getVideoByCategoryIdErrorMessage: '',
 };
 
 export const videoReducer = createReducer(
@@ -26,6 +40,7 @@ export const videoReducer = createReducer(
     return <VideoState>{
       ...state,
       isCreatingVideo: true,
+      isCreateVideoSuccess: false,
     };
   }),
 
@@ -52,6 +67,7 @@ export const videoReducer = createReducer(
     return <VideoState>{
       ...state,
       isGettingAllVideos: true,
+      isGetAllVideosSuccess: false,
     };
   }),
 
@@ -97,7 +113,7 @@ export const videoReducer = createReducer(
     return <VideoState>{
       ...state,
       isGettingVideoByCategoryId: false,
-      getVideoByIdErrorMessage: action.error,
+      getVideoByCategoryIdErrorMessage: action.error,
     };
   }),
 
@@ -106,6 +122,88 @@ export const videoReducer = createReducer(
     return <VideoState>{
       ...state,
       isMuteVolume: !state.isMuteVolume,
+    };
+  }),
+
+  on(VideoActions.getVideoById, (state, action) => {
+    console.log(action.type);
+    return <VideoState>{
+      ...state,
+      isGettingVideoById: true,
+      isGetVideoByIdSuccess: false,
+    };
+  }),
+
+  on(VideoActions.getVideoByIdSuccess, (state, action) => {
+    console.log(action.type);
+    return <VideoState>{
+      ...state,
+      isGettingVideoById: false,
+      isGetVideoByIdSuccess: true,
+      video: action.video,
+    };
+  }),
+
+  on(VideoActions.getVideoByIdFailure, (state, action) => {
+    console.log(action.type);
+    return <VideoState>{
+      ...state,
+      isGettingVideoById: false,
+      getVideoByIdErrorMessage: action.error,
+    };
+  }),
+
+  on(VideoActions.updateWatchTime, (state, action) => {
+    console.log(action.type);
+    return <VideoState>{
+      ...state,
+      isUpdatingWatchTime: true,
+      isUpdateWatchTimeSuccess: false,
+    };
+  }),
+
+  on(VideoActions.updateWatchTimeSuccess, (state, action) => {
+    console.log(action.type);
+    return <VideoState>{
+      ...state,
+      isUpdatingWatchTime: false,
+      isUpdateWatchTimeSuccess: true,
+    };
+  }),
+
+  on(VideoActions.updateWatchTimeFailure, (state, action) => {
+    console.log(action.type);
+    return <VideoState>{
+      ...state,
+      isUpdatingWatchTime: false,
+      updateWatchTimeErrorMessages: action.error,
+    };
+  }),
+
+  on(VideoActions.increaseViewCount, (state, action) => {
+    console.log(action.type);
+    return <VideoState>{
+      ...state,
+      isIncreasingViewCount: true,
+      isIncreaseViewCountSuccess: false,
+    };
+  }),
+
+  on(VideoActions.increaseViewCountSuccess, (state, action) => {
+    console.log(action.type);
+    return <VideoState>{
+      ...state,
+      isIncreasingViewCount: false,
+      isIncreaseViewCountSuccess: true,
+    };
+  }),
+
+  on(VideoActions.increaseViewCountFailure, (state, action) => {
+    console.log(action.type);
+    return <VideoState>{
+      ...state,
+      isIncreasingViewCount: false,
+      increaseViewCountErrorMessages: action.error,
     };
   }),
 
