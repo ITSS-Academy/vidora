@@ -18,7 +18,7 @@ import * as CategoryActions from '../../../ngrxs/category/category.actions';
 import * as VideoActions from '../../../ngrxs/video/video.actions';
 import { VideoModel } from '../../../models/video.model';
 import { VideoCardVerticalComponent } from '../../components/video-card-vertical/video-card-vertical.component';
-import { CategoryModel } from '../../../models/category.model';
+import {CategoryModel} from '../../../models/category.model';
 
 @Component({
   selector: 'app-home',
@@ -98,10 +98,12 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   selectCategory(category: CategoryModel) {
     this.selectedCategory = category;
+    this.store.dispatch(VideoActions.getVideoByCategoryId({ categoryId: category.id }));
   }
 
   selectAllVideos() {
     this.selectedCategory = null;
+    this.store.dispatch(VideoActions.getAllVideos());
   }
 
   getMaskImage(): string {

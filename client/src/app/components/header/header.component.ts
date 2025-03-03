@@ -44,7 +44,6 @@ export class HeaderComponent {
   openCreateVideoDialog() {
     const dialogRef = this.dialog.open(CreateVideoDialogComponent, {
       minWidth: '1000px',
-
       disableClose: true,
     });
   }

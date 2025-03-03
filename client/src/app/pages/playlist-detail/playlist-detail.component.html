@@ -1,1 +1,100 @@
+<div id="playlist-detail-container">
+  <div class="content">
+    <div class="left-container">
+      <mat-card appearance="outlined" class="video-card">
+        <div
+          (click)="viewFullPlaylist()"
+          (mouseenter)="onMouseEnter()"
+          (mouseleave)="onMouseLeave()"
+          class="video-container"
+        >
+          <img
+            [src]="playlist.image"
+            alt="Thumbnail"
+            class="thumbnail"
+            mat-card-image
+          />
+          <div
+            [ngClass]="{ 'show-overlay': showOverlay }"
+            class="play-all-overlay-container"
+          >
+            <div (click)="playAll()" class="play-all-overlay">
+              <mat-icon class="material-symbols-rounded play-all-icon"
+              >play_arrow
+              </mat-icon>
+              <span class="play-all-text">Play All</span>
+            </div>
+          </div>
+        </div>
+        <mat-card-content>
+
+          <div class="title-container">
+            <div class="main-content">
+              <h2 class="title">{{ playlist.title }}</h2>
+              <div class="playlist-media">
+                <span>Private</span>
+                <span>•</span>
+                <span>Playlist</span>
+                <span>•</span>
+                <span>1 video</span>
+              </div>
+              <div class="btn">
+                <div class="mat-flat-button>">
+                  <button mat-flat-button>
+                    <mat-icon class="material-symbols-rounded play-all-icon">play_arrow</mat-icon>
+                    <span class="play-all-text">Play All</span>
+                  </button>
+                </div>
+
+                <div class="add-playlist">
+                  <div class="example-button-container">
+                    <button mat-mini-fab aria-label="Example icon button with a menu icon">
+                      <mat-icon class="material-symbols-rounded">add</mat-icon>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="edit-playlist" (click)="editPlaylist()">
+                  <button mat-mini-fab aria-label="Example icon button with a menu icon">
+                    <mat-icon class="material-symbols-rounded">edit</mat-icon>
+                  </button>
+                </div>
+
+                <div class="menu">
+                  <div class="example-button-container">
+                    <button mat-mini-fab aria-label="Example icon button with a menu icon">
+                      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon class="material-symbols-rounded">more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu">
+                        <button mat-menu-item>
+                          <mat-icon class="material-symbols-rounded">shuffle</mat-icon>
+                          <span>Shuffle</span>
+                        </button>
+                        <button mat-menu-item>
+                          <mat-icon class="material-symbols-rounded">bookmark</mat-icon>
+                          <span>Add to...</span>
+                        </button>
+
+                        <button mat-menu-item>
+                          <mat-icon class="material-symbols-rounded">delete</mat-icon>
+                          <span>Delete</span>
+                        </button>
+                      </mat-menu>
+                    </button>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div id="right-container">
+      <app-video-card-horizontal></app-video-card-horizontal>
+    </div>
+  </div>
+
+</div>
 

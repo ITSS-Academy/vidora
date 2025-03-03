@@ -30,7 +30,9 @@ export class VideoService {
     return this.http.get('videos/all');
   }
 
-  getVideoById(videoId: string, userId: string) {
+  getVideoById(videoId: string, userId: string | null) {
+    console.log(videoId);
+    console.log(userId);
     return this.http.get('videos/', { params: { videoId, userId } });
   }
 
