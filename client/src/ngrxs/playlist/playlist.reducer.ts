@@ -26,6 +26,10 @@ const initialState: PlaylistState = {
   isGettingPlaylistById: false,
   isGetPlaylistByIdSuccess: false,
   getPlaylistByIdErrorMessage: '',
+
+  isGettingWatchLaterPlaylistByUserId: false,
+  isGetWatchLaterPlaylistByUserIdSuccess: false,
+  getWatchLaterPlaylistByUserIdErrorMessage: '',
 };
 
 export const playlistReducer = createReducer(
@@ -133,6 +137,59 @@ export const playlistReducer = createReducer(
       ...state,
       isGettingPlaylistById: false,
       getPlaylistByIdErrorMessage: action.error,
+    };
+  }),
+
+  on(PlaylistActions.getWatchLaterPlaylistByUserId, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isGettingWatchLaterPlaylistByUserId: true,
+      isGetWatchLaterPlaylistByUserIdSuccess: false,
+    };
+  }),
+
+  on(PlaylistActions.getWatchLaterPlaylistByUserIdSuccess, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isGettingWatchLaterPlaylistByUserId: false,
+      isGetWatchLaterPlaylistByUserIdSuccess: true,
+    };
+  }),
+
+  on(PlaylistActions.getWatchLaterPlaylistByUserIdFailure, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isGettingWatchLaterPlaylistByUserId: false,
+      getWatchLaterPlaylistByUserIdErrorMessage: action.error,
+    };
+  }),
+
+  on(PlaylistActions.clearPlaylistState, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isGettingAllPlaylists: false,
+      isGetAllPlaylistsSuccess: false,
+      getAllPlaylistsErrorMessages: '',
+
+      isCreatingPlaylist: false,
+      isCreatePlaylistSuccess: false,
+      createPlaylistErrorMessage: '',
+
+      isGettingPlaylistByUserId: false,
+      isGetPlaylistByUserIdSuccess: false,
+      getPlaylistByUserIdErrorMessage: '',
+
+      isGettingPlaylistById: false,
+      isGetPlaylistByIdSuccess: false,
+      getPlaylistByIdErrorMessage: '',
+
+      isGettingWatchLaterPlaylistByUserId: false,
+      isGetWatchLaterPlaylistByUserIdSuccess: false,
+      getWatchLaterPlaylistByUserIdErrorMessage: '',
     };
   }),
 );
