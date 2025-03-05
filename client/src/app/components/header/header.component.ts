@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { UserModel } from '../../../models/user.model';
 import { CreateVideoDialogComponent } from '../../dialogs/create-video-dialog/create-video-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import {ThemeService} from '../../../services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -24,8 +25,9 @@ export class HeaderComponent {
   searchText: string = '';
   readonly dialog = inject(MatDialog);
   @Output() menuClick = new EventEmitter<void>();
+  private router: any;
 
-  constructor(private store: Store<{ auth: AuthState; user: UserState }>) {
+  constructor(private store: Store<{ auth: AuthState; user: UserState }>, public themeService: ThemeService) {
     this.user$ = this.store.select('user', 'user');
   }
 
