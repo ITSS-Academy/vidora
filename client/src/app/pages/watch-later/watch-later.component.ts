@@ -49,7 +49,6 @@ export class WatchLaterComponent implements OnInit, OnDestroy {
       this.store.select('user', 'user').subscribe((user: UserModel) => {
         if (user.id) {
           this.user = user;
-          console.log(user);
         }
       }),
       this.store
@@ -57,6 +56,17 @@ export class WatchLaterComponent implements OnInit, OnDestroy {
         .subscribe((isGetUserSuccess) => {
           if (isGetUserSuccess) {
             console.log(this.user.id);
+            this.store.dispatch(
+              PlaylistActions.getWatchLaterPlaylistByUserId({
+                userId: this.user.id,
+              }),
+            );
+          }
+        }),
+      this.store
+        .select('playlist', 'isDeleteWatchLaterPlaylistSuccess')
+        .subscribe((isRemoveVideoInWatchLaterPlaylistSuccess) => {
+          if (isRemoveVideoInWatchLaterPlaylistSuccess) {
             this.store.dispatch(
               PlaylistActions.getWatchLaterPlaylistByUserId({
                 userId: this.user.id,

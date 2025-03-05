@@ -99,4 +99,18 @@ export const updateWatchLaterPlaylistFailure = createAction(
   '[Playlist] Update Watch Later Playlist Failure',
   props<{ error: string }>(),
 );
+
+export const deleteWatchLaterPlaylist = createAction(
+  '[Playlist] Delete Watch Later Playlist',
+  props<{ userId: string; videoId: string }>(),
+);
+
+export const deleteWatchLaterPlaylistSuccess = createAction(
+  '[Playlist] Delete Watch Later Playlist Success',
+);
+
+export const deleteWatchLaterPlaylistFailure = createAction(
+  '[Playlist] Delete Watch Later Playlist Failure',
+  props<{ error: string }>(),
+);
 export const clearPlaylistState = createAction('[Playlist] Clear State');

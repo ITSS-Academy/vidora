@@ -1,97 +1,51 @@
-.history-container {
+.container {
   width: 100%;
   height: 100%;
-  display: flex;
 }
 
-.left-panel {
-  width: 65%;
-  height: 100%;
+h2 {
+  color: var(--md-sys-color-on-surface);
+  font-size: 24px;
+  margin-bottom: 15px;
 }
 
-.card {
+.watch-date {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--md-sys-color-on-surface-variant);
+  margin: 10px 0 10px 5px;
+}
+
+.history-group {
   width: 100%;
-  height: calc(200px / 16 * 9);
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Đường phân cách giống YouTube */
+}
+
+.video-items {
   display: flex;
-  flex-direction: row;
-  align-items: start;
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
-
-  &:hover {
-    background-color: var(--md-sys-color-surface);
-  }
-
-  #header-container {
-    width: 20%;
-
-    #img-container {
-      width: 200px;
-      aspect-ratio: 16/9;
-      border-radius: 4px;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-  }
-
-  #content-container {
-    width: 70%;
-    height: 100%;
-    padding-left: 12px;
-
-    .tittle {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--md-sys-color-on-surface);
-      line-height: 1.4;
-    }
-
-    .description {
-      font-size: 12px;
-      color: var(--md-sys-color-on-surface);
-      display: flex;
-      gap: 5px;
-    }
-  }
-
-  #actions-container {
-    width: 10%;
-    height: 100%;
-
-    #menu {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-      cursor: pointer;
-    }
-  }
-}
-
-.mat-mdc-card-outlined::ng-deep {
-  border-radius: 0;
-  border-width: 0;
-  border-color: unset;
-  background-color: unset;
-}
-
-.mat-mdc-card-content::ng-deep {
-  padding: 0;
-}
-
-.mat-mdc-card-header::ng-deep {
-  padding: 0;
-}
-
-.right-panel {
-  width: 35%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 10px;
+}
+
+.video-player {
+  width: 100%;
+  height: 100%;
+}
+
+.video-player video {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.scroll {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.scroll::-webkit-scrollbar {
+  display: none;
 }

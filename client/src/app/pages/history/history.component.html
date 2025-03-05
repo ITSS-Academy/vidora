@@ -1,33 +1,22 @@
-<div class="history-container">
-  <div class="history-header">
-    <h1>History</h1>
-
-    <div class="history-content">
-      <div class="history-list">
-        <div class="left-panel">
-          <app-video-card-horizontal></app-video-card-horizontal>
+<div class="container">
+  <cdk-virtual-scroll-viewport class="scroll" itemSize="50">
+    <h2>Watch History</h2>
+    <div class="video-list">
+      @for (video of videos$ | async; track $index) {
+        <div class="history-group">
+          <h3 class="watch-date">
+            {{ video.watched_at }}
+          </h3>
+          <!-- Ngày xem video -->
+          <div class="video-items">
+            @for (videoDetail of video.videos; track $index) {
+              <app-video-card-horizontal
+                [video]="videoDetail.video_details"
+              ></app-video-card-horizontal>
+            }
+          </div>
         </div>
-      </div>
+      }
     </div>
-    <div class="right-panel">
-      <button mat-button>
-        <mat-icon
-          aria-hidden="false"
-          aria-label="Clear all"
-          class="material-symbols-rounded"
-          fontIcon="delete"
-        ></mat-icon>
-        Clear all watch history
-      </button>
-      <button mat-button>
-        <mat-icon
-          aria-hidden="false"
-          aria-label="Clear all"
-          class="material-symbols-rounded"
-          fontIcon="delete"
-        ></mat-icon>
-        Pause watch history
-      </button>
-    </div>
-  </div>
+  </cdk-virtual-scroll-viewport>
 </div>

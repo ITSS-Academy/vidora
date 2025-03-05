@@ -13,13 +13,6 @@ export const routes: Routes = [
       import('./pages/history/history.route').then((m) => m.HISTORY_ROUTES),
   },
   {
-    path: 'subscriptions',
-    loadChildren: () =>
-      import('./pages/subscriptions/subscriptions.route').then(
-        (m) => m.SUBSCRIPTIONS_ROUTES,
-      ),
-  },
-  {
     path: 'watch',
     loadChildren: () =>
       import('./pages/watch/watch.route').then((m) => m.WATCH_ROUTES),

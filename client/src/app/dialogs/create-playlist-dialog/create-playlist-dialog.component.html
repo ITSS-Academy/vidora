@@ -2,61 +2,47 @@
   <div class="create-playlist-content">
     <div class="create-top">
       <div (click)="closeDialog()" class="create-playlist">
-        <h3>Create a new playlist</h3>
-        <mat-icon class="material-symbols-rounded">close</mat-icon>
+        <span class="title">Create a new playlist</span>
+        <mat-icon class="material-symbols-rounded close-btn">close</mat-icon>
       </div>
     </div>
     <div class="create-middle">
       <div class="title-form">
-        <form class="example-form">
-          <mat-form-field class="example-full-width">
+        <form [formGroup]="playlistForm">
+          <mat-form-field appearance="fill" class="full-width">
             <mat-label>Title</mat-label>
-            <input #title matInput maxlength="150" placeholder="Add title" />
-            <mat-hint align="end" class="title-length"
-            >{{ title.value.length }} / 150</mat-hint
-            >
+            <input
+              formControlName="title"
+              matInput
+              placeholder="Choose a title"
+            />
           </mat-form-field>
-        </form>
-      </div>
-      <div class="description-form">
-        <form class="example-form">
-          <mat-form-field class="example-full-width">
-            <mat-label>Description</mat-label>
-            <input #description matInput maxlength="5000"/>
-            <mat-hint align="end" class="title-length"
-            >{{ description.value.length }} / 5000</mat-hint>
-          </mat-form-field>
-        </form>
-      </div>
-      <div class="create-bottom">
-        <div class="create-bottom-title">
-          <span>Visibility and sort order</span>
-        </div>
-        <div class="create-bottom-content">
-          <div class="visibility">
-            <mat-form-field>
-              <mat-label>Visibility</mat-label>
-              <mat-select [(ngModel)]="valueVisibility">
-                @for (option of options; track option) {
-                  <mat-option [value]="option.value">{{option.label}}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
+          <div class="create-bottom">
+            <div class="create-bottom-content">
+              <div class="visibility">
+                <mat-form-field appearance="fill" class="full-width">
+                  <mat-label>Visibility</mat-label>
+                  <mat-select formControlName="visibility">
+                    @for (option of options; track option) {
+                      <mat-option [value]="option.value"
+                        >{{ option.label }}
+                      </mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
           </div>
-          <div class="default">
-            <mat-form-field>
-              <mat-label>Default video order</mat-label>
-              <mat-select [(ngModel)]="valueDefault">
-                @for (option of optionDefault; track option) {
-                  <mat-option [value]="option.value">{{option.label}}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
+        </form>
       </div>
       <div class="save-btn">
-        <button mat-raised-button>Create</button>
+        <button
+          (click)="createPlaylist()"
+          [disabled]="playlistForm.invalid"
+          mat-flat-button
+        >
+          Create
+        </button>
       </div>
     </div>
   </div>

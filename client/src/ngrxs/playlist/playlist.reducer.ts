@@ -38,6 +38,10 @@ const initialState: PlaylistState = {
   isUpdatingWatchLaterPlaylist: false,
   isUpdateWatchLaterPlaylistSuccess: false,
   updateWatchLaterPlaylistErrorMessage: '',
+
+  isDeletingWatchLaterPlaylist: false,
+  isDeleteWatchLaterPlaylistSuccess: false,
+  deleteWatchLaterPlaylistErrorMessage: '',
 };
 
 export const playlistReducer = createReducer(
@@ -108,6 +112,7 @@ export const playlistReducer = createReducer(
     console.log(action.type);
     return <PlaylistState>{
       ...state,
+      playlists: action.playlists,
       isGettingPlaylistByUserId: false,
       isGetPlaylistByUserIdSuccess: true,
     };
@@ -230,6 +235,33 @@ export const playlistReducer = createReducer(
     };
   }),
 
+  on(PlaylistActions.deleteWatchLaterPlaylist, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isDeletingWatchLaterPlaylist: true,
+      isDeleteWatchLaterPlaylistSuccess: false,
+    };
+  }),
+
+  on(PlaylistActions.deleteWatchLaterPlaylistSuccess, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isDeletingWatchLaterPlaylist: false,
+      isDeleteWatchLaterPlaylistSuccess: true,
+    };
+  }),
+
+  on(PlaylistActions.deleteWatchLaterPlaylistFailure, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isDeletingWatchLaterPlaylist: false,
+      deleteWatchLaterPlaylistErrorMessage: action.error,
+    };
+  }),
+
   on(PlaylistActions.clearPlaylistState, (state, action) => {
     console.log(action.type);
     return <PlaylistState>{
@@ -261,6 +293,10 @@ export const playlistReducer = createReducer(
       isUpdatingWatchLaterPlaylist: false,
       isUpdateWatchLaterPlaylistSuccess: false,
       updateWatchLaterPlaylistErrorMessage: '',
+
+      isDeletingWatchLaterPlaylist: false,
+      isDeleteWatchLaterPlaylistSuccess: false,
+      deleteWatchLaterPlaylistErrorMessage: '',
     };
   }),
 );

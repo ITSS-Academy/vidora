@@ -58,9 +58,9 @@
                 <span class="username">
                   {{ (video$ | async)?.user_data?.username }}
                 </span>
-                <span class="sub">0 subscribers</span>
+                <!--                <span class="sub">0 subscribers</span>-->
               </div>
-              <button mat-flat-button>Subscribe</button>
+              <!--              <button mat-flat-button>Subscribe</button>-->
             </div>
             <mat-button-toggle-group appearance="standard">
               <!-- Like Button -->
@@ -99,7 +99,7 @@
         </div>
         <div class="comment-forms">
           <mat-form-field appearance="fill" class="comment-field">
-            <mat-label>Comment</mat-label>
+            <mat-label>Add a comment...</mat-label>
             <input [(ngModel)]="comment" matInput />
           </mat-form-field>
         </div>
@@ -110,6 +110,11 @@
         >
           Comment
         </button>
+      </div>
+      <div class="comment-list">
+        @for (comment of comments$ | async; track comment.id) {
+          <app-comment-card [comment]="comment"></app-comment-card>
+        }
       </div>
     </div>
     <div class="right">
