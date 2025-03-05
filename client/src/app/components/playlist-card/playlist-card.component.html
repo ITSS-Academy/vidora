@@ -1,33 +1,32 @@
 <mat-card appearance="outlined" class="video-card">
   <div
-    (click)="viewFullPlaylist()"
     (mouseenter)="onMouseEnter()"
     (mouseleave)="onMouseLeave()"
     class="video-container"
   >
     <img
-      [src]="playlist.image"
       alt="Thumbnail"
       class="thumbnail"
       mat-card-image
+      src="{{ playlist.thumbnail_url }}"
     />
     <img
-      [src]="playlist.image"
       alt="Thumbnail"
       class="thumbnail"
       mat-card-image
+      src="{{ playlist.thumbnail_url }}"
     />
     <img
-      [src]="playlist.image"
       alt="Thumbnail"
       class="thumbnail"
       mat-card-image
+      src="{{ playlist.thumbnail_url }}"
     />
     <div
       [ngClass]="{ 'show-overlay': showOverlay }"
       class="play-all-overlay-container"
     >
-      <div (click)="playAll()" class="play-all-overlay">
+      <div (click)="playAll($event)" class="play-all-overlay">
         <mat-icon class="material-symbols-rounded play-all-icon"
           >play_arrow
         </mat-icon>
@@ -40,11 +39,15 @@
       <div class="main-content">
         <p class="title">{{ playlist.title }}</p>
         <div class="playlist-media">
-          <span>Private</span>
-          <span>•</span>
-          <span>Playlist</span>
+          <span>{{ playlist.is_public ? "Public" : "Private" }}</span>
+          <mat-icon
+            [fontIcon]="playlist.is_public ? 'public' : 'lock'"
+            class="material-symbols-rounded icon"
+          ></mat-icon>
+          <!--          <span>•</span>-->
+          <!--          <span>Playlist</span>-->
         </div>
-        <p (click)="viewFullPlaylist()" class="view-playlist">
+        <p (click)="viewFullPlaylist($event)" class="view-playlist">
           View full playlist
         </p>
       </div>

@@ -1,10 +1,8 @@
 <div id="container">
-  <div class="playlist-content">
-    <h2>Playlists</h2>
-    <div class="playlist-video">
-      <app-playlist-card></app-playlist-card>
-    </div>
+  <h2>Playlists</h2>
+  <div class="playlist-video">
+    @for (playlist of playlists$ | async; track $index) {
+      <app-playlist-card [playlist]="playlist"></app-playlist-card>
+    }
   </div>
-
 </div>
-
