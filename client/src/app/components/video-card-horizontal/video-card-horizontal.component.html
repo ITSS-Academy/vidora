@@ -9,9 +9,10 @@
       <div class="tittle">
         {{ video.title }}
       </div>
+      <span class="channel">{{ video.user_data.username }}</span>
       <div class="description">
-        <span class="channel">{{ video.user_data.username }}</span>
         <span class="views">{{ video.views }} views</span>
+        <span>•</span>
         <span class="date">{{ video.created_at | date: "dd/mm/yyyy" }}</span>
       </div>
     </mat-card-content>

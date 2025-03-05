@@ -31,17 +31,26 @@
   #content-container {
     width: 70%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 
     .tittle {
       font-size: 14px;
       font-weight: 500;
       color: var(--md-sys-color-on-surface);
       line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .description {
+    .description,
+    .channel {
       font-size: 12px;
-      color: var(--md-sys-color-on-surface);
+      color: var(--md-sys-color-on-surface-variant);
       display: flex;
       gap: 5px;
     }

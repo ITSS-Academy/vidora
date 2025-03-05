@@ -173,6 +173,16 @@
     height: 100%;
     margin-left: 10px;
 
+    .playlist-list {
+      width: 100%;
+      height: 100%;
+      border: 1px solid var(--md-sys-color-on-surface);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
     .video-list {
       width: 100%;
       height: 100%;

@@ -118,6 +118,13 @@
       </div>
     </div>
     <div class="right">
+      <div class="playlist-list">
+        @for (video of (playlistDetail$ | async)?.videos; track $index) {
+          <app-video-card-horizontal
+            [video]="video"
+          ></app-video-card-horizontal>
+        }
+      </div>
       <div class="video-list">
         @for (video of filteredVideos$ | async; track $index) {
           <app-video-card-horizontal
