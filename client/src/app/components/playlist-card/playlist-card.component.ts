@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPlaylistDialogComponent } from '../../dialogs/edit-playlist-dialog/edit-playlist-dialog.component';
 import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
+import { PlaylistModel } from '../../../models/playlist.model';
 
 @Component({
   selector: 'app-playlist-card',
@@ -13,11 +14,8 @@ import { Router } from '@angular/router';
   styleUrl: './playlist-card.component.scss',
 })
 export class PlaylistCardComponent {
-  playlist = {
-    title: 'Playlist 1',
-    image:
-      'https://i.ytimg.com/vi/a2jNL1Jusi0/hqdefault.jpg?sqp=-oaymwEXCOADEI4CSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLC-YRu9VYrK8L8ayV6jwb80hcwD1g',
-  };
+  @Input() playlist!: PlaylistModel;
+
   readonly dialog = inject(MatDialog);
   showOverlay: boolean = false;
 
@@ -35,13 +33,21 @@ export class PlaylistCardComponent {
     this.showOverlay = false;
   }
 
-  playAll() {
-    console.log('Play All clicked');
+  playAll(event: MouseEvent) {
+    event.stopPropagation();
+    this.router.navigate(['watch'], {
+      queryParams: {
+        v: this.playlist.video_id[0],
+        list: this.playlist.id,
+        index: 0,
+      },
+    });
   }
 
-  viewFullPlaylist() {
+  viewFullPlaylist(event: MouseEvent) {
+    event.stopPropagation();
     this.router.navigate(['/playlist'], {
-      queryParams: { list: 'playlistId' },
+      queryParams: { list: this.playlist.id },
     });
   }
 }

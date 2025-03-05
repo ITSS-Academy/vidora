@@ -1,10 +1,12 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   inject,
   Input,
   OnDestroy,
-  OnInit, Renderer2,
+  OnInit,
+  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { SharedModule } from '../../../shared/modules/shared.module';
@@ -31,7 +33,9 @@ import { PlaylistState } from '../../../ngrxs/playlist/playlist.state';
   templateUrl: './video-card-vertical.component.html',
   styleUrl: './video-card-vertical.component.scss',
 })
-export class VideoCardVerticalComponent implements OnInit, OnDestroy {
+export class VideoCardVerticalComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @Input() video!: VideoModel;
   @ViewChild('media', { static: false }) videoElement!: ElementRef;
   readonly dialog = inject(MatDialog);
@@ -59,7 +63,7 @@ export class VideoCardVerticalComponent implements OnInit, OnDestroy {
         this.el.nativeElement.querySelector('.video-card'),
         'width',
         '280px',
-      )
+      );
     }
   }
 

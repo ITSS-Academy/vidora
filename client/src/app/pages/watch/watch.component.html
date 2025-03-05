@@ -118,13 +118,28 @@
       </div>
     </div>
     <div class="right">
-      <div class="playlist-list">
-        @for (video of (playlistDetail$ | async)?.videos; track $index) {
-          <app-video-card-horizontal
-            [video]="video"
-          ></app-video-card-horizontal>
-        }
-      </div>
+      @if (isGetPlaylistByIdSuccess$ | async) {
+        <div class="playlist">
+          <div class="header">
+            <span class="content">{{
+              (playlistDetail$ | async)?.playlist?.title
+            }}</span>
+          </div>
+          <cdk-virtual-scroll-viewport class="playlist-scroll" itemSize="50">
+            <div class="playlist-list">
+              @for (video of (playlistDetail$ | async)?.videos; track $index) {
+                <app-video-card-horizontal
+                  [video]="video"
+                  [highlight]="+startRadio === $index"
+                  [playlistId]="(playlistDetail$ | async)?.playlist?.id"
+                  [index]="$index"
+                ></app-video-card-horizontal>
+              }
+            </div>
+          </cdk-virtual-scroll-viewport>
+        </div>
+      }
+
       <div class="video-list">
         @for (video of filteredVideos$ | async; track $index) {
           <app-video-card-horizontal
