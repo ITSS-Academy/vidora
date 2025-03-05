@@ -1,9 +1,16 @@
 <div class="container">
-  <mat-icon
-    (click)="onMenuClick()"
-    class="menu-icon material-symbols-rounded"
-    fontIcon="menu"
-  ></mat-icon>
+  <div class="left">
+    <mat-icon
+      (click)="onMenuClick()"
+      class="menu-icon material-symbols-rounded"
+      fontIcon="menu"
+    ></mat-icon>
+    <div class="logo">
+      <a routerLink="/">
+      <img [src]="themeService.darkModeEnabled ? '/assets/logo_theme_toi.png' : '/assets/logo_theme_sang.png' " alt="Logo">
+      </a>
+    </div>
+  </div>
   <div class="right">
     <div class="search-container">
       <div class="search-input">
