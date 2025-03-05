@@ -369,4 +369,20 @@ export class VideosService {
       throw new HttpException(e, HttpStatus.BAD_REQUEST);
     }
   }
+
+  async searchVideos(searchTerm: string) {
+    try {
+      const { data, error } = await this.supabase.rpc('search_videos', {
+        p_search_query: searchTerm,
+      });
+
+      if (error) {
+        throw new HttpException(error, HttpStatus.BAD_REQUEST);
+      }
+
+      return data;
+    } catch (e) {
+      throw new HttpException(e, HttpStatus.BAD_REQUEST);
+    }
+  }
 }

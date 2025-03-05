@@ -126,7 +126,30 @@ export const getVideosByCategoryId$ = createEffect(
             return VideoActions.getVideoByCategoryIdSuccess({ videos });
           }),
           catchError((error) => {
-            return of(VideoActions.getVideoByCategoryIdFailure({ error: error }));
+            return of(
+              VideoActions.getVideoByCategoryIdFailure({ error: error }),
+            );
+          }),
+        );
+      }),
+    );
+  },
+  { functional: true },
+);
+
+export const searchVideos$ = createEffect(
+  () => {
+    const actions$ = inject(Actions);
+    const videoService = inject(VideoService);
+    return actions$.pipe(
+      ofType(VideoActions.searchVideos),
+      exhaustMap((action) => {
+        return videoService.searchVideos(action.search).pipe(
+          map((videos) => {
+            return VideoActions.searchVideosSuccess({ videos });
+          }),
+          catchError((error) => {
+            return of(VideoActions.searchVideosFailure({ error: error }));
           }),
         );
       }),
