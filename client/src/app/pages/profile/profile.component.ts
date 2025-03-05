@@ -1,10 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { SharedModule } from '../../../shared/modules/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { VideoModule } from '../../../shared/modules/video.module';
-import { Router } from '@angular/router';
-import {VideoCardVerticalComponent} from '../../components/video-card-vertical/video-card-vertical.component';
-import {Observable} from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
+import { VideoCardVerticalComponent } from '../../components/video-card-vertical/video-card-vertical.component';
+import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { MoreInfoDialogComponent } from '../../dialogs/more-info-dialog/more-info-dialog.component';
+import { Store } from '@ngrx/store';
+import { getUserById } from '../../../ngrxs/user/user.actions';
+import { UserModel } from '../../../models/user.model';
+import {UserState} from '../../../ngrxs/user/user.state';
+
+
+interface AppState {
+  user: UserModel | undefined;
+}
 
 @Component({
   selector: 'app-profile',
@@ -13,21 +24,54 @@ import {Observable} from 'rxjs';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   videos$: Observable<unknown> | undefined;
-  constructor(private router: Router) {}
+  activeTabIndex = 0;
+  userProfile$: Observable<UserModel>;
+
+
+  constructor(
+    private router: Router,
+    private dialog: MatDialog,
+    private route: ActivatedRoute,
+    private store: Store<
+    { user: UserState }>,
+  ) {
+    this.userProfile$ = this.store.select((state) => state.user.user);
+  }
+
+  ngOnInit() {
+    this.route.url.subscribe((url) => {
+      const path = this.route.snapshot.firstChild?.url[0]?.path;
+      switch (path) {
+        case 'videos':
+          this.activeTabIndex = 0;
+          break;
+        case 'playlists':
+          this.activeTabIndex = 1;
+          break;
+        // default:
+        //   this.activeTabIndex = 0;
+      }
+    });
+
+  }
+
+  openMoreInfoDialog() {
+    this.dialog.open(MoreInfoDialogComponent)
+  }
 
   onTabChange(event: any) {
     const tabIndex = event.index;
     let route = '';
     switch (tabIndex) {
+      // case 0:
+      //   route = 'profile/featured';
+      //   break;
       case 0:
-        route = 'profile/featured';
-        break;
-      case 1:
         route = 'profile/videos';
         break;
-      case 2:
+      case 1:
         route = 'profile/playlists';
         break;
     }

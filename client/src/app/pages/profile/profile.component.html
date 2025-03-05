@@ -10,15 +10,12 @@
   </div>
   <div id="profile-details">
     <div id="profile-avatar">
-      <img
-        alt=""
-        src="https://yt3.googleusercontent.com/R81NAGXh1B7ozyXDkiyWyRytskFlUUZW5KgoGF3rM7DhE_3LLJFa-Q20uWCzIjicsPuhGWpl7w=s160-c-k-c0x00ffffff-no-rj"
-      />
+      <img src="{{ (userProfile$ | async)?.avatar_url}}" alt="User avatar"/>
     </div>
     <div id="profile-info">
-      <span id="channel-name">Damit2k</span>
+      <span id="channel-name">{{ (userProfile$ | async)?.username }}</span>
       <div id="profile-stats">
-        <span class="stat-item">&#64;damit2k</span>
+        <span class="stat-item">&#64;tp</span>
         <span class="stat-item">•</span>
         <span class="stat-item"> 110k subscribers</span>
         <span class="stat-item">•</span>
@@ -26,25 +23,26 @@
         <span class="stat-item"> 1K videos</span>
       </div>
       <div id="introduce">
-        <span>-Mình là Quyết, sinh ra và lớn lên ở Hà Nội.</span>
-        <span class="more"> ...more</span>
+        <span>- Mình là Phương, sinh ra và lớn lên ở Sài Gòn.</span>
+        <span class="more" (click)="openMoreInfoDialog()"> ...more</span>
       </div>
       <!--      <div id="links">-->
       <!--        <span class="tiktok-link">tiktok.com/&#64;damit2k</span>-->
       <!--        <span class="more-links"> and 3 more links</span>-->
       <!--      </div>-->
       <!--      <button class="subscribe-button">Subscribe</button>-->
-      <button mat-flat-button>Subscribe</button>
+<!--      <button mat-flat-button>Subscribe</button>-->
     </div>
   </div>
 
   <mat-tab-group
+    [(selectedIndex)]="activeTabIndex"
     (selectedTabChange)="onTabChange($event)"
     class="sticky-tab-group"
     mat-align-tabs="start"
     mat-stretch-tabs="false"
   >
-    <mat-tab label="Home"></mat-tab>
+<!--    <mat-tab label="Home"></mat-tab>-->
     <mat-tab label="Videos"></mat-tab>
     <mat-tab label="Playlist"></mat-tab>
   </mat-tab-group>

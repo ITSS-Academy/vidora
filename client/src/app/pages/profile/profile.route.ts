@@ -11,12 +11,8 @@ export const PROFILE_ROUTES: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'featured',
+        redirectTo: 'videos',
         pathMatch: 'full',
-      },
-      {
-        path: 'featured',
-        component: FeaturedComponent,
       },
       {
         path: 'videos',
