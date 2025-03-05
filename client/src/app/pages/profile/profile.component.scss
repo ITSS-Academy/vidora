@@ -104,19 +104,24 @@
 //  cursor: pointer;
 //}
 
-.subscribe-button {
-  background-color: var(--md-sys-color-on-surface);
-  color: var(--md-sys-color-surface);
-  font-size: 14px;
-  font-weight: bold;
-  margin-top: 10px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+//.subscribe-button {
+//  background-color: var(--md-sys-color-on-surface);
+//  color: var(--md-sys-color-surface);
+//  font-size: 14px;
+//  font-weight: bold;
+//  margin-top: 10px;
+//  padding: 10px 20px;
+//  border: none;
+//  border-radius: 20px;
+//  cursor: pointer;
+//  transition: background-color 0.3s;
+//
+//  &:hover {
+//    background-color: var(--md-sys-color-primary);
+//  }
+//}
 
-  &:hover {
-    background-color: var(--md-sys-color-primary);
-  }
+mat-tab-group {
+  background-color: var(--md-sys-color-surface);
+  border-radius: 10px;
 }

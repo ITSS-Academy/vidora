@@ -4,7 +4,7 @@ import {
   inject,
   Input,
   OnDestroy,
-  OnInit,
+  OnInit, Renderer2,
   ViewChild,
 } from '@angular/core';
 import { SharedModule } from '../../../shared/modules/shared.module';
@@ -49,7 +49,19 @@ export class VideoCardVerticalComponent implements OnInit, OnDestroy {
       playlist: PlaylistState;
     }>,
     private alertService: AlertService,
+    private renderer: Renderer2,
+    private el: ElementRef,
   ) {}
+
+  ngAfterViewInit(): void {
+    if (this.router.url.includes('/profile/videos')) {
+      this.renderer.setStyle(
+        this.el.nativeElement.querySelector('.video-card'),
+        'width',
+        '280px',
+      )
+    }
+  }
 
   ngOnInit(): void {
     this.subscriptions.push(
