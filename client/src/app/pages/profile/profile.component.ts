@@ -11,11 +11,11 @@ import { Store } from '@ngrx/store';
 import { getUserById } from '../../../ngrxs/user/user.actions';
 import { UserModel } from '../../../models/user.model';
 import {UserState} from '../../../ngrxs/user/user.state';
+import {
+  CustomizeProfileDialogComponent
+} from '../../dialogs/customize-profile-dialog/customize-profile-dialog.component';
 
 
-interface AppState {
-  user: UserModel | undefined;
-}
 
 @Component({
   selector: 'app-profile',
@@ -30,9 +30,10 @@ export class ProfileComponent implements OnInit {
   userProfile$: Observable<UserModel>;
 
 
+
   constructor(
     private router: Router,
-    private dialog: MatDialog,
+    public dialog: MatDialog,
     private route: ActivatedRoute,
     private store: Store<
     { user: UserState }>,
@@ -50,8 +51,6 @@ export class ProfileComponent implements OnInit {
         case 'playlists':
           this.activeTabIndex = 1;
           break;
-        // default:
-        //   this.activeTabIndex = 0;
       }
     });
 
@@ -59,6 +58,10 @@ export class ProfileComponent implements OnInit {
 
   openMoreInfoDialog() {
     this.dialog.open(MoreInfoDialogComponent)
+  }
+
+  onCustomizeProfileDialog() {
+    this.dialog.open(CustomizeProfileDialogComponent)
   }
 
   onTabChange(event: any) {
