@@ -58,9 +58,9 @@
                 <span class="username">
                   {{ (video$ | async)?.user_data?.username }}
                 </span>
-                <span class="sub">0 subscribers</span>
+                <!--                <span class="sub">0 subscribers</span>-->
               </div>
-              <button mat-flat-button>Subscribe</button>
+              <!--              <button mat-flat-button>Subscribe</button>-->
             </div>
             <mat-button-toggle-group appearance="standard">
               <!-- Like Button -->
@@ -99,7 +99,7 @@
         </div>
         <div class="comment-forms">
           <mat-form-field appearance="fill" class="comment-field">
-            <mat-label>Comment</mat-label>
+            <mat-label>Add a comment...</mat-label>
             <input [(ngModel)]="comment" matInput />
           </mat-form-field>
         </div>
@@ -111,8 +111,35 @@
           Comment
         </button>
       </div>
+      <div class="comment-list">
+        @for (comment of comments$ | async; track comment.id) {
+          <app-comment-card [comment]="comment"></app-comment-card>
+        }
+      </div>
     </div>
     <div class="right">
+      @if (isGetPlaylistByIdSuccess$ | async) {
+        <div class="playlist">
+          <div class="header">
+            <span class="content">{{
+              (playlistDetail$ | async)?.playlist?.title
+            }}</span>
+          </div>
+          <cdk-virtual-scroll-viewport class="playlist-scroll" itemSize="50">
+            <div class="playlist-list">
+              @for (video of (playlistDetail$ | async)?.videos; track $index) {
+                <app-video-card-horizontal
+                  [video]="video"
+                  [highlight]="+startRadio === $index"
+                  [playlistId]="(playlistDetail$ | async)?.playlist?.id"
+                  [index]="$index"
+                ></app-video-card-horizontal>
+              }
+            </div>
+          </cdk-virtual-scroll-viewport>
+        </div>
+      }
+
       <div class="video-list">
         @for (video of filteredVideos$ | async; track $index) {
           <app-video-card-horizontal

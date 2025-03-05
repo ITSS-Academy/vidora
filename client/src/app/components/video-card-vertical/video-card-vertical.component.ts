@@ -1,10 +1,12 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   inject,
   Input,
   OnDestroy,
   OnInit,
+  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { SharedModule } from '../../../shared/modules/shared.module';
@@ -13,7 +15,7 @@ import { VideoModule } from '../../../shared/modules/video.module';
 import { PlaylistDialogComponent } from '../../dialogs/playlist-dialog/playlist-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { VideoModel } from '../../../models/video.model';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { UserModel } from '../../../models/user.model';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -31,7 +33,9 @@ import { PlaylistState } from '../../../ngrxs/playlist/playlist.state';
   templateUrl: './video-card-vertical.component.html',
   styleUrl: './video-card-vertical.component.scss',
 })
-export class VideoCardVerticalComponent implements OnInit, OnDestroy {
+export class VideoCardVerticalComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @Input() video!: VideoModel;
   @ViewChild('media', { static: false }) videoElement!: ElementRef;
   readonly dialog = inject(MatDialog);
@@ -40,7 +44,6 @@ export class VideoCardVerticalComponent implements OnInit, OnDestroy {
   isMuteVolume!: boolean;
   isHovering: boolean = false;
   user!: UserModel;
-  isUpdateWatchLaterSuccess$!: Observable<boolean>;
 
   constructor(
     private router: Router,
@@ -50,7 +53,19 @@ export class VideoCardVerticalComponent implements OnInit, OnDestroy {
       playlist: PlaylistState;
     }>,
     private alertService: AlertService,
+    private renderer: Renderer2,
+    private el: ElementRef,
   ) {}
+
+  ngAfterViewInit(): void {
+    if (this.router.url.includes('/profile/videos')) {
+      this.renderer.setStyle(
+        this.el.nativeElement.querySelector('.video-card'),
+        'width',
+        '280px',
+      );
+    }
+  }
 
   ngOnInit(): void {
     this.subscriptions.push(

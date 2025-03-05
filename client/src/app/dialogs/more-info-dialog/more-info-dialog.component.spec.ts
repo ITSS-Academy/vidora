@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SubscriptionsComponent } from './subscriptions.component';
+import { MoreInfoDialogComponent } from './more-info-dialog.component';
 
-describe('SubscriptionsComponent', () => {
-  let component: SubscriptionsComponent;
-  let fixture: ComponentFixture<SubscriptionsComponent>;
+describe('MoreInfoDialogComponent', () => {
+  let component: MoreInfoDialogComponent;
+  let fixture: ComponentFixture<MoreInfoDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SubscriptionsComponent]
+      imports: [MoreInfoDialogComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SubscriptionsComponent);
+    fixture = TestBed.createComponent(MoreInfoDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
