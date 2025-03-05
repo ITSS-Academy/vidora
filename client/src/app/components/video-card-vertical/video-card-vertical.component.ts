@@ -13,7 +13,7 @@ import { VideoModule } from '../../../shared/modules/video.module';
 import { PlaylistDialogComponent } from '../../dialogs/playlist-dialog/playlist-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { VideoModel } from '../../../models/video.model';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { UserModel } from '../../../models/user.model';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -40,7 +40,6 @@ export class VideoCardVerticalComponent implements OnInit, OnDestroy {
   isMuteVolume!: boolean;
   isHovering: boolean = false;
   user!: UserModel;
-  isUpdateWatchLaterSuccess$!: Observable<boolean>;
 
   constructor(
     private router: Router,

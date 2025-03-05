@@ -18,7 +18,7 @@ import * as CategoryActions from '../../../ngrxs/category/category.actions';
 import * as VideoActions from '../../../ngrxs/video/video.actions';
 import { VideoModel } from '../../../models/video.model';
 import { VideoCardVerticalComponent } from '../../components/video-card-vertical/video-card-vertical.component';
-import {CategoryModel} from '../../../models/category.model';
+import { CategoryModel } from '../../../models/category.model';
 
 @Component({
   selector: 'app-home',
@@ -36,7 +36,8 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   subscription: Subscription[] = [];
   categories$: Observable<CategoryModel[]>;
   videos$: Observable<VideoModel[]>;
-  isGetCategoriesSuccess: Observable<boolean>;
+  isGetCategories$!: Observable<boolean>;
+  isGettingAllVideos$!: Observable<boolean>;
   selectedCategory: CategoryModel | null = null;
 
   @ViewChild('categoryListViewport')
@@ -53,8 +54,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {
     this.categories$ = this.store.select((state) => state.category.categories);
     this.videos$ = this.store.select((state) => state.video.videos);
-    this.isGetCategoriesSuccess = this.store.select(
-      (state) => state.category.isGetAllCategoriesSuccess,
+    this.isGetCategories$ = this.store.select(
+      (state) => state.category.isGettingAllCategories,
+    );
+    this.isGettingAllVideos$ = this.store.select(
+      (state) => state.video.isGettingAllVideos,
     );
     this.store.dispatch(VideoActions.getAllVideos());
   }
@@ -98,7 +102,9 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   selectCategory(category: CategoryModel) {
     this.selectedCategory = category;
-    this.store.dispatch(VideoActions.getVideoByCategoryId({ categoryId: category.id }));
+    this.store.dispatch(
+      VideoActions.getVideoByCategoryId({ categoryId: category.id }),
+    );
   }
 
   selectAllVideos() {

@@ -24,6 +24,8 @@ import * as CommentActions from '../../../ngrxs/comment/comment.actions';
 import { filter, map, take } from 'rxjs/operators';
 import { VideoCardHorizontalComponent } from '../../components/video-card-horizontal/video-card-horizontal.component';
 import { CommentState } from '../../../ngrxs/comment/comment.state';
+import { CommentCardComponent } from '../../components/comment-card/comment-card.component';
+import { CommentModel } from '../../../models/comment.model';
 
 @Component({
   selector: 'app-watch',
@@ -33,6 +35,8 @@ import { CommentState } from '../../../ngrxs/comment/comment.state';
     MaterialModule,
     VideoModule,
     VideoCardHorizontalComponent,
+    CommentCardComponent,
+    CommentCardComponent,
   ],
   templateUrl: './watch.component.html',
   styleUrl: './watch.component.scss',
@@ -58,6 +62,7 @@ export class WatchComponent implements OnInit, OnDestroy {
   filteredVideos$!: Observable<VideoModel[]>;
   comment: string = '';
   createCommentFailure: Observable<string>;
+  comments$!: Observable<CommentModel[]>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -78,10 +83,11 @@ export class WatchComponent implements OnInit, OnDestroy {
       (state) => state.playlist.playlistDetail,
     );
     this.videos$ = this.store.select((state) => state.video.videos);
-    this.store.dispatch(VideoActions.getAllVideos());
     this.createCommentFailure = this.store.select(
       (state) => state.comment.createCommentErrorMessage,
     );
+    this.comments$ = this.store.select((state) => state.comment.comments);
+    this.store.dispatch(VideoActions.getAllVideos());
   }
 
   toggleDescription(): void {
@@ -101,39 +107,50 @@ export class WatchComponent implements OnInit, OnDestroy {
       this.store.select('user', 'user').subscribe((user) => {
         this.user = user;
       }),
-      combineLatest([
-        this.activatedRoute.queryParamMap,
-        this.store.select('user', 'isGetUserSuccess'),
-        this.store.select('user', 'isGettingUser'),
-      ]).subscribe(([params, isGetSuccess, isGetting]) => {
-        this.videoId = params.get('v') || '';
-        this.listId = params.get('list');
-        this.startRadio = params.get('start_radio');
-        this.store.dispatch(VideoActions.getAllVideos());
+      this.store
+        .select('user', 'isGetUserSuccess')
+        .pipe(
+          filter((isGetSuccess) => isGetSuccess),
+          take(1),
+        )
+        .subscribe(() => {
+          combineLatest([
+            this.activatedRoute.queryParamMap,
+            this.store.select('user', 'isGetUserSuccess'),
+            this.store.select('user', 'isGettingUser'),
+          ]).subscribe(([params, isGetSuccess, isGetting]) => {
+            this.videoId = params.get('v') || '';
+            this.listId = params.get('list');
+            this.startRadio = params.get('start_radio');
+            this.store.dispatch(VideoActions.getAllVideos());
+            this.store.dispatch(
+              CommentActions.getCommentsByVideoId({ videoId: this.videoId }),
+            );
 
-        if (isGetSuccess && !isGetting) {
-          if (this.user) {
-            this.store.dispatch(
-              VideoActions.getVideoById({
-                videoId: this.videoId,
-                userId: this.user.id,
-              }),
-            );
-          }
-          if (this.listId) {
-            this.store.dispatch(
-              PlaylistActions.getPlaylistById({ id: this.listId }),
-            );
-          }
-        } else {
-          this.store.dispatch(
-            VideoActions.getVideoById({
-              videoId: this.videoId,
-              userId: null,
-            }),
-          );
-        }
-      }),
+            if (isGetSuccess && !isGetting) {
+              if (this.user) {
+                this.store.dispatch(
+                  VideoActions.getVideoById({
+                    videoId: this.videoId,
+                    userId: this.user.id,
+                  }),
+                );
+              }
+              if (this.listId) {
+                this.store.dispatch(
+                  PlaylistActions.getPlaylistById({ id: this.listId }),
+                );
+              }
+            } else {
+              this.store.dispatch(
+                VideoActions.getVideoById({
+                  videoId: this.videoId,
+                  userId: null,
+                }),
+              );
+            }
+          });
+        }),
       this.isGetVideoSuccess$.subscribe((isGetVideoSuccess) => {
         if (isGetVideoSuccess && this.vgApi) {
           const media = this.vgApi.getDefaultMedia();
@@ -144,6 +161,15 @@ export class WatchComponent implements OnInit, OnDestroy {
           }
         }
       }),
+      this.store
+        .select('comment', 'isCreateCommentSuccess')
+        .subscribe((isCreateCommentSuccess) => {
+          if (isCreateCommentSuccess) {
+            this.store.dispatch(
+              CommentActions.getCommentsByVideoId({ videoId: this.videoId }),
+            );
+          }
+        }),
     );
   }
 

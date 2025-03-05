@@ -1,44 +1,92 @@
-import { Component } from '@angular/core';
-import {MatIcon} from "@angular/material/icon";
-import {MatDialog} from '@angular/material/dialog';
-import {MatFormField} from '@angular/material/form-field';
-import {MatInput} from '@angular/material/input';
-import {MaterialModule} from '../../../shared/modules/material.module';
-import {FormsModule} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MaterialModule } from '../../../shared/modules/material.module';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SharedModule } from '../../../shared/modules/shared.module';
+import { Observable, Subscription } from 'rxjs';
+import { UserModel } from '../../../models/user.model';
+import { Store } from '@ngrx/store';
+import { UserState } from '../../../ngrxs/user/user.state';
+import { PlaylistState } from '../../../ngrxs/playlist/playlist.state';
+import * as PlaylistActions from '../../../ngrxs/playlist/playlist.actions';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
   selector: 'app-create-playlist-dialog',
   standalone: true,
-  imports: [
-    MatIcon,
-    MatFormField,
-    MatInput,
-    MaterialModule,
-    FormsModule,
-  ],
+  imports: [SharedModule, MaterialModule],
   templateUrl: './create-playlist-dialog.component.html',
-  styleUrl: './create-playlist-dialog.component.scss'
+  styleUrl: './create-playlist-dialog.component.scss',
 })
-export class CreatePlaylistDialogComponent {
-  private title: any;
-  constructor(public dialog: MatDialog) {}
+export class CreatePlaylistDialogComponent implements OnInit {
+  subscriptions: Subscription[] = [];
+  playlistForm!: FormGroup;
+  user$: Observable<UserModel>;
+  user!: UserModel;
+  options = [
+    { value: 'true', label: 'Public' },
+    { value: 'false', label: 'Private' },
+  ];
+
+  constructor(
+    public dialog: MatDialog,
+    private fb: FormBuilder,
+    private store: Store<{
+      user: UserState;
+      playlist: PlaylistState;
+    }>,
+    private alertService: AlertService,
+  ) {
+    this.user$ = this.store.select('user', 'user');
+  }
+
+  ngOnInit() {
+    this.playlistForm = this.fb.group({
+      title: ['', [Validators.required, Validators.maxLength(100)]],
+      visibility: ['', Validators.required],
+    });
+    this.subscriptions.push(
+      this.user$.subscribe((user: UserModel) => {
+        if (user.id) {
+          this.user = user;
+        }
+      }),
+      this.store
+        .select('playlist', 'isCreatePlaylistSuccess')
+        .subscribe((isCreatePlaylistSuccess) => {
+          if (isCreatePlaylistSuccess) {
+            this.alertService.showAlert(
+              `Playlist created successfully!`,
+              'Close',
+              3000,
+              'end',
+              'top',
+            );
+            this.closeDialog();
+          }
+        }),
+    );
+  }
+
   closeDialog() {
     this.dialog.closeAll();
-    console.log('Dialog closed');
   }
-  valueVisibility: string| null = null;
-  options = [
-    { value: 'public', label: 'Public' },
-    { value: 'private', label: 'Private' },
-    { value: 'restricted', label: 'Restricted' }
-  ];
-  valueDefault: string| null = null;
-  optionDefault = [
-    { value: 'date published (newest)', label: 'Date published (newest)' },
-    { value: 'date published (oldest)', label: 'Date published (oldest)' },
-    { value: 'most popular', label: 'Most popular' },
-    { value: 'date added (newest)', label: 'Date added (newest)' },
-    { value: 'date added (oldest)', label: 'Date added (oldest)' },
-    { value: 'manually sorted in YouTube', label: 'Manually sorted in YouTube' }
-  ];
+
+  createPlaylist() {
+    if (this.playlistForm.invalid) {
+      return;
+    }
+
+    const createPlaylistModel = {
+      title: this.playlistForm.get('title')?.value,
+      is_public: this.playlistForm.get('visibility')?.value === 'true',
+      user_id: this.user.id,
+    };
+
+    this.store.dispatch(
+      PlaylistActions.createPlaylist({
+        createPlaylistDto: createPlaylistModel,
+      }),
+    );
+  }
 }
