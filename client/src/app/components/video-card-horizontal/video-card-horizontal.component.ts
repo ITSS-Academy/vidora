@@ -73,10 +73,6 @@ export class VideoCardHorizontalComponent
 
   ngAfterViewInit(): void {
     if (this.router.url.includes('/watch?')) {
-      console.log(
-        "this.router.url.includes('/watch?')",
-        this.router.url.includes('/watch?'),
-      );
       this.renderer.setStyle(
         this.el.nativeElement.querySelector('.card'),
         'height',
@@ -91,6 +87,22 @@ export class VideoCardHorizontalComponent
         this.el.nativeElement.querySelector('#img-container'),
         'height',
         'calc(150px / 16 * 9)',
+      );
+    } else if (this.router.url.includes('/search')) {
+      this.renderer.setStyle(
+        this.el.nativeElement.querySelector('.card'),
+        'height',
+        'calc(550px / 16 * 9)',
+      );
+      this.renderer.setStyle(
+        this.el.nativeElement.querySelector('#img-container'),
+        'width',
+        '520px',
+      );
+      this.renderer.setStyle(
+        this.el.nativeElement.querySelector('#img-container'),
+        'height',
+        'calc(520px / 16 * 9)',
       );
     }
   }

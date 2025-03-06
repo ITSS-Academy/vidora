@@ -77,7 +77,7 @@ export class VideosController {
   }
 
   @Public()
-  @Post('search')
+  @Get('search')
   async searchVideos(@Request() req: any) {
     const { query } = req.query;
     return await this.videosService.searchVideos(query);

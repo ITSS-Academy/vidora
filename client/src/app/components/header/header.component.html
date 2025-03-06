@@ -7,7 +7,14 @@
     ></mat-icon>
     <div class="logo">
       <a routerLink="/">
-      <img [src]="themeService.darkModeEnabled ? '/assets/logo_theme_toi.png' : '/assets/logo_theme_sang.png' " alt="Logo">
+        <img
+          [src]="
+            themeService.darkModeEnabled
+              ? '/assets/logo_theme_toi.png'
+              : '/assets/logo_theme_sang.png'
+          "
+          alt="Logo"
+        />
       </a>
     </div>
   </div>
@@ -24,6 +31,7 @@
         <input
           (blur)="onBlur()"
           (focus)="onFocus()"
+          (keydown.enter)="search()"
           [(ngModel)]="searchText"
           placeholder="Search"
           type="text"
@@ -32,10 +40,11 @@
           <mat-icon
             class="clear-icon material-symbols-rounded"
             fontIcon="clear"
+            (click)="clearSearch()"
           ></mat-icon>
         }
       </div>
-      <div [routerLink]="['/search']" class="search-action">
+      <div (click)="search()" class="search-action">
         <mat-icon class="material-symbols-rounded" fontIcon="search"></mat-icon>
       </div>
     </div>

@@ -371,6 +371,7 @@ export class VideosService {
   }
 
   async searchVideos(searchTerm: string) {
+    console.log(searchTerm);
     try {
       const { data, error } = await this.supabase.rpc('search_videos', {
         p_search_query: searchTerm,
