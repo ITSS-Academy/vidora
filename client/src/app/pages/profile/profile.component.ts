@@ -53,15 +53,18 @@ export class ProfileComponent implements OnInit {
           break;
       }
     });
-
   }
 
   openMoreInfoDialog() {
-    this.dialog.open(MoreInfoDialogComponent)
+    this.dialog.open(MoreInfoDialogComponent
+    )
   }
 
   onCustomizeProfileDialog() {
-    this.dialog.open(CustomizeProfileDialogComponent)
+    this.dialog.open(CustomizeProfileDialogComponent, {
+      minWidth: 800,
+      minHeight: 600,
+    })
   }
 
   onTabChange(event: any) {

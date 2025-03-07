@@ -5,3 +5,6 @@ export interface UserModel {
   avatar_url: string;
   joined_date: string;
 }
+
+export class getUserById {
+}
