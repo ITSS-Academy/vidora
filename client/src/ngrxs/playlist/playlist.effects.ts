@@ -216,3 +216,51 @@ export const removeVideoInWatchLaterPlaylist$ = createEffect(
   },
   { functional: true },
 );
+
+export const deletePlaylistById$ = createEffect(
+  () => {
+    const actions$ = inject(Actions);
+    const playlistService = inject(PlaylistService);
+    return actions$.pipe(
+      ofType(PlaylistActions.deletePlaylistById),
+      exhaustMap((action) => {
+        return playlistService.deletePlaylistById(action.playlistId).pipe(
+          map(() => PlaylistActions.deletePlaylistByIdSuccess()),
+          catchError((obj) => {
+            return of(
+              PlaylistActions.deletePlaylistByIdFailure({
+                error: obj.error.message,
+              }),
+            );
+          }),
+        );
+      }),
+    );
+  },
+  { functional: true },
+);
+
+export const upsertPlaylistById$ = createEffect(
+  () => {
+    const actions$ = inject(Actions);
+    const playlistService = inject(PlaylistService);
+    return actions$.pipe(
+      ofType(PlaylistActions.upsertPlaylistById),
+      exhaustMap((action) => {
+        return playlistService
+          .updatePlaylistById(action.playlistId, action.updatePlaylistDto)
+          .pipe(
+            map(() => PlaylistActions.upsertPlaylistByIdSuccess()),
+            catchError((obj) => {
+              return of(
+                PlaylistActions.upsertPlaylistByIdFailure({
+                  error: obj.error.message,
+                }),
+              );
+            }),
+          );
+      }),
+    );
+  },
+  { functional: true },
+);

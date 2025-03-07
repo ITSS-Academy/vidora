@@ -42,6 +42,14 @@ const initialState: PlaylistState = {
   isDeletingWatchLaterPlaylist: false,
   isDeleteWatchLaterPlaylistSuccess: false,
   deleteWatchLaterPlaylistErrorMessage: '',
+
+  isDeletingPlaylistById: false,
+  isDeletePlaylistByIdSuccess: false,
+  deletePlaylistByIdErrorMessage: '',
+
+  isUpsertingPlaylistById: false,
+  isUpsertPlaylistByIdSuccess: false,
+  upsertPlaylistByIdErrorMessage: '',
 };
 
 export const playlistReducer = createReducer(
@@ -263,10 +271,63 @@ export const playlistReducer = createReducer(
     };
   }),
 
-  on(PlaylistActions.clearPlaylistState, (state, action) => {
+  on(PlaylistActions.deletePlaylistById, (state, action) => {
     console.log(action.type);
     return <PlaylistState>{
       ...state,
+      isDeletingPlaylistById: true,
+      isDeletePlaylistByIdSuccess: false,
+    };
+  }),
+
+  on(PlaylistActions.deletePlaylistByIdSuccess, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isDeletingPlaylistById: false,
+      isDeletePlaylistByIdSuccess: true,
+    };
+  }),
+
+  on(PlaylistActions.deletePlaylistByIdFailure, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isDeletingPlaylistById: false,
+      deletePlaylistByIdErrorMessage: action.error,
+    };
+  }),
+
+  on(PlaylistActions.upsertPlaylistById, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isUpsertingPlaylistById: true,
+      isUpsertPlaylistByIdSuccess: false,
+    };
+  }),
+
+  on(PlaylistActions.upsertPlaylistByIdSuccess, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isUpsertingPlaylistById: false,
+      isUpsertPlaylistByIdSuccess: true,
+    };
+  }),
+
+  on(PlaylistActions.upsertPlaylistByIdFailure, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isUpsertingPlaylistById: false,
+      upsertPlaylistByIdErrorMessage: action.error,
+    };
+  }),
+
+  on(PlaylistActions.clearPlaylistState, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
       isGettingAllPlaylists: false,
       isGetAllPlaylistsSuccess: false,
       getAllPlaylistsErrorMessages: '',
@@ -298,6 +359,14 @@ export const playlistReducer = createReducer(
       isDeletingWatchLaterPlaylist: false,
       isDeleteWatchLaterPlaylistSuccess: false,
       deleteWatchLaterPlaylistErrorMessage: '',
+
+      isDeletingPlaylistById: false,
+      isDeletePlaylistByIdSuccess: false,
+      deletePlaylistByIdErrorMessage: '',
+
+      isUpsertingPlaylistById: false,
+      isUpsertPlaylistByIdSuccess: false,
+      upsertPlaylistByIdErrorMessage: '',
     };
   }),
 );

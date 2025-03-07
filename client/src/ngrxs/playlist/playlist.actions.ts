@@ -3,6 +3,7 @@ import {
   CreatePlaylistDto,
   PlaylistDetailModel,
   PlaylistModel,
+  UpdatePlaylistDto,
 } from '../../models/playlist.model';
 
 export const createPlaylist = createAction(
@@ -111,6 +112,34 @@ export const deleteWatchLaterPlaylistSuccess = createAction(
 
 export const deleteWatchLaterPlaylistFailure = createAction(
   '[Playlist] Delete Watch Later Playlist Failure',
+  props<{ error: string }>(),
+);
+
+export const deletePlaylistById = createAction(
+  '[Playlist] Delete Playlist By Id',
+  props<{ playlistId: string }>(),
+);
+
+export const deletePlaylistByIdSuccess = createAction(
+  '[Playlist] Delete Playlist By Id Success',
+);
+
+export const deletePlaylistByIdFailure = createAction(
+  '[Playlist] Delete Playlist By Id Failure',
+  props<{ error: string }>(),
+);
+
+export const upsertPlaylistById = createAction(
+  '[Playlist] Upsert Playlist By Id',
+  props<{ playlistId: string; updatePlaylistDto: UpdatePlaylistDto }>(),
+);
+
+export const upsertPlaylistByIdSuccess = createAction(
+  '[Playlist] Upsert Playlist By Id Success',
+);
+
+export const upsertPlaylistByIdFailure = createAction(
+  '[Playlist] Upsert Playlist By Id Failure',
   props<{ error: string }>(),
 );
 export const clearPlaylistState = createAction('[Playlist] Clear State');

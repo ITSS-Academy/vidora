@@ -1,59 +1,65 @@
 <div id="container">
-  <div id="left-container">
-    <div id="playlist-thumbnail-background">
-      <img
-        [src]="(playlistDetail$ | async)?.playlist?.thumbnail_url"
-        alt="playlist-thumbnail"
-      />
-    </div>
-    <div id="playlist-info">
-      <div id="playlist-thumbnail">
+  @if (isGetPlaylistByIdSuccess$ | async) {
+    <div id="left-container">
+      <div id="playlist-thumbnail-background">
         <img
           [src]="(playlistDetail$ | async)?.playlist?.thumbnail_url"
           alt="playlist-thumbnail"
         />
       </div>
-
-      <h2 id="playlist-title">
-        {{ (playlistDetail$ | async)?.playlist?.title }}
-      </h2>
-
-      <div id="user-info">
-        <div id="user-avatar">
-          <img [src]="(user$ | async)?.avatar_url" alt="user-avatar" />
+      <div id="playlist-info">
+        <div id="playlist-thumbnail">
+          <img
+            [src]="(playlistDetail$ | async)?.playlist?.thumbnail_url"
+            alt="playlist-thumbnail"
+          />
         </div>
-        <span id="user-name">{{ (user$ | async)?.username }}</span>
-      </div>
-      <div id="action">
-        <button (click)="playAll()" mat-flat-button>
-          <mat-icon
-            class="material-symbols-rounded"
-            fontIcon="play_arrow"
-          ></mat-icon>
-          Play all
-        </button>
-        <button (click)="playShuffle()" mat-stroked-button>
-          <mat-icon
-            class="material-symbols-rounded"
-            fontIcon="shuffle"
-          ></mat-icon>
-          Shuffle
-        </button>
+
+        <h2 id="playlist-title">
+          {{ (playlistDetail$ | async)?.playlist?.title }}
+        </h2>
+
+        <div id="user-info">
+          <div id="user-avatar">
+            <img [src]="(user$ | async)?.avatar_url" alt="user-avatar" />
+          </div>
+          <span id="user-name">{{ (user$ | async)?.username }}</span>
+        </div>
+        <div id="action">
+          <button (click)="playAll()" mat-flat-button>
+            <mat-icon
+              class="material-symbols-rounded"
+              fontIcon="play_arrow"
+            ></mat-icon>
+            Play all
+          </button>
+          <button (click)="playShuffle()" mat-stroked-button>
+            <mat-icon
+              class="material-symbols-rounded"
+              fontIcon="shuffle"
+            ></mat-icon>
+            Shuffle
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div id="right-container">
-    <cdk-virtual-scroll-viewport class="scroll" itemSize="50">
-      <div id="video-container">
-        @if (isGetPlaylistByUserIdSuccess$ | async) {
-          @for (video of (playlistDetail$ | async)?.videos; track $index) {
-            <app-video-card-horizontal
-              [video]="video"
-            ></app-video-card-horizontal>
+    <div id="right-container">
+      <cdk-virtual-scroll-viewport class="scroll" itemSize="50">
+        <div id="video-container">
+          @if (isGetPlaylistByIdSuccess$ | async) {
+            @for (video of (playlistDetail$ | async)?.videos; track $index) {
+              <app-video-card-horizontal
+                [video]="video"
+              ></app-video-card-horizontal>
+            }
           }
-        }
-      </div>
-    </cdk-virtual-scroll-viewport>
-  </div>
+        </div>
+      </cdk-virtual-scroll-viewport>
+    </div>
+  } @else {
+    <div class="loading">
+      <mat-spinner class="circle"></mat-spinner>
+    </div>
+  }
 </div>

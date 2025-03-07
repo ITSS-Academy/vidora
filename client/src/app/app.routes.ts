@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import * as AuthGuard from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -42,7 +43,7 @@ export const routes: Routes = [
       import('./pages/profile/profile.route').then((m) => m.PROFILE_ROUTES),
   },
   {
-    path: 'search',
+    path: 'results',
     loadChildren: () =>
       import('./pages/search/search.route').then((m) => m.SEARCH_ROUTES),
   },

@@ -1,0 +1,33 @@
+<div class="video-card">
+  <!-- Skeleton Thumbnail -->
+  <ngx-skeleton-loader
+    [theme]="{ width: skeletonWidth, height: '180px', 'border-radius': '10px' }"
+    appearance="line"
+  >
+  </ngx-skeleton-loader>
+
+  <div class="video-info">
+    <!-- Skeleton Avatar -->
+    <ngx-skeleton-loader
+      [theme]="{ width: '40px', height: '40px' }"
+      appearance="circle"
+    >
+    </ngx-skeleton-loader>
+
+    <div class="text-info">
+      <!-- Skeleton Title -->
+      <ngx-skeleton-loader
+        [theme]="{ width: skeletonWidth, height: '16px' }"
+        appearance="line"
+      >
+      </ngx-skeleton-loader>
+
+      <!-- Skeleton Channel & Views -->
+      <ngx-skeleton-loader
+        [theme]="{ width: skeletonWidth, height: '14px' }"
+        appearance="line"
+      >
+      </ngx-skeleton-loader>
+    </div>
+  </div>
+</div>

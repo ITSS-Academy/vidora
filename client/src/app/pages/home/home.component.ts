@@ -19,6 +19,7 @@ import * as VideoActions from '../../../ngrxs/video/video.actions';
 import { VideoModel } from '../../../models/video.model';
 import { VideoCardVerticalComponent } from '../../components/video-card-vertical/video-card-vertical.component';
 import { CategoryModel } from '../../../models/category.model';
+import { VideoCardVerticalSkeletonComponent } from '../../components/video-card-vertical-skeleton/video-card-vertical-skeleton.component';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +29,7 @@ import { CategoryModel } from '../../../models/category.model';
     MaterialModule,
     VideoModule,
     VideoCardVerticalComponent,
+    VideoCardVerticalSkeletonComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

@@ -15,7 +15,7 @@ import { VideoModule } from '../../../shared/modules/video.module';
 import { PlaylistDialogComponent } from '../../dialogs/playlist-dialog/playlist-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { VideoModel } from '../../../models/video.model';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { UserModel } from '../../../models/user.model';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -25,6 +25,7 @@ import { AlertService } from '../../../services/alert.service';
 import * as VideoActions from '../../../ngrxs/video/video.actions';
 import * as PlaylistActions from '../../../ngrxs/playlist/playlist.actions';
 import { PlaylistState } from '../../../ngrxs/playlist/playlist.state';
+import { SidebarState } from '../../../ngrxs/sidebar/sidebar.state';
 
 @Component({
   selector: 'app-video-card-vertical',
@@ -41,6 +42,7 @@ export class VideoCardVerticalComponent
   readonly dialog = inject(MatDialog);
 
   subscriptions: Subscription[] = [];
+  isSidebarOpen$!: Observable<boolean>;
   isMuteVolume!: boolean;
   isHovering: boolean = false;
   user!: UserModel;
@@ -51,21 +53,16 @@ export class VideoCardVerticalComponent
       video: VideoState;
       user: UserState;
       playlist: PlaylistState;
+      sidebar: SidebarState;
     }>,
     private alertService: AlertService,
     private renderer: Renderer2,
     private el: ElementRef,
-  ) {}
-
-  ngAfterViewInit(): void {
-    if (this.router.url.includes('/profile/videos')) {
-      this.renderer.setStyle(
-        this.el.nativeElement.querySelector('.video-card'),
-        'width',
-        '280px',
-      );
-    }
+  ) {
+    this.isSidebarOpen$ = this.store.select('sidebar', 'isSidebarOpen');
   }
+
+  ngAfterViewInit(): void {}
 
   ngOnInit(): void {
     this.subscriptions.push(
@@ -88,6 +85,38 @@ export class VideoCardVerticalComponent
       this.store.select('user', 'user').subscribe((user) => {
         if (user) {
           this.user = user;
+        }
+      }),
+
+      this.isSidebarOpen$.subscribe((isSidebarOpen) => {
+        if (isSidebarOpen) {
+          if (this.router.url.includes('/profile/videos')) {
+            this.renderer.setStyle(
+              this.el.nativeElement.querySelector('.video-card'),
+              'width',
+              '290px',
+            );
+          } else if (this.router.url.includes('/home')) {
+            this.renderer.setStyle(
+              this.el.nativeElement.querySelector('.video-card'),
+              'width',
+              '420px',
+            );
+          }
+        } else {
+          if (this.router.url.includes('/profile/videos')) {
+            this.renderer.setStyle(
+              this.el.nativeElement.querySelector('.video-card'),
+              'width',
+              '320px',
+            );
+          } else if (this.router.url.includes('/home')) {
+            this.renderer.setStyle(
+              this.el.nativeElement.querySelector('.video-card'),
+              'width',
+              '340px',
+            );
+          }
         }
       }),
     );
@@ -138,6 +167,7 @@ export class VideoCardVerticalComponent
   openPlaylistDialog() {
     const dialogRef = this.dialog.open(PlaylistDialogComponent, {
       data: this.video.id,
+      disableClose: true,
     });
   }
 

@@ -7,13 +7,16 @@ import { EditPlaylistDialogComponent } from '../../dialogs/edit-playlist-dialog/
 import { MatDialog } from '@angular/material/dialog';
 import { VideoCardHorizontalComponent } from '../../components/video-card-horizontal/video-card-horizontal.component';
 import { NgClass } from '@angular/common';
-import { Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { UserModel } from '../../../models/user.model';
 import { PlaylistDetailModel } from '../../../models/playlist.model';
 import { Store } from '@ngrx/store';
 import { PlaylistState } from '../../../ngrxs/playlist/playlist.state';
 import { UserState } from '../../../ngrxs/user/user.state';
 import * as PlaylistActions from '../../../ngrxs/playlist/playlist.actions';
+import { filter, take } from 'rxjs/operators';
+import * as VideoActions from '../../../ngrxs/video/video.actions';
+import * as CommentActions from '../../../ngrxs/comment/comment.actions';
 
 @Component({
   selector: 'app-playlist-detail',
@@ -32,7 +35,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   user!: UserModel;
   playlistDetail$: Observable<PlaylistDetailModel>;
   playlistDetail!: PlaylistDetailModel;
-  isGetPlaylistByUserIdSuccess$: Observable<boolean>;
+  isGetPlaylistByIdSuccess$: Observable<boolean>;
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -42,9 +45,9 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
   ) {
     this.user$ = this.store.select('user', 'user');
     this.playlistDetail$ = this.store.select('playlist', 'playlistDetail');
-    this.isGetPlaylistByUserIdSuccess$ = this.store.select(
+    this.isGetPlaylistByIdSuccess$ = this.store.select(
       'playlist',
-      'isGetPlaylistByUserIdSuccess',
+      'isGetPlaylistByIdSuccess',
     );
   }
 
@@ -55,17 +58,33 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
           this.user = user;
         }
       }),
-      this.activatedRoute.queryParamMap.subscribe((params) => {
-        const list = params.get('list');
-        this.store.dispatch(
-          PlaylistActions.getPlaylistById({ id: list as string }),
-        );
-      }),
+
       this.playlistDetail$.subscribe((playlistDetail) => {
         if (playlistDetail) {
           this.playlistDetail = playlistDetail;
         }
       }),
+      this.store
+        .select('user', 'isGetUserSuccess')
+        .pipe(
+          filter((isGetSuccess) => isGetSuccess),
+          take(1),
+        )
+        .subscribe(() => {
+          combineLatest([
+            this.activatedRoute.queryParamMap,
+            this.store.select('user', 'isGetUserSuccess'),
+            this.store.select('user', 'isGettingUser'),
+          ]).subscribe(([params, isGetSuccess, isGetting]) => {
+            const list = params.get('list') || '';
+
+            if (isGetSuccess && !isGetting) {
+              this.store.dispatch(
+                PlaylistActions.getPlaylistById({ id: list as string }),
+              );
+            }
+          });
+        }),
     );
   }
 

@@ -45,18 +45,18 @@
     }
   </div>
   <div id="video-container">
-    <cdk-virtual-scroll-viewport id="scroll" itemSize="50">
-      @if (isGettingAllVideos$ | async) {
-        <div class="loading">
-          <mat-spinner class="circle"></mat-spinner>
-        </div>
-      } @else {
+    @if (isGettingAllVideos$ | async) {
+      <div class="loading">
+        <mat-spinner class="circle"></mat-spinner>
+      </div>
+    } @else {
+      <cdk-virtual-scroll-viewport id="scroll" itemSize="50">
         <div id="video-list">
           @for (video of videos$ | async; track $index) {
             <app-video-card-vertical [video]="video"></app-video-card-vertical>
           }
         </div>
-      }
-    </cdk-virtual-scroll-viewport>
+      </cdk-virtual-scroll-viewport>
+    }
   </div>
 </div>

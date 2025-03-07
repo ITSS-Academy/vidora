@@ -14,6 +14,8 @@ import { ThemeService } from '../../../services/theme.service';
 import { VideoState } from '../../../ngrxs/video/video.state';
 import * as VideoActions from '../../../ngrxs/video/video.actions';
 import { Router } from '@angular/router';
+import { SidebarState } from '../../../ngrxs/sidebar/sidebar.state';
+import * as SidebarActions from '../../../ngrxs/sidebar/sidebar.actions';
 
 @Component({
   selector: 'app-header',
@@ -34,6 +36,7 @@ export class HeaderComponent {
       auth: AuthState;
       user: UserState;
       video: VideoState;
+      sidebar: SidebarState;
     }>,
     public themeService: ThemeService,
     private router: Router,
@@ -43,6 +46,7 @@ export class HeaderComponent {
 
   onMenuClick(): void {
     this.menuClick.emit();
+    this.store.dispatch(SidebarActions.toggleSidebar());
   }
 
   onFocus() {
@@ -71,7 +75,9 @@ export class HeaderComponent {
     // trim search text
     this.searchText = this.searchText.trim();
     this.store.dispatch(VideoActions.searchVideos({ search: this.searchText }));
-    this.router.navigate(['/search']);
+    this.router.navigate(['/results'], {
+      queryParams: { search_query: this.searchText },
+    });
   }
 
   signInWithGoogle() {

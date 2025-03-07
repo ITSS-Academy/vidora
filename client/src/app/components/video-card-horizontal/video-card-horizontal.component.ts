@@ -19,6 +19,7 @@ import { Observable, Subscription } from 'rxjs';
 import { UserState } from '../../../ngrxs/user/user.state';
 import { UserModel } from '../../../models/user.model';
 import { AlertService } from '../../../services/alert.service';
+import { SidebarState } from '../../../ngrxs/sidebar/sidebar.state';
 
 @Component({
   selector: 'app-video-card-horizontal',
@@ -33,6 +34,8 @@ export class VideoCardHorizontalComponent
   subscriptions: Subscription[] = [];
   user$: Observable<UserModel>;
   user!: UserModel;
+  isSidebarOpen$!: Observable<boolean>;
+
   @Input() video!: VideoModel;
   @Input() playlistId: string | undefined;
   @Input() index!: number;
@@ -40,12 +43,17 @@ export class VideoCardHorizontalComponent
 
   constructor(
     private router: Router,
-    private store: Store<{ playlist: PlaylistState; user: UserState }>,
+    private store: Store<{
+      playlist: PlaylistState;
+      user: UserState;
+      sidebar: SidebarState;
+    }>,
     private alertService: AlertService,
     private renderer: Renderer2,
     private el: ElementRef,
   ) {
     this.user$ = this.store.select('user', 'user');
+    this.isSidebarOpen$ = this.store.select('sidebar', 'isSidebarOpen');
   }
 
   ngOnInit(): void {
@@ -68,6 +76,12 @@ export class VideoCardHorizontalComponent
             );
           }
         }),
+
+      this.isSidebarOpen$.subscribe((isSidebarOpen) => {
+        if (isSidebarOpen) {
+        } else {
+        }
+      }),
     );
   }
 
@@ -88,7 +102,7 @@ export class VideoCardHorizontalComponent
         'height',
         'calc(150px / 16 * 9)',
       );
-    } else if (this.router.url.includes('/search')) {
+    } else if (this.router.url.includes('/results')) {
       this.renderer.setStyle(
         this.el.nativeElement.querySelector('.card'),
         'height',
