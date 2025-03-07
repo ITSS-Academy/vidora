@@ -75,4 +75,11 @@ export class VideosController {
     const { videoId, userId, watchTime } = req.body;
     return await this.videosService.updateWatchTime(videoId, userId, watchTime);
   }
+
+  @Public()
+  @Get('search')
+  async searchVideos(@Request() req: any) {
+    const { query } = req.query;
+    return await this.videosService.searchVideos(query);
+  }
 }

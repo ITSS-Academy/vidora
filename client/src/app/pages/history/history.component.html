@@ -1,22 +1,44 @@
 <div class="container">
-  <cdk-virtual-scroll-viewport class="scroll" itemSize="50">
-    <h2>Watch History</h2>
-    <div class="video-list">
-      @for (video of videos$ | async; track $index) {
-        <div class="history-group">
-          <h3 class="watch-date">
-            {{ video.watched_at }}
-          </h3>
-          <!-- Ngày xem video -->
-          <div class="video-items">
-            @for (videoDetail of video.videos; track $index) {
-              <app-video-card-horizontal
-                [video]="videoDetail.video_details"
-              ></app-video-card-horizontal>
-            }
-          </div>
-        </div>
-      }
+  @if (isGettingAllVideosInHistory$ | async) {
+    <div class="loading">
+      <mat-spinner class="circle"></mat-spinner>
     </div>
-  </cdk-virtual-scroll-viewport>
+  } @else {
+    <div class="left-container">
+      <cdk-virtual-scroll-viewport class="scroll" itemSize="50">
+        <h2>Watch History</h2>
+        <div class="video-list">
+          @for (video of videos$ | async; track $index) {
+            <div class="history-group">
+              <h3 class="watch-date">
+                {{ video.watched_at }}
+              </h3>
+
+              <div class="video-items">
+                @for (videoDetail of video.videos; track $index) {
+                  <app-video-card-horizontal
+                    [video]="videoDetail.video_details"
+                  ></app-video-card-horizontal>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </cdk-virtual-scroll-viewport>
+    </div>
+    <div class="right-container">
+      <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <mat-label>Search</mat-label>
+          <input matInput placeholder="Search watch history " value="" />
+        </mat-form-field>
+      </form>
+      <div class="example-button-container">
+        <a extended mat-fab routerLink=".">
+          <mat-icon class="material-symbols-rounded">delete</mat-icon>
+          Clear all watch history
+        </a>
+      </div>
+    </div>
+  }
 </div>

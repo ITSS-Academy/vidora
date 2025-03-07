@@ -1,10 +1,14 @@
 <div id="container">
-  <div class="playlist-content">
-    <h2>Playlists</h2>
+  <h2>Playlists</h2>
+  @if (isGetPlaylistByUserIdSuccess$ | async) {
     <div class="playlist-video">
-      <app-playlist-card></app-playlist-card>
+      @for (playlist of playlists$ | async; track $index) {
+        <app-playlist-card [playlist]="playlist"></app-playlist-card>
+      }
     </div>
-  </div>
-
+  } @else {
+    <div class="loading">
+      <mat-spinner class="circle"></mat-spinner>
+    </div>
+  }
 </div>
-

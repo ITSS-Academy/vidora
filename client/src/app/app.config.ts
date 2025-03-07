@@ -29,6 +29,7 @@ import { videoReducer } from '../ngrxs/video/video.reducer';
 import { playlistReducer } from '../ngrxs/playlist/playlist.reducer';
 import { commentReducer } from '../ngrxs/comment/comment.reducer';
 import { historyReducer } from '../ngrxs/history/history.reducer';
+import { sidebarReducer } from '../ngrxs/sidebar/sidebar.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -44,6 +45,7 @@ export const appConfig: ApplicationConfig = {
       playlist: playlistReducer,
       comment: commentReducer,
       history: historyReducer,
+      sidebar: sidebarReducer,
     }),
     provideEffects(
       AuthEffects,

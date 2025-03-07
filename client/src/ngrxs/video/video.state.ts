@@ -28,4 +28,8 @@ export interface VideoState {
   isIncreasingViewCount: boolean;
   isIncreaseViewCountSuccess: boolean;
   increaseViewCountErrorMessages: string;
+
+  isSearchingVideos: boolean;
+  isSearchVideosSuccess: boolean;
+  searchVideosErrorMessage: string;
 }

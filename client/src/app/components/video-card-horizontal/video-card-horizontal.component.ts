@@ -1,4 +1,12 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
 import { SharedModule } from '../../../shared/modules/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { VideoModule } from '../../../shared/modules/video.module';
@@ -11,6 +19,7 @@ import { Observable, Subscription } from 'rxjs';
 import { UserState } from '../../../ngrxs/user/user.state';
 import { UserModel } from '../../../models/user.model';
 import { AlertService } from '../../../services/alert.service';
+import { SidebarState } from '../../../ngrxs/sidebar/sidebar.state';
 
 @Component({
   selector: 'app-video-card-horizontal',
@@ -19,18 +28,32 @@ import { AlertService } from '../../../services/alert.service';
   templateUrl: './video-card-horizontal.component.html',
   styleUrls: ['./video-card-horizontal.component.scss'],
 })
-export class VideoCardHorizontalComponent implements OnInit, OnDestroy {
+export class VideoCardHorizontalComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   subscriptions: Subscription[] = [];
   user$: Observable<UserModel>;
   user!: UserModel;
+  isSidebarOpen$!: Observable<boolean>;
+
   @Input() video!: VideoModel;
+  @Input() playlistId: string | undefined;
+  @Input() index!: number;
+  @Input() highlight = false;
 
   constructor(
     private router: Router,
-    private store: Store<{ playlist: PlaylistState; user: UserState }>,
+    private store: Store<{
+      playlist: PlaylistState;
+      user: UserState;
+      sidebar: SidebarState;
+    }>,
     private alertService: AlertService,
+    private renderer: Renderer2,
+    private el: ElementRef,
   ) {
     this.user$ = this.store.select('user', 'user');
+    this.isSidebarOpen$ = this.store.select('sidebar', 'isSidebarOpen');
   }
 
   ngOnInit(): void {
@@ -53,13 +76,63 @@ export class VideoCardHorizontalComponent implements OnInit, OnDestroy {
             );
           }
         }),
+
+      this.isSidebarOpen$.subscribe((isSidebarOpen) => {
+        if (isSidebarOpen) {
+        } else {
+        }
+      }),
     );
   }
 
+  ngAfterViewInit(): void {
+    if (this.router.url.includes('/watch?')) {
+      this.renderer.setStyle(
+        this.el.nativeElement.querySelector('.card'),
+        'height',
+        'calc(180px / 16 * 9)',
+      );
+      this.renderer.setStyle(
+        this.el.nativeElement.querySelector('#img-container'),
+        'width',
+        '150px',
+      );
+      this.renderer.setStyle(
+        this.el.nativeElement.querySelector('#img-container'),
+        'height',
+        'calc(150px / 16 * 9)',
+      );
+    } else if (this.router.url.includes('/results')) {
+      this.renderer.setStyle(
+        this.el.nativeElement.querySelector('.card'),
+        'height',
+        'calc(550px / 16 * 9)',
+      );
+      this.renderer.setStyle(
+        this.el.nativeElement.querySelector('#img-container'),
+        'width',
+        '520px',
+      );
+      this.renderer.setStyle(
+        this.el.nativeElement.querySelector('#img-container'),
+        'height',
+        'calc(520px / 16 * 9)',
+      );
+    }
+  }
+
   onVideoClick(video: VideoModel) {
-    this.router.navigate(['/watch'], {
-      queryParams: { v: video.id },
-    });
+    if (this.playlistId !== undefined) {
+      this.router.navigate(['/watch'], {
+        queryParams: { v: video.id, list: this.playlistId, index: this.index },
+      });
+      return;
+    } else {
+      this.router.navigate(['/watch'], {
+        queryParams: { v: video.id },
+      });
+      this.store.dispatch(PlaylistActions.clearPlaylistState());
+    }
   }
 
   removeVideoInWatchLaterPlaylist() {

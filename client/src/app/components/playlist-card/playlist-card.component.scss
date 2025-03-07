@@ -92,7 +92,7 @@
       .title {
         font-size: 0.9rem;
         font-weight: 500;
-        color: var(--md-sys-color-primary);
+        color: var(--md-sys-color-on-surface);
         margin: 10px 0;
       }
 
@@ -100,12 +100,17 @@
         height: 10px;
         display: flex;
         flex-direction: row;
-        gap: 5px;
+        align-items: center;
 
         span {
           font-size: 12px;
           color: var(--md-sys-color-secondary);
           cursor: pointer;
+        }
+
+        .icon {
+          scale: 0.5;
+          color: var(--md-sys-color-secondary);
         }
       }
 

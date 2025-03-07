@@ -47,4 +47,8 @@ export class VideoService {
   updateWatchTime(videoId: string, userId: string, watchTime: number) {
     return this.http.post('videos/watch-time', { videoId, userId, watchTime });
   }
+
+  searchVideos(query: string) {
+    return this.http.get('videos/search', { params: { query } });
+  }
 }

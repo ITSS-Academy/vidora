@@ -27,6 +27,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   videos$: Observable<HistoryModel[]>;
   user!: UserModel | null;
+  isGettingAllVideosInHistory$: Observable<boolean>;
 
   constructor(
     private store: Store<{
@@ -35,6 +36,9 @@ export class HistoryComponent implements OnInit, OnDestroy {
     }>,
   ) {
     this.videos$ = this.store.select((state) => state.history.history);
+    this.isGettingAllVideosInHistory$ = this.store.select(
+      (state) => state.history.isGettingAllVideosInHistory,
+    );
   }
 
   ngOnInit(): void {

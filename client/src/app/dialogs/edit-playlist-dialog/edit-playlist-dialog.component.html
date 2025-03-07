@@ -2,45 +2,51 @@
   <div id="edit-content">
     <div (click)="closeDialog()" class="edit-playlist">
       <h3>Edit playlist</h3>
-      <mat-icon class="material-symbols-rounded">close</mat-icon>
+      <mat-icon class="material-symbols-rounded close-btn">close</mat-icon>
     </div>
     <div class="edit-img">
-      <img alt="" src="{{ playlist.image }}" />
+      <img alt="" src="{{ this.data.playlist.thumbnail_url }}" />
     </div>
-    <div class="title-form">
-      <form class="example-form">
+    <form [formGroup]="playlistForm" class="example-form">
+      <div class="title-form">
         <mat-form-field class="example-full-width">
           <mat-label>Title</mat-label>
-          <input #title matInput maxlength="100" placeholder="Playlist 1" />
+          <input
+            #title
+            formControlName="title"
+            matInput
+            maxlength="100"
+            placeholder="Choose a title"
+          />
           <mat-hint align="end" class="title-length"
-            >{{ title.value.length }} / 100</mat-hint
-          >
+            >{{ this.data.playlist.title.length }} / 100
+          </mat-hint>
         </mat-form-field>
-      </form>
-    </div>
+      </div>
 
-    <div class="description-form">
-      <form class="example-form">
-        <mat-form-field class="example-full-width">
-          <mat-label>Description</mat-label>
-          <input #description matInput maxlength="1500" />
-          <mat-hint align="end" class="title-length"
-            >{{ description.value.length }} / 1500</mat-hint
+      <div class="privacy-select">
+        <mat-form-field class="privacy-select-mat-form-field">
+          <mat-label>Privacy</mat-label>
+          <mat-select
+            formControlName="visibility"
+            placeholder="Choose a privacy"
+            required
           >
+            <mat-option [value]="true">Public</mat-option>
+            <mat-option [value]="false">Private</mat-option>
+          </mat-select>
         </mat-form-field>
-      </form>
-    </div>
-    <div class="privacy-select">
-      <mat-form-field class="privacy-select-mat-form-field">
-        <mat-label>Privacy</mat-label>
-        <mat-select>
-          <mat-option value="one">Public</mat-option>
-          <mat-option value="two">Private</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+      </div>
+    </form>
+
     <div class="save-btn">
-      <button (click)="saveEditPlaylist()" mat-raised-button>Save</button>
+      <button
+        (click)="saveEditPlaylist()"
+        [disabled]="playlistForm.invalid"
+        mat-raised-button
+      >
+        Save
+      </button>
     </div>
   </div>
 </div>

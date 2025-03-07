@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -18,7 +18,7 @@ import { AlertService } from '../../../services/alert.service';
   templateUrl: './create-playlist-dialog.component.html',
   styleUrl: './create-playlist-dialog.component.scss',
 })
-export class CreatePlaylistDialogComponent implements OnInit {
+export class CreatePlaylistDialogComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   playlistForm!: FormGroup;
   user$: Observable<UserModel>;
@@ -54,6 +54,7 @@ export class CreatePlaylistDialogComponent implements OnInit {
       this.store
         .select('playlist', 'isCreatePlaylistSuccess')
         .subscribe((isCreatePlaylistSuccess) => {
+          console.log(isCreatePlaylistSuccess);
           if (isCreatePlaylistSuccess) {
             this.alertService.showAlert(
               `Playlist created successfully!`,
@@ -62,6 +63,7 @@ export class CreatePlaylistDialogComponent implements OnInit {
               'end',
               'top',
             );
+            this.store.dispatch(PlaylistActions.clearPlaylistState());
             this.closeDialog();
           }
         }),
@@ -88,5 +90,10 @@ export class CreatePlaylistDialogComponent implements OnInit {
         createPlaylistDto: createPlaylistModel,
       }),
     );
+  }
+
+  ngOnDestroy() {
+    console.log('destroyed');
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }
