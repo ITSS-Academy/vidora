@@ -3,12 +3,19 @@
     <h2>Customize channel</h2>
     <mat-icon id="close-icon" class="material-symbols-rounded" (click)="close()">close</mat-icon>
   </div>
+  <div id="update-banner">
+    <h3>Banner</h3>
+    <div class="select-banner">
+      <img class="banner" src="{{( userProfile$ | async )?.banner_url }}" (click)="onBannerClick()">
+      <input type="file" #bannerInput hidden (change)="onBannerSelected($event)">
+    </div>
+  </div>
     <div class="update-profile">
       <div class="update-description">
         <h3>Description</h3>
         <form class="description-form">
           <mat-form-field class="description-full-width">
-            <textarea matInput placeholder="Enter description"></textarea>
+            <textarea matInput placeholder="Enter description" rows = '6'></textarea>
           </mat-form-field>
         </form>
         <button mat-flat-button class="publish-button">Publish</button>
@@ -16,9 +23,8 @@
       <div class="update-picture">
         <h3>Picture</h3>
         <div class="select-picture">
-          <img class="image" src="{{( userProfile$ | async )?.avatar_url }}" (click)="onImageClick()">
-          <input type="file" #fileInput hidden (change)="onFileSelected($event)">
-<!--          <button mat-flat-button class="select-button" (click)="fileInput.click()">Select</button>-->
+          <img class="image" src="{{( userProfile$ | async )?.avatar_url }}" (click)="onAvatarClick()">
+          <input type="file" #avatarInput hidden (change)="onAvatarSelected($event)">
         </div>
       </div>
     </div>
