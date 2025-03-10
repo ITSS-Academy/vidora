@@ -3,7 +3,18 @@ import { createReducer, on } from '@ngrx/store';
 import * as UserActions from './user.actions';
 import { UserModel } from '../../models/user.model';
 
-const initialState: UserState = {
+const initialState: {
+  user: UserModel;
+  isGettingUser: boolean;
+  isGetUserSuccess: boolean;
+  getUserErrorMessage: string;
+  isCreatingUser: boolean;
+  isCreateUserSuccess: boolean;
+  createUserErrorMessage: string;
+  isUpdatingUser: boolean;
+  isUpdateUserSuccess: boolean;
+  updateUserErrorMessage: string
+} = {
   user: <UserModel>{},
   isGettingUser: false,
   isGetUserSuccess: false,
@@ -96,6 +107,33 @@ export const userReducer = createReducer(
     console.log(action.type);
     return <UserState>{
       ...initialState,
+    };
+  }),
+  on(UserActions.uploadProfilePicture, (state, action) => {
+    console.log(action.type);
+    return <UserState>{
+      ...state,
+      isUpdatingUser: true,
+    };
+  }),
+  on(UserActions.uploadProfilePictureSuccess, (state, action) => {
+    console.log(action.type);
+    return <UserState>{
+      ...state,
+      user: {
+        ...state.user,
+        avatar_url: action.avatar_url,
+      },
+      isUpdatingUser: false,
+      isUpdateUserSuccess: true,
+    };
+  }),
+  on(UserActions.uploadProfilePictureFailure, (state, action) => {
+    console.log(action.type);
+    return <UserState>{
+      ...state,
+      isUpdatingUser: false,
+      updateUserErrorMessage: action.error,
     };
   }),
 );
