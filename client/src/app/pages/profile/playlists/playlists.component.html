@@ -1,8 +1,9 @@
 <div id="container">
-  <div>
-    <app-playlist-card></app-playlist-card>
-  </div>
-  <div>
-    <app-playlist-card></app-playlist-card>
-  </div>
+  <cdk-virtual-scroll-viewport id="scroll" itemSize="50">
+    <div id="playlists">
+      @for (playlist of playlists$ | async; track $index){
+        <app-playlist-card [playlist]="playlist"></app-playlist-card>
+      }
+    </div>
+  </cdk-virtual-scroll-viewport>
 </div>

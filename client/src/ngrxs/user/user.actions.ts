@@ -45,4 +45,19 @@ export const uploadUserProfile = createAction(
   '[User] Update Profile Picture',
   props<{ avatar_url: string }>()
 );
+
+export const uploadProfileBanner = createAction(
+  '[User] Upload Profile Banner',
+  props<{ file: File }>()
+);
+export const uploadProfileBannerSuccess = createAction(
+  '[User] Upload Profile Banner Success',
+  props<{ banner_url: string }>()
+);
+export const uploadProfileBannerFailure = createAction(
+  '[User] Upload Profile Banner Failure',
+  props<{ error: any }>()
+);
+
+
 export const clearState = createAction('[User] Clear State');
