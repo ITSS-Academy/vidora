@@ -1,9 +1,11 @@
+<!--<app-video-card-vertical-skeleton></app-video-card-vertical-skeleton>-->
 <mat-card
   (click)="onVideoClick($event)"
   appearance="outlined"
   class="video-card"
 >
   <div class="video-container">
+
     @if (isHovering) {
       <vg-player class="video-player" (mouseleave)="onMouseLeave()">
         <vg-overlay-play></vg-overlay-play>
@@ -39,8 +41,13 @@
 
   <mat-card-content>
     <div class="content-container">
+      <div id="profile">
+        <img class="picture" src="{{ user.avatar_url }}" alt="Avatar" />
+      </div>
       <div class="main-content">
         <p class="title">{{ video.title }}</p>
+        <p class="name">{{ user.username }}</p>
+<!--        <span class="date">{{ video.created_at | date: 'dd/mm/yyyy' }}</span>-->
       </div>
       <div class="actions">
         <button
@@ -63,5 +70,6 @@
         </mat-menu>
       </div>
     </div>
+
   </mat-card-content>
 </mat-card>

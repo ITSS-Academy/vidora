@@ -45,4 +45,6 @@ export class VideoCardVerticalSkeletonComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
+
+  protected readonly top = top;
 }

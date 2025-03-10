@@ -28,4 +28,21 @@ export const updateUserFailure = createAction(
   props<{ error: any }>(),
 );
 
+export const uploadProfilePicture = createAction(
+  '[User] Upload Profile Picture',
+  props<{ file: File }>()
+);
+export const uploadProfilePictureSuccess = createAction(
+  '[User] Upload Profile Picture Success',
+  props<{ avatar_url: string }>()
+);
+export const uploadProfilePictureFailure = createAction(
+  '[User] Upload Profile Picture Failure',
+  props<{ error: any }>()
+);
+
+export const uploadUserProfile = createAction(
+  '[User] Update Profile Picture',
+  props<{ avatar_url: string }>()
+);
 export const clearState = createAction('[User] Clear State');

@@ -8,7 +8,7 @@
         <h3>Description</h3>
         <form class="description-form">
           <mat-form-field class="description-full-width">
-            <textarea matInput placeholder="" value=""></textarea>
+            <textarea matInput placeholder="Enter description"></textarea>
           </mat-form-field>
         </form>
         <button mat-flat-button class="publish-button">Publish</button>
@@ -16,10 +16,11 @@
       <div class="update-picture">
         <h3>Picture</h3>
         <div class="select-picture">
-          <img class="image" src="{{(userProfile$ | async )?.avatar_url }}" >
+          <img class="image" src="{{( userProfile$ | async )?.avatar_url }}" (click)="onImageClick()">
+          <input type="file" #fileInput hidden (change)="onFileSelected($event)">
+<!--          <button mat-flat-button class="select-button" (click)="fileInput.click()">Select</button>-->
         </div>
       </div>
     </div>
-  <div></div>
 </div>
 

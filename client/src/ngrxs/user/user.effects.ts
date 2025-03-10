@@ -70,3 +70,24 @@ export const getUserById$ = createEffect(
   },
   { functional: true },
 );
+
+export const uploadProfilePicture$ = createEffect(
+  () => {
+    const actions$ = inject(Actions);
+    const userService = inject(UserService);
+    return actions$.pipe(
+      ofType(UserActions.uploadProfilePicture),
+      exhaustMap((action) => {
+        return userService.updateProfilePicture(action.file).pipe(
+          map((response) =>
+            UserActions.uploadProfilePictureSuccess({ avatar_url: response.url })
+          ),
+          catchError((error) => {
+            return of(UserActions.uploadProfilePictureFailure({ error: error }));
+          }),
+        );
+      }),
+    );
+  },
+  { functional: true },
+);
