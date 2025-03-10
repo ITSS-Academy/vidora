@@ -100,7 +100,7 @@
         <div class="comment-forms">
           <mat-form-field appearance="fill" class="comment-field">
             <mat-label>Add a comment...</mat-label>
-            <input [(ngModel)]="comment" matInput />
+            <textarea [(ngModel)]="comment" matInput [rows]="comment ? 2 : 1" ></textarea>
           </mat-form-field>
         </div>
         <button

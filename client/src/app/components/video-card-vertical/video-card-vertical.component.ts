@@ -100,7 +100,7 @@ export class VideoCardVerticalComponent
             this.renderer.setStyle(
               this.el.nativeElement.querySelector('.video-card'),
               'width',
-              '290px',
+              '280px',
             );
           } else if (this.router.url.includes('/home')) {
             this.renderer.setStyle(

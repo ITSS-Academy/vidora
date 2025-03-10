@@ -26,4 +26,10 @@ export class UserService {
     formData.append('file', file);
     return this.http.post('/api/upload-profile-picture', formData);
   }
+
+  updateProfileBanner(file: File): Observable<{ url: string }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post('/api/upload-profile-banner', formData);
+  }
 }

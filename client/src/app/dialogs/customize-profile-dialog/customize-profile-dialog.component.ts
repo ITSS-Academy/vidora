@@ -13,7 +13,7 @@ import {user} from '@angular/fire/auth';
 import {Store} from '@ngrx/store';
 import {updateUserProfile, UserState} from '../../../ngrxs/user/user.state';
 import {FormControl, FormGroup, FormsModule, Validators} from '@angular/forms';
-import {uploadProfilePicture} from '../../../ngrxs/user/user.actions';
+import {uploadProfileBanner, uploadProfilePicture} from '../../../ngrxs/user/user.actions';
 
 @Component({
   selector: 'app-customize-profile-dialog',
@@ -31,7 +31,8 @@ import {uploadProfilePicture} from '../../../ngrxs/user/user.actions';
 })
 export class CustomizeProfileDialogComponent {
   userProfile$: Observable<UserModel>;
-  @ViewChild('fileInput') fileInput!: ElementRef;
+  @ViewChild('avatarInput') avatarInput!: ElementRef;
+  @ViewChild('bannerInput') bannerInput!: ElementRef;
 
   constructor(
     private dialogRef: MatDialogRef<CustomizeProfileDialogComponent>,
@@ -45,21 +46,39 @@ export class CustomizeProfileDialogComponent {
     this.dialogRef.close();
   }
 
-  onImageClick(): void {
-    this.fileInput.nativeElement.click();
+  onAvatarClick(): void {
+    this.avatarInput.nativeElement.click();
   }
 
-  onFileSelected(event: Event): void {
+  onAvatarSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      this.uploadFile(file);
+      this.uploadAvatarFile(file);
     }
   }
 
-  uploadFile(file: File): void {
-    this.userService.updateProfilePicture(file).subscribe((response) => {
+  onBannerClick(): void {
+    this.bannerInput.nativeElement.click();
+  }
+
+  onBannerSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      this.uploadBannerFile(file);
+    }
+  }
+
+  uploadAvatarFile(file: File): void {
+    this.userService.updateProfilePicture(file).subscribe(() => {
      return this.store.dispatch(uploadProfilePicture({ file }));
+    });
+  }
+
+  uploadBannerFile(file: File): void {
+    this.userService.updateProfileBanner(file).subscribe(() => {
+     return this.store.dispatch(uploadProfileBanner({ file }));
     });
   }
 }
