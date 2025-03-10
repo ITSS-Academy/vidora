@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { SharedModule } from '../../../shared/modules/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { VideoModule } from '../../../shared/modules/video.module';
@@ -26,6 +26,7 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   isGetPlaylistByUserIdSuccess$!: Observable<boolean>;
   isDeletePlaylistByIdSuccess$!: Observable<boolean>;
   isUpsertPlaylistByIdSuccess$!: Observable<boolean>;
+  @Input() playlist!: PlaylistModel;
 
   constructor(
     private store: Store<{ playlist: PlaylistState; user: UserState }>,
