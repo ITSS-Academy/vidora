@@ -30,14 +30,21 @@
       <form class="example-form">
         <mat-form-field class="example-full-width">
           <mat-label>Search</mat-label>
-          <input matInput placeholder="Search watch history " value="" />
+          <input
+            matInput
+            placeholder="Search watch history"
+            [(ngModel)]="search"
+            [ngModelOptions]="{ standalone: true }"
+            (keydown.enter)="searchVideos()"
+          />
         </mat-form-field>
       </form>
+
       <div class="example-button-container">
-        <a extended mat-fab routerLink=".">
+        <button mat-flat-button (click)="clearAllHistory()">
           <mat-icon class="material-symbols-rounded">delete</mat-icon>
           Clear all watch history
-        </a>
+        </button>
       </div>
     </div>
   }

@@ -3,14 +3,20 @@
     <div id="left-container">
       <div id="playlist-thumbnail-background">
         <img
-          [src]="(playlistDetail$ | async)?.playlist?.thumbnail_url"
+          [src]="
+            (playlistDetail$ | async)?.playlist?.thumbnail_url ??
+            'https://kuzrydwxeoyzbudjbilt.supabase.co/storage/v1/object/public/channel_url//no-image.jpg'
+          "
           alt="playlist-thumbnail"
         />
       </div>
       <div id="playlist-info">
         <div id="playlist-thumbnail">
           <img
-            [src]="(playlistDetail$ | async)?.playlist?.thumbnail_url"
+            [src]="
+              (playlistDetail$ | async)?.playlist?.thumbnail_url ??
+              'https://kuzrydwxeoyzbudjbilt.supabase.co/storage/v1/object/public/channel_url//no-image.jpg'
+            "
             alt="playlist-thumbnail"
           />
         </div>

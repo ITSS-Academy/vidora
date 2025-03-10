@@ -26,14 +26,17 @@ import * as VideoActions from '../../../ngrxs/video/video.actions';
 import * as PlaylistActions from '../../../ngrxs/playlist/playlist.actions';
 import { PlaylistState } from '../../../ngrxs/playlist/playlist.state';
 import { SidebarState } from '../../../ngrxs/sidebar/sidebar.state';
-import {
-  VideoCardVerticalSkeletonComponent
-} from '../video-card-vertical-skeleton/video-card-vertical-skeleton.component';
+import { VideoCardVerticalSkeletonComponent } from '../video-card-vertical-skeleton/video-card-vertical-skeleton.component';
 
 @Component({
   selector: 'app-video-card-vertical',
   standalone: true,
-  imports: [SharedModule, MaterialModule, VideoModule, VideoCardVerticalSkeletonComponent],
+  imports: [
+    SharedModule,
+    MaterialModule,
+    VideoModule,
+    VideoCardVerticalSkeletonComponent,
+  ],
   templateUrl: './video-card-vertical.component.html',
   styleUrl: './video-card-vertical.component.scss',
 })
@@ -188,8 +191,4 @@ export class VideoCardVerticalComponent
       );
     }
   }
-
-  protected readonly navigator = navigator;
-  protected readonly event = event;
-  protected readonly Event = Event;
 }

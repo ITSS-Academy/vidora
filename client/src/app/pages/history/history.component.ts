@@ -10,6 +10,9 @@ import { HistoryState } from '../../../ngrxs/history/history.state';
 import { UserState } from '../../../ngrxs/user/user.state';
 import * as HistoryActions from '../../../ngrxs/history/history.actions';
 import { VideoCardHorizontalComponent } from '../../components/video-card-horizontal/video-card-horizontal.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
   selector: 'app-history',
@@ -28,12 +31,15 @@ export class HistoryComponent implements OnInit, OnDestroy {
   videos$: Observable<HistoryModel[]>;
   user!: UserModel | null;
   isGettingAllVideosInHistory$: Observable<boolean>;
+  search = '';
 
   constructor(
     private store: Store<{
       history: HistoryState;
       user: UserState;
     }>,
+    private dialog: MatDialog, // Inject MatDialog
+    private alertService: AlertService, // Inject AlertService
   ) {
     this.videos$ = this.store.select((state) => state.history.history);
     this.isGettingAllVideosInHistory$ = this.store.select(
@@ -53,7 +59,81 @@ export class HistoryComponent implements OnInit, OnDestroy {
             );
           }
         }),
+      this.store
+        .select('history', 'isClearHistorySuccess')
+        .subscribe((isClearHistorySuccess: boolean) => {
+          if (isClearHistorySuccess) {
+            this.store.dispatch(HistoryActions.clearState());
+            this.alertService.showAlert(
+              `All history has been cleared`,
+              'Close',
+              3000,
+              'end',
+              'top',
+            );
+            this.store.dispatch(
+              HistoryActions.getHistoryByUserId({
+                userId: this.user?.id as any,
+              }),
+            );
+          }
+        }),
+      this.store
+        .select('history', 'isRemoveVideoFromHistorySuccess')
+        .subscribe((isRemoveVideoFromHistorySuccess: boolean) => {
+          if (isRemoveVideoFromHistorySuccess) {
+            this.store.dispatch(HistoryActions.clearState());
+
+            this.alertService.showAlert(
+              `Video has been removed from history`,
+              'Close',
+              3000,
+              'end',
+              'top',
+            );
+            this.store.dispatch(
+              HistoryActions.getHistoryByUserId({
+                userId: this.user?.id as any,
+              }),
+            );
+          }
+        }),
     );
+  }
+
+  clearAllHistory(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        message: 'Are you sure you want to clear all history?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && this.user?.id) {
+        this.store.dispatch(
+          HistoryActions.clearHistoryByUserId({ userId: this.user.id }),
+        );
+      }
+    });
+  }
+
+  searchVideos(): void {
+    if (this.search !== '') {
+      if (this.user?.id) {
+        this.store.dispatch(
+          HistoryActions.searchHistoryByUserId({
+            userId: this.user.id,
+            search: this.search,
+          }),
+        );
+      }
+    } else {
+      if (this.user?.id) {
+        this.store.dispatch(
+          HistoryActions.getHistoryByUserId({ userId: this.user.id }),
+        );
+      }
+    }
   }
 
   ngOnDestroy(): void {

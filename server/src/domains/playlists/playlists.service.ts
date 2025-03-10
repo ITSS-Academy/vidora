@@ -42,6 +42,8 @@ export class PlaylistsService {
       p_playlist_id: id,
     });
 
+    data['videos'].reverse();
+
     if (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
@@ -55,6 +57,9 @@ export class PlaylistsService {
         p_user_id: id,
       },
     );
+
+    // reverse the order of the videos in playlist
+    data['videos'].reverse();
 
     if (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);

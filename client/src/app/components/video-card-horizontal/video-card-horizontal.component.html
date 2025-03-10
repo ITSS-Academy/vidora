@@ -16,9 +16,9 @@
       </div>
       <span class="channel">{{ video.user_data.username }}</span>
       <div class="description">
-        <span class="views">{{ video.views }} views</span>
-        <span>•</span>
-        <span class="date">{{ video.created_at | date: "dd/mm/yyyy" }}</span>
+        <!--        <span class="views">{{ video.views }} views</span>-->
+        <!--        <span>•</span>-->
+        <span class="date">{{ video.created_at | date: "dd/MM/yyyy" }}</span>
       </div>
     </mat-card-content>
     <mat-action-row id="actions-container">
@@ -30,15 +30,27 @@
         >
           <mat-icon class="material-symbols-rounded">more_vert</mat-icon>
         </button>
+
         <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <mat-icon class="material-symbols-rounded">bookmark</mat-icon>
-            <span>Save to playlist</span>
-          </button>
-          <button mat-menu-item (click)="removeVideoInWatchLaterPlaylist()">
-            <mat-icon class="material-symbols-rounded">delete</mat-icon>
-            <span>Remove from Watch later</span>
-          </button>
+          @if (routerLink.includes("/history")) {
+            <button mat-menu-item>
+              <mat-icon class="material-symbols-rounded">bookmark</mat-icon>
+              <span>Save to playlist</span>
+            </button>
+            <button mat-menu-item (click)="removeVideoInHistory()">
+              <mat-icon class="material-symbols-rounded">delete</mat-icon>
+              <span>Remove from History</span>
+            </button>
+          } @else {
+            <button mat-menu-item>
+              <mat-icon class="material-symbols-rounded">bookmark</mat-icon>
+              <span>Save to playlist</span>
+            </button>
+            <button mat-menu-item (click)="removeVideoInWatchLaterPlaylist()">
+              <mat-icon class="material-symbols-rounded">delete</mat-icon>
+              <span>Remove from Watch later</span>
+            </button>
+          }
         </mat-menu>
       </div>
     </mat-action-row>
