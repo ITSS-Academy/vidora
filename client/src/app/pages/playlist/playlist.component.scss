@@ -14,3 +14,37 @@
     gap: 10px;
   }
 }
+
+.user-login-require {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+
+  .login-card {
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .icon {
+    scale: 2;
+    color: var(--md-sys-color-on-surface);
+    margin-bottom: 10px;
+  }
+
+  .login-message {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--md-sys-color-on-surface);
+    margin-bottom: 5px;
+  }
+
+  .login-description {
+    font-size: 14px;
+    color: var(--md-sys-color-on-surface);
+    margin-bottom: 15px;
+  }
+}

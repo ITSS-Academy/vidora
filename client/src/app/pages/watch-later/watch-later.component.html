@@ -1,71 +1,104 @@
-<div id="container">
-  @if (isGetWatchLaterPlaylistByUserIdSuccess$ | async) {
-    <div id="left-container">
-      <div id="playlist-thumbnail-background">
-        <img
-          [src]="
-            (playlistDetail$ | async)?.playlist?.thumbnail_url ??
-            'https://kuzrydwxeoyzbudjbilt.supabase.co/storage/v1/object/public/channel_url//no-image.jpg'
-          "
-          alt="playlist-thumbnail"
-        />
-      </div>
-      <div id="playlist-info">
-        <div id="playlist-thumbnail">
-          <img
-            [src]="
-              (playlistDetail$ | async)?.playlist?.thumbnail_url ??
-              'https://kuzrydwxeoyzbudjbilt.supabase.co/storage/v1/object/public/channel_url//no-image.jpg'
-            "
-            alt="playlist-thumbnail"
-          />
-        </div>
-
-        <h2 id="playlist-title">
-          {{ (playlistDetail$ | async)?.playlist?.title }}
-        </h2>
-
-        <div id="user-info">
-          <div id="user-avatar">
-            <img [src]="(user$ | async)?.avatar_url" alt="user-avatar" />
+@defer (when (isCheckLogin$ | async)) {
+  @if ((user$ | async)?.id) {
+    <div id="container">
+      @if (isGetWatchLaterPlaylistByUserIdSuccess$ | async) {
+        <div id="left-container">
+          <div id="playlist-thumbnail-background">
+            <img
+              [src]="
+                (playlistDetail$ | async)?.playlist?.thumbnail_url ??
+                'https://kuzrydwxeoyzbudjbilt.supabase.co/storage/v1/object/public/channel_url//no-image.jpg'
+              "
+              alt="playlist-thumbnail"
+            />
           </div>
-          <span id="user-name">{{ (user$ | async)?.username }}</span>
-        </div>
-        <div id="action">
-          <button (click)="playAll()" mat-flat-button>
-            <mat-icon
-              class="material-symbols-rounded"
-              fontIcon="play_arrow"
-            ></mat-icon>
-            Play all
-          </button>
-          <button (click)="playShuffle()" mat-stroked-button>
-            <mat-icon
-              class="material-symbols-rounded"
-              fontIcon="shuffle"
-            ></mat-icon>
-            Shuffle
-          </button>
-        </div>
-      </div>
-    </div>
+          <div id="playlist-info">
+            <div id="playlist-thumbnail">
+              <img
+                [src]="
+                  (playlistDetail$ | async)?.playlist?.thumbnail_url ??
+                  'https://kuzrydwxeoyzbudjbilt.supabase.co/storage/v1/object/public/channel_url//no-image.jpg'
+                "
+                alt="playlist-thumbnail"
+              />
+            </div>
 
-    <div id="right-container">
-      <cdk-virtual-scroll-viewport class="scroll" itemSize="50">
-        <div id="video-container">
-          @if (isGetWatchLaterPlaylistByUserIdSuccess$ | async) {
-            @for (video of (playlistDetail$ | async)?.videos; track $index) {
-              <app-video-card-horizontal
-                [video]="video"
-              ></app-video-card-horizontal>
-            }
-          }
+            <h2 id="playlist-title">
+              {{ (playlistDetail$ | async)?.playlist?.title }}
+            </h2>
+
+            <div id="user-info">
+              <div id="user-avatar">
+                <img [src]="(user$ | async)?.avatar_url" alt="user-avatar" />
+              </div>
+              <span id="user-name">{{ (user$ | async)?.username }}</span>
+            </div>
+            <div id="action">
+              <button (click)="playAll()" mat-flat-button>
+                <mat-icon
+                  class="material-symbols-rounded"
+                  fontIcon="play_arrow"
+                ></mat-icon>
+                Play all
+              </button>
+              <button (click)="playShuffle()" mat-stroked-button>
+                <mat-icon
+                  class="material-symbols-rounded"
+                  fontIcon="shuffle"
+                ></mat-icon>
+                Shuffle
+              </button>
+            </div>
+          </div>
         </div>
-      </cdk-virtual-scroll-viewport>
+
+        <div id="right-container">
+          <cdk-virtual-scroll-viewport class="scroll" itemSize="50">
+            <div id="video-container">
+              @if (isGetWatchLaterPlaylistByUserIdSuccess$ | async) {
+                @for (
+                  video of (playlistDetail$ | async)?.videos;
+                  track $index
+                ) {
+                  <app-video-card-horizontal
+                    [video]="video"
+                  ></app-video-card-horizontal>
+                }
+              }
+            </div>
+          </cdk-virtual-scroll-viewport>
+        </div>
+      } @else {
+        <div class="loading">
+          <mat-spinner class="circle"></mat-spinner>
+        </div>
+      }
     </div>
   } @else {
-    <div class="loading">
-      <mat-spinner class="circle"></mat-spinner>
+    <div class="user-login-require">
+      <div class="login-card">
+        <mat-icon
+          class="material-symbols-rounded icon"
+          fontIcon="schedule"
+        ></mat-icon>
+        <h3 class="login-message">
+          Please log in to view your watch later list
+        </h3>
+        <p class="login-description">
+          You need to sign in to your account to view your watch later list
+        </p>
+        <button mat-flat-button (click)="signInWithGoogle()">
+          <mat-icon
+            class="material-symbols-rounded"
+            fontIcon="account_circle"
+          ></mat-icon>
+          Sign in with Google
+        </button>
+      </div>
     </div>
   }
-</div>
+} @placeholder (minimum 500ms) {
+  <div class="loading">
+    <mat-spinner class="circle"></mat-spinner>
+  </div>
+}

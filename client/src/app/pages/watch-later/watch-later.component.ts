@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
 import { PlaylistState } from '../../../ngrxs/playlist/playlist.state';
 import { UserState } from '../../../ngrxs/user/user.state';
 import * as PlaylistActions from '../../../ngrxs/playlist/playlist.actions';
+import * as AuthActions from '../../../ngrxs/auth/auth.actions';
+import { AuthState } from '../../../ngrxs/auth/auth.state';
 
 @Component({
   selector: 'app-watch-later',
@@ -30,10 +32,15 @@ export class WatchLaterComponent implements OnInit, OnDestroy {
   playlistDetail$: Observable<PlaylistDetailModel>;
   playlistDetail!: PlaylistDetailModel;
   isGetWatchLaterPlaylistByUserIdSuccess$: Observable<boolean>;
-  private subscriptions: Subscription[] = [];
+  subscriptions: Subscription[] = [];
+  isCheckLogin$!: Observable<boolean>;
 
   constructor(
-    private store: Store<{ playlist: PlaylistState; user: UserState }>,
+    private store: Store<{
+      playlist: PlaylistState;
+      user: UserState;
+      auth: AuthState;
+    }>,
     private router: Router,
   ) {
     this.user$ = this.store.select('user', 'user');
@@ -42,6 +49,7 @@ export class WatchLaterComponent implements OnInit, OnDestroy {
       'playlist',
       'isGetWatchLaterPlaylistByUserIdSuccess',
     );
+    this.isCheckLogin$ = this.store.select('auth', 'isCheckLoggedIn');
   }
 
   ngOnInit() {
@@ -103,6 +111,10 @@ export class WatchLaterComponent implements OnInit, OnDestroy {
         index: randomIndex,
       },
     });
+  }
+
+  signInWithGoogle(): void {
+    this.store.dispatch(AuthActions.signInWithGoogle());
   }
 
   ngOnDestroy() {

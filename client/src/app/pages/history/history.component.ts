@@ -9,10 +9,12 @@ import { Store } from '@ngrx/store';
 import { HistoryState } from '../../../ngrxs/history/history.state';
 import { UserState } from '../../../ngrxs/user/user.state';
 import * as HistoryActions from '../../../ngrxs/history/history.actions';
+import * as AuthActions from '../../../ngrxs/auth/auth.actions';
 import { VideoCardHorizontalComponent } from '../../components/video-card-horizontal/video-card-horizontal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 import { AlertService } from '../../../services/alert.service';
+import { AuthState } from '../../../ngrxs/auth/auth.state';
 
 @Component({
   selector: 'app-history',
@@ -30,13 +32,16 @@ export class HistoryComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   videos$: Observable<HistoryModel[]>;
   user!: UserModel | null;
+  user$!: Observable<UserModel>;
   isGettingAllVideosInHistory$: Observable<boolean>;
   search = '';
+  isCheckLogin$!: Observable<boolean>;
 
   constructor(
     private store: Store<{
       history: HistoryState;
       user: UserState;
+      auth: AuthState;
     }>,
     private dialog: MatDialog, // Inject MatDialog
     private alertService: AlertService, // Inject AlertService
@@ -44,6 +49,10 @@ export class HistoryComponent implements OnInit, OnDestroy {
     this.videos$ = this.store.select((state) => state.history.history);
     this.isGettingAllVideosInHistory$ = this.store.select(
       (state) => state.history.isGettingAllVideosInHistory,
+    );
+    this.user$ = this.store.select((state) => state.user.user);
+    this.isCheckLogin$ = this.store.select(
+      (state) => state.auth.isCheckLoggedIn,
     );
   }
 
@@ -134,6 +143,10 @@ export class HistoryComponent implements OnInit, OnDestroy {
         );
       }
     }
+  }
+
+  signInWithGoogle(): void {
+    this.store.dispatch(AuthActions.signInWithGoogle());
   }
 
   ngOnDestroy(): void {
