@@ -6,6 +6,7 @@ export const initialState: AuthState = {
   idToken: '',
   loading: false,
   error: null,
+  isCheckLoggedIn: false,
 };
 
 export const authReducer = createReducer(
@@ -69,6 +70,13 @@ export const authReducer = createReducer(
     console.log(action.type);
     return <AuthState>{
       ...initialState,
+    };
+  }),
+  on(AuthActions.checkLoggedIn, (state, action) => {
+    console.log(action.type);
+    return <AuthState>{
+      ...state,
+      isCheckLoggedIn: true,
     };
   }),
 );

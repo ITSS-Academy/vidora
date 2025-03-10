@@ -20,6 +20,9 @@ import { UserState } from '../../../ngrxs/user/user.state';
 import { UserModel } from '../../../models/user.model';
 import { AlertService } from '../../../services/alert.service';
 import { SidebarState } from '../../../ngrxs/sidebar/sidebar.state';
+import * as HistoryActions from '../../../ngrxs/history/history.actions';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-video-card-horizontal',
@@ -35,6 +38,7 @@ export class VideoCardHorizontalComponent
   user$: Observable<UserModel>;
   user!: UserModel;
   isSidebarOpen$!: Observable<boolean>;
+  routerLink!: string;
 
   @Input() video!: VideoModel;
   @Input() playlistId: string | undefined;
@@ -51,9 +55,11 @@ export class VideoCardHorizontalComponent
     private alertService: AlertService,
     private renderer: Renderer2,
     private el: ElementRef,
+    private dialog: MatDialog, // Inject MatDialog
   ) {
     this.user$ = this.store.select('user', 'user');
     this.isSidebarOpen$ = this.store.select('sidebar', 'isSidebarOpen');
+    this.routerLink = this.router.url;
   }
 
   ngOnInit(): void {
@@ -142,6 +148,25 @@ export class VideoCardHorizontalComponent
         videoId: this.video.id,
       }),
     );
+  }
+
+  removeVideoInHistory() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        message: 'Are you sure you want to remove this video from history?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && this.user?.id) {
+        this.store.dispatch(
+          HistoryActions.removeVideoFromHistory({
+            videoId: this.video.id,
+            userId: this.user.id,
+          }),
+        );
+      }
+    });
   }
 
   ngOnDestroy(): void {

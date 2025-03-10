@@ -24,8 +24,9 @@
     >
       <router-outlet></router-outlet>
     </div>
-    @if (isHiddenSidebar) {
+    @if (isHiddenSidebar && currentUrl.includes("/watch?")) {
       <div class="overlay" (click)="onOverlayClick()"></div>
     }
   </div>
+
 </div>

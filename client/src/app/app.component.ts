@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { AuthState } from '../ngrxs/auth/auth.state';
 import * as AuthActions from '../ngrxs/auth/auth.actions';
 import * as UserActions from '../ngrxs/user/user.actions';
+import * as SidebarActions from '../ngrxs/sidebar/sidebar.actions';
 import { UserState } from '../ngrxs/user/user.state';
 
 @Component({
@@ -30,6 +31,7 @@ import { UserState } from '../ngrxs/user/user.state';
 export class AppComponent implements OnInit {
   title = 'Vidora';
   currentUrl = '';
+  previousUrl = '';
 
   isSlideBarVisible = true;
   isHiddenSidebar = false;
@@ -44,13 +46,15 @@ export class AppComponent implements OnInit {
       auth: AuthState;
       user: UserState;
     }>,
-  ) {
+  )
+  {
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
         const token = await user.getIdTokenResult();
         this.store.dispatch(AuthActions.storeIdToken({ idToken: token.token }));
         this.jwtTokenService.setToken(token.token);
       }
+      this.store.dispatch(AuthActions.checkLoggedIn());
     });
     if (this.sessionStorageService.getValueFromSession('idToken') != '') {
       this.jwtTokenService.setToken(
@@ -79,7 +83,15 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
+        this.previousUrl = this.currentUrl;
         this.currentUrl = event.url;
+
+        if (this.previousUrl.includes('/watch?')) {
+          this.store.dispatch(
+            SidebarActions.setSidebarVisibility({ isVisible: true }),
+          );
+        }
+
         // Kiểm tra nếu URL là '/watch'
         if (event.url.includes('/watch?')) {
           this.isHiddenSidebar = false;
@@ -108,4 +120,5 @@ export class AppComponent implements OnInit {
   onOverlayClick() {
     this.isHiddenSidebar = false;
   }
+
 }
