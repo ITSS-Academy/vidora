@@ -44,7 +44,8 @@ export class AppComponent implements OnInit {
       auth: AuthState;
       user: UserState;
     }>,
-  ) {
+  )
+  {
     onAuthStateChanged(this.auth, async (user) => {
       if (user) {
         const token = await user.getIdTokenResult();
@@ -108,4 +109,5 @@ export class AppComponent implements OnInit {
   onOverlayClick() {
     this.isHiddenSidebar = false;
   }
+
 }
