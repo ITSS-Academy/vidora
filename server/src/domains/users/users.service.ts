@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { FirebaseUserModel } from '../../models/user.model';
 import { createClient } from '@supabase/supabase-js';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class UsersService {
@@ -52,6 +53,35 @@ export class UsersService {
         throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }
 
+      return data;
+    } catch (e) {
+      throw new HttpException(e, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async updateChannelImage(userId: string, img: File) {
+    console.log(userId);
+    console.log(img);
+    try {
+      const uuid = randomUUID();
+      const { data, error } = await this.supabase.storage
+        .from('channel_url')
+        .upload(`channels/${userId}/${uuid}`, img);
+
+      // get the public url of the image
+      const { publicURL } = this.supabase.storage
+        .from('channel_url')
+        .getPublicUrl(`channels/${userId}/${uuid}`);
+
+      // update the user avatar
+      await this.supabase
+        .from('users')
+        .update({ channel_url: publicURL })
+        .eq('id', userId);
+
+      if (error) {
+        throw new HttpException(error, HttpStatus.BAD_REQUEST);
+      }
       return data;
     } catch (e) {
       throw new HttpException(e, HttpStatus.BAD_REQUEST);
