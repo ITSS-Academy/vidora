@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClientAuth } from '../utils/http-client-auth';
 import { UserModel } from '../models/user.model';
-import {Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,23 +13,25 @@ export class UserService {
     return this.http.post(`users`, '');
   }
 
-  updateUser(updateUserDto: UserModel) {
-    return this.http.patch(`users`, updateUserDto);
-  }
-
   getUserById() {
     return this.http.get(`users`);
   }
 
-  updateProfilePicture(file: File): Observable<{ url: string }> {
+  updateChannelImage(channelImg: File, userId: string) {
     const formData = new FormData();
-    formData.append('file', file);
-    return this.http.post('/api/upload-profile-picture', formData);
+    formData.append('file', channelImg);
+    formData.append('userId', JSON.stringify(userId));
+    return this.http.post(`users/channel`, formData);
   }
 
-  updateProfileBanner(file: File): Observable<{ url: string }> {
+  updateAvatar(avatar: File, userId: string) {
     const formData = new FormData();
-    formData.append('file', file);
-    return this.http.post('/api/upload-profile-banner', formData);
+    formData.append('file', avatar);
+    formData.append('userId', JSON.stringify(userId));
+    return this.http.post(`users/avatar`, formData);
+  }
+
+  updateDescribe(userId: string, describe: string) {
+    return this.http.post(`users/describe`, { userId, describe });
   }
 }

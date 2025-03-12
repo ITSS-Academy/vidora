@@ -62,24 +62,24 @@
               </div>
               <!--              <button mat-flat-button>Subscribe</button>-->
             </div>
-            <mat-button-toggle-group appearance="standard">
-              <!-- Like Button -->
-              <mat-button-toggle value="like">
-                <mat-icon
-                  class="material-symbols-rounded"
-                  fontIcon="thumb_up"
-                ></mat-icon>
-                Like
-              </mat-button-toggle>
+            <!--            <mat-button-toggle-group appearance="standard">-->
+            <!--              &lt;!&ndash; Like Button &ndash;&gt;-->
+            <!--              <mat-button-toggle value="like">-->
+            <!--                <mat-icon-->
+            <!--                  class="material-symbols-rounded"-->
+            <!--                  fontIcon="thumb_up"-->
+            <!--                ></mat-icon>-->
+            <!--                Like-->
+            <!--              </mat-button-toggle>-->
 
-              <!-- Dislike Button -->
-              <mat-button-toggle value="dislike">
-                <mat-icon
-                  class="material-symbols-rounded"
-                  fontIcon="thumb_down"
-                ></mat-icon>
-              </mat-button-toggle>
-            </mat-button-toggle-group>
+            <!--              &lt;!&ndash; Dislike Button &ndash;&gt;-->
+            <!--              <mat-button-toggle value="dislike">-->
+            <!--                <mat-icon-->
+            <!--                  class="material-symbols-rounded"-->
+            <!--                  fontIcon="thumb_down"-->
+            <!--                ></mat-icon>-->
+            <!--              </mat-button-toggle>-->
+            <!--            </mat-button-toggle-group>-->
           </div>
         </mat-card-content>
       </mat-card>
@@ -100,7 +100,11 @@
         <div class="comment-forms">
           <mat-form-field appearance="fill" class="comment-field">
             <mat-label>Add a comment...</mat-label>
-            <textarea [(ngModel)]="comment" matInput [rows]="comment ? 2 : 1" ></textarea>
+            <textarea
+              [(ngModel)]="comment"
+              [rows]="comment ? 2 : 1"
+              matInput
+            ></textarea>
           </mat-form-field>
         </div>
         <button

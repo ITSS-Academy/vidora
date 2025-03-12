@@ -1,14 +1,42 @@
-<div id="container">
-  <h2>Playlists</h2>
-  @if (isGetPlaylistByUserIdSuccess$ | async) {
-    <div class="playlist-video">
-      @for (playlist of playlists$ | async; track $index) {
-        <app-playlist-card [playlist]="playlist"></app-playlist-card>
+@defer (when (isCheckLogin$ | async)) {
+  @if ((user$ | async)?.id) {
+    <div id="container">
+      <h2>Playlists</h2>
+      @if (isGetPlaylistByUserIdSuccess$ | async) {
+        <div class="playlist-video">
+          @for (playlist of playlists$ | async; track $index) {
+            <app-playlist-card [playlist]="playlist"></app-playlist-card>
+          }
+        </div>
+      } @else {
+        <div class="loading">
+          <mat-spinner class="circle"></mat-spinner>
+        </div>
       }
     </div>
   } @else {
-    <div class="loading">
-      <mat-spinner class="circle"></mat-spinner>
+    <div class="user-login-require">
+      <div class="login-card">
+        <mat-icon
+          class="material-symbols-rounded icon"
+          fontIcon="playlist_play"
+        ></mat-icon>
+        <h3 class="login-message">Please log in to view your playlists</h3>
+        <p class="login-description">
+          You need to sign in to view your playlists
+        </p>
+        <button mat-flat-button (click)="signInWithGoogle()">
+          <mat-icon
+            class="material-symbols-rounded"
+            fontIcon="account_circle"
+          ></mat-icon>
+          Sign in with Google
+        </button>
+      </div>
     </div>
   }
-</div>
+} @placeholder (minimum 500ms) {
+  <div class="loading">
+    <mat-spinner class="circle"></mat-spinner>
+  </div>
+}

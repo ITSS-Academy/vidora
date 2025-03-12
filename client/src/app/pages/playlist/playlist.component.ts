@@ -8,9 +8,11 @@ import { PlaylistState } from '../../../ngrxs/playlist/playlist.state';
 import { Observable, Subscription } from 'rxjs';
 import { PlaylistModel } from '../../../models/playlist.model';
 import * as PlaylistActions from '../../../ngrxs/playlist/playlist.actions';
+import * as AuthActions from '../../../ngrxs/auth/auth.actions';
 import { UserState } from '../../../ngrxs/user/user.state';
 import { UserModel } from '../../../models/user.model';
 import { AlertService } from '../../../services/alert.service';
+import { AuthState } from '../../../ngrxs/auth/auth.state';
 
 @Component({
   selector: 'app-playlist',
@@ -22,6 +24,8 @@ import { AlertService } from '../../../services/alert.service';
 export class PlaylistComponent implements OnInit, OnDestroy {
   playlists$!: Observable<PlaylistModel[]>;
   user!: UserModel;
+  user$!: Observable<UserModel>;
+  isCheckLogin$!: Observable<boolean>;
   subscriptions: Subscription[] = [];
   isGetPlaylistByUserIdSuccess$!: Observable<boolean>;
   isDeletePlaylistByIdSuccess$!: Observable<boolean>;
@@ -29,7 +33,11 @@ export class PlaylistComponent implements OnInit, OnDestroy {
   @Input() playlist!: PlaylistModel;
 
   constructor(
-    private store: Store<{ playlist: PlaylistState; user: UserState }>,
+    private store: Store<{
+      playlist: PlaylistState;
+      user: UserState;
+      auth: AuthState;
+    }>,
     private alertService: AlertService,
   ) {
     this.playlists$ = this.store.select('playlist', 'playlists');
@@ -42,6 +50,8 @@ export class PlaylistComponent implements OnInit, OnDestroy {
     this.isGetPlaylistByUserIdSuccess$ = this.store.select(
       (state) => state.playlist.isGetPlaylistByUserIdSuccess,
     );
+    this.user$ = this.store.select('user', 'user');
+    this.isCheckLogin$ = this.store.select('auth', 'isCheckLoggedIn');
   }
 
   ngOnInit() {
@@ -99,6 +109,10 @@ export class PlaylistComponent implements OnInit, OnDestroy {
         }
       }),
     );
+  }
+
+  signInWithGoogle(): void {
+    this.store.dispatch(AuthActions.signInWithGoogle());
   }
 
   ngOnDestroy() {

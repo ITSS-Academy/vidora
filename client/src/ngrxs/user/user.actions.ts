@@ -18,46 +18,48 @@ export const getUserByIdFailure = createAction(
   props<{ error: any }>(),
 );
 
-export const updateUser = createAction(
-  '[User] Update',
-  props<{ user: UserModel }>(),
+export const updateChannelImage = createAction(
+  '[User] Update Channel Image',
+  props<{
+    channelImg: File;
+    userId: string;
+  }>(),
 );
-export const updateUserSuccess = createAction('[User] Update Success');
-export const updateUserFailure = createAction(
-  '[User] Update Failure',
+export const updateChannelImageSuccess = createAction(
+  '[User] Update Channel Image Success',
+);
+export const updateChannelImageFailure = createAction(
+  '[User] Update Channel Image Failure',
   props<{ error: any }>(),
 );
 
-export const uploadProfilePicture = createAction(
-  '[User] Upload Profile Picture',
-  props<{ file: File }>()
-);
-export const uploadProfilePictureSuccess = createAction(
-  '[User] Upload Profile Picture Success',
-  props<{ avatar_url: string }>()
-);
-export const uploadProfilePictureFailure = createAction(
-  '[User] Upload Profile Picture Failure',
-  props<{ error: any }>()
+export const updateAvatar = createAction(
+  '[User] Update Avatar',
+  props<{
+    avatar: File;
+    userId: string;
+  }>(),
 );
 
-export const uploadUserProfile = createAction(
-  '[User] Update Profile Picture',
-  props<{ avatar_url: string }>()
+export const updateAvatarSuccess = createAction('[User] Update Avatar Success');
+
+export const updateAvatarFailure = createAction(
+  '[User] Update Avatar Failure',
+  props<{ error: any }>(),
 );
 
-export const uploadProfileBanner = createAction(
-  '[User] Upload Profile Banner',
-  props<{ file: File }>()
-);
-export const uploadProfileBannerSuccess = createAction(
-  '[User] Upload Profile Banner Success',
-  props<{ banner_url: string }>()
-);
-export const uploadProfileBannerFailure = createAction(
-  '[User] Upload Profile Banner Failure',
-  props<{ error: any }>()
+export const updateDescribe = createAction(
+  '[User] Update Describe',
+  props<{ userId: string; describe: string }>(),
 );
 
+export const updateDescribeSuccess = createAction(
+  '[User] Update Describe Success',
+);
+
+export const updateDescribeFailure = createAction(
+  '[User] Update Describe Failure',
+  props<{ error: any }>(),
+);
 
 export const clearState = createAction('[User] Clear State');

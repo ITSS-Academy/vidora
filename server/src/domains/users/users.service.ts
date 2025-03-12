@@ -1,6 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { FirebaseUserModel } from '../../models/user.model';
 import { createClient } from '@supabase/supabase-js';
+import { randomUUID } from 'crypto';
+import { Multer } from 'multer';
 
 @Injectable()
 export class UsersService {
@@ -53,6 +55,77 @@ export class UsersService {
       }
 
       return data;
+    } catch (e) {
+      throw new HttpException(e, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async updateChannelImage(userId: string, img: Multer.File) {
+    try {
+      const uuid = randomUUID();
+      const { data, error } = await this.supabase.storage
+        .from('channel_url')
+        .upload(`backgrounds/${userId}/${uuid}`, img.buffer, {
+          contentType: img.mimetype, // Ensure the correct MIME type is set
+        });
+
+      if (error) {
+        throw new HttpException(error, HttpStatus.BAD_REQUEST);
+      }
+
+      // get the public url of the image
+      const { publicURL } = this.supabase.storage
+        .from('channel_url')
+        .getPublicUrl(`backgrounds/${userId}/${uuid}`);
+
+      // update the user avatar
+      await this.supabase
+        .from('users')
+        .update({ channel_url: publicURL })
+        .eq('id', userId);
+
+      return data;
+    } catch (e) {
+      throw new HttpException(e, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async updateAvatar(userId: string, img: Multer.File) {
+    try {
+      const uuid = randomUUID();
+      const { data, error } = await this.supabase.storage
+        .from('channel_url')
+        .upload(`avatars/${userId}/${uuid}`, img.buffer, {
+          contentType: img.mimetype, // Ensure the correct MIME type is set
+        });
+
+      if (error) {
+        throw new HttpException(error, HttpStatus.BAD_REQUEST);
+      }
+
+      // get the public url of the image
+      const { publicURL } = this.supabase.storage
+        .from('channel_url')
+        .getPublicUrl(`avatars/${userId}/${uuid}`);
+
+      // update the user avatar
+      await this.supabase
+        .from('users')
+        .update({ avatar_url: publicURL })
+        .eq('id', userId);
+
+      return data;
+    } catch (e) {
+      throw new HttpException(e, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async updateDescribe(userId: string, description: string) {
+    try {
+      await this.supabase
+        .from('users')
+        .update({ describe: description })
+        .eq('id', userId);
     } catch (e) {
       throw new HttpException(e, HttpStatus.BAD_REQUEST);
     }

@@ -4,37 +4,35 @@
       <img
         alt=""
         class="channel-banner"
-        src="https://yt3.googleusercontent.com/LDubdrr-wZX6bA9L-qybBDztCNCFNrHFfr0IjNl3T-VRCZ_mEGXkuPyE5rSfg51OySU3ONRC=w1707-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj"
+        src="{{ (userProfile$ | async)?.channel_url }}"
       />
     </div>
   </div>
   <div id="profile-details">
     <div id="profile-avatar">
-      <img src="{{ (userProfile$ | async)?.avatar_url}}" alt="User avatar"/>
+      <img alt="User avatar" src="{{ (userProfile$ | async)?.avatar_url }}" />
     </div>
     <div id="profile-info">
       <span id="channel-name">{{ (userProfile$ | async)?.username }}</span>
-      <div id="profile-stats">
-<!--        <span class="stat-item">&#64;tp</span>-->
-<!--        <span class="stat-item">•</span>-->
-<!--        <span class="stat-item"> 1K videos</span>-->
-      </div>
+      <div id="profile-stats"></div>
       <div id="introduce">
-        <span>- Mình là Phương, sinh ra và lớn lên ở Sài Gòn.</span>
-        <span class="more" (click)="openMoreInfoDialog()"> ...more</span>
+        <span>{{ (userProfile$ | async)?.describe }}</span>
+        <span (click)="openMoreInfoDialog()" class="more"> ...more</span>
       </div>
-      <button mat-flat-button (click)="onCustomizeProfileDialog()">Customize channel</button>
+      <button (click)="onCustomizeProfileDialog()" mat-flat-button>
+        Customize channel
+      </button>
     </div>
   </div>
 
   <mat-tab-group
-    [(selectedIndex)]="activeTabIndex"
     (selectedTabChange)="onTabChange($event)"
+    [(selectedIndex)]="activeTabIndex"
     class="sticky-tab-group"
     mat-align-tabs="start"
     mat-stretch-tabs="false"
   >
-<!--    <mat-tab label="Home"></mat-tab>-->
+    <!--    <mat-tab label="Home"></mat-tab>-->
     <mat-tab label="Videos"></mat-tab>
     <mat-tab label="Playlist"></mat-tab>
   </mat-tab-group>

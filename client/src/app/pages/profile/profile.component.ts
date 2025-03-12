@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../../../shared/modules/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { VideoModule } from '../../../shared/modules/video.module';
@@ -10,17 +10,13 @@ import { MoreInfoDialogComponent } from '../../dialogs/more-info-dialog/more-inf
 import { Store } from '@ngrx/store';
 import { getUserById } from '../../../ngrxs/user/user.actions';
 import { UserModel } from '../../../models/user.model';
-import {UserState} from '../../../ngrxs/user/user.state';
-import {
-  CustomizeProfileDialogComponent
-} from '../../dialogs/customize-profile-dialog/customize-profile-dialog.component';
-
-
+import { UserState } from '../../../ngrxs/user/user.state';
+import { CustomizeProfileDialogComponent } from '../../dialogs/customize-profile-dialog/customize-profile-dialog.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [SharedModule, MaterialModule, VideoModule, VideoCardVerticalComponent],
+  imports: [SharedModule, MaterialModule, VideoModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
@@ -29,14 +25,11 @@ export class ProfileComponent implements OnInit {
   activeTabIndex = 0;
   userProfile$: Observable<UserModel>;
 
-
-
   constructor(
     private router: Router,
     public dialog: MatDialog,
     private route: ActivatedRoute,
-    private store: Store<
-    { user: UserState }>,
+    private store: Store<{ user: UserState }>,
   ) {
     this.userProfile$ = this.store.select((state) => state.user.user);
   }
@@ -56,24 +49,20 @@ export class ProfileComponent implements OnInit {
   }
 
   openMoreInfoDialog() {
-    this.dialog.open(MoreInfoDialogComponent
-    )
+    this.dialog.open(MoreInfoDialogComponent);
   }
 
   onCustomizeProfileDialog() {
     this.dialog.open(CustomizeProfileDialogComponent, {
       minWidth: 800,
       minHeight: 600,
-    })
+    });
   }
 
   onTabChange(event: any) {
     const tabIndex = event.index;
     let route = '';
     switch (tabIndex) {
-      // case 0:
-      //   route = 'profile/featured';
-      //   break;
       case 0:
         route = 'profile/videos';
         break;

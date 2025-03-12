@@ -1,6 +1,5 @@
 import { UserModel } from '../../models/user.model';
 
-
 export interface UserState {
   user: UserModel;
   isGettingUser: boolean;
@@ -11,15 +10,15 @@ export interface UserState {
   isCreateUserSuccess: boolean;
   createUserErrorMessage: string;
 
-  isUpdatingUser: boolean;
-  isUpdateUserSuccess: boolean;
-  updateUserErrorMessage: string;
+  isUpdatingChannelImage: boolean;
+  isUpdateChannelImageSuccess: boolean;
+  updateChannelImageErrorMessage: string;
 
-  isUploadingPicture: boolean;
-  isUploadPictureSuccess: boolean;
-  uploadPictureErrorMessage: string,
-}
+  isUpdatingAvatar: boolean;
+  isUpdateAvatarSuccess: boolean;
+  updateAvatarErrorMessage: string;
 
-
-export class updateUserProfile {
+  isUpdatingDescribe: boolean;
+  isUpdateDescribeSuccess: boolean;
+  updateDescribeErrorMessage: string;
 }
