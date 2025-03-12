@@ -3,18 +3,7 @@ import { createReducer, on } from '@ngrx/store';
 import * as UserActions from './user.actions';
 import { UserModel } from '../../models/user.model';
 
-const initialState: {
-  user: UserModel;
-  isGettingUser: boolean;
-  isGetUserSuccess: boolean;
-  getUserErrorMessage: string;
-  isCreatingUser: boolean;
-  isCreateUserSuccess: boolean;
-  createUserErrorMessage: string;
-  isUpdatingUser: boolean;
-  isUpdateUserSuccess: boolean;
-  updateUserErrorMessage: string
-} = {
+const initialState: UserState = {
   user: <UserModel>{},
   isGettingUser: false,
   isGetUserSuccess: false,
@@ -24,9 +13,9 @@ const initialState: {
   isCreateUserSuccess: false,
   createUserErrorMessage: '',
 
-  isUpdatingUser: false,
-  isUpdateUserSuccess: false,
-  updateUserErrorMessage: '',
+  isUpdatingChannelImage: false,
+  isUpdateChannelImageSuccess: false,
+  updateChannelImageErrorMessage: '',
 };
 
 export const userReducer = createReducer(
@@ -80,60 +69,37 @@ export const userReducer = createReducer(
       getUserErrorMessage: action.error,
     };
   }),
-  on(UserActions.updateUser, (state, action) => {
+
+  on(UserActions.uploadUserBanner, (state, action) => {
     console.log(action.type);
     return <UserState>{
       ...state,
-      isUpdatingUser: true,
+      isUpdatingChannelImage: true,
     };
   }),
-  on(UserActions.updateUserSuccess, (state, action) => {
+
+  on(UserActions.uploadUserBannerSuccess, (state, action) => {
     console.log(action.type);
     return <UserState>{
       ...state,
-      isUpdatingUser: false,
-      isUpdateUserSuccess: true,
+      isUpdatingChannelImage: false,
+      isUpdateChannelImageSuccess: true,
     };
   }),
-  on(UserActions.updateUserFailure, (state, action) => {
+
+  on(UserActions.uploadUserBannerFailure, (state, action) => {
     console.log(action.type);
     return <UserState>{
       ...state,
-      isUpdatingUser: false,
-      updateUserErrorMessage: action.error,
+      isUpdatingChannelImage: false,
+      updateChannelImageErrorMessage: action.error,
     };
   }),
+
   on(UserActions.clearState, (state, action) => {
     console.log(action.type);
     return <UserState>{
       ...initialState,
-    };
-  }),
-  on(UserActions.uploadProfilePicture, (state, action) => {
-    console.log(action.type);
-    return <UserState>{
-      ...state,
-      isUpdatingUser: true,
-    };
-  }),
-  on(UserActions.uploadProfilePictureSuccess, (state, action) => {
-    console.log(action.type);
-    return <UserState>{
-      ...state,
-      user: {
-        ...state.user,
-        avatar_url: action.avatar_url,
-      },
-      isUpdatingUser: false,
-      isUpdateUserSuccess: true,
-    };
-  }),
-  on(UserActions.uploadProfilePictureFailure, (state, action) => {
-    console.log(action.type);
-    return <UserState>{
-      ...state,
-      isUpdatingUser: false,
-      updateUserErrorMessage: action.error,
     };
   }),
 );

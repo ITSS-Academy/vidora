@@ -27,25 +27,6 @@ export const createUser$ = createEffect(
   { functional: true },
 );
 
-export const updateUser$ = createEffect(
-  () => {
-    const actions$ = inject(Actions);
-    const userService = inject(UserService);
-    return actions$.pipe(
-      ofType(UserActions.updateUser),
-      exhaustMap((action) => {
-        return userService.updateUser(action.user).pipe(
-          map(() => UserActions.updateUserSuccess()),
-          catchError((error) => {
-            return of(UserActions.updateUserFailure({ error: error }));
-          }),
-        );
-      }),
-    );
-  },
-  { functional: true },
-);
-
 export const getUserById$ = createEffect(
   () => {
     const actions$ = inject(Actions);
@@ -71,21 +52,23 @@ export const getUserById$ = createEffect(
   { functional: true },
 );
 
-export const uploadProfilePicture$ = createEffect(
+export const updateChannelImage$ = createEffect(
   () => {
     const actions$ = inject(Actions);
     const userService = inject(UserService);
     return actions$.pipe(
-      ofType(UserActions.uploadProfilePicture),
+      ofType(UserActions.uploadUserBanner),
       exhaustMap((action) => {
-        return userService.updateProfilePicture(action.file).pipe(
-          map((response) =>
-            UserActions.uploadProfilePictureSuccess({ avatar_url: response.url })
-          ),
-          catchError((error) => {
-            return of(UserActions.uploadProfilePictureFailure({ error: error }));
-          }),
-        );
+        return userService
+          .updateChannelImage(action.channelFile, action.userId)
+          .pipe(
+            map(() => {
+              return UserActions.uploadUserBannerSuccess();
+            }),
+            catchError((error) => {
+              return of(UserActions.uploadUserBannerFailure({ error: error }));
+            }),
+          );
       }),
     );
   },

@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import * as AuthGuard from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },

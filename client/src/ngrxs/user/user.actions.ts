@@ -18,46 +18,18 @@ export const getUserByIdFailure = createAction(
   props<{ error: any }>(),
 );
 
-export const updateUser = createAction(
-  '[User] Update',
-  props<{ user: UserModel }>(),
+export const uploadUserBanner = createAction(
+  '[User] Update Profile Banner',
+  props<{ channelFile: File; userId: string }>(),
 );
-export const updateUserSuccess = createAction('[User] Update Success');
-export const updateUserFailure = createAction(
-  '[User] Update Failure',
+
+export const uploadUserBannerSuccess = createAction(
+  '[User] Update Profile Banner Success',
+);
+
+export const uploadUserBannerFailure = createAction(
+  '[User] Update Profile Banner Failure',
   props<{ error: any }>(),
 );
-
-export const uploadProfilePicture = createAction(
-  '[User] Upload Profile Picture',
-  props<{ file: File }>()
-);
-export const uploadProfilePictureSuccess = createAction(
-  '[User] Upload Profile Picture Success',
-  props<{ avatar_url: string }>()
-);
-export const uploadProfilePictureFailure = createAction(
-  '[User] Upload Profile Picture Failure',
-  props<{ error: any }>()
-);
-
-export const uploadUserProfile = createAction(
-  '[User] Update Profile Picture',
-  props<{ avatar_url: string }>()
-);
-
-export const uploadProfileBanner = createAction(
-  '[User] Upload Profile Banner',
-  props<{ file: File }>()
-);
-export const uploadProfileBannerSuccess = createAction(
-  '[User] Upload Profile Banner Success',
-  props<{ banner_url: string }>()
-);
-export const uploadProfileBannerFailure = createAction(
-  '[User] Upload Profile Banner Failure',
-  props<{ error: any }>()
-);
-
 
 export const clearState = createAction('[User] Clear State');
