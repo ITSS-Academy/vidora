@@ -17,6 +17,7 @@ import * as PlaylistActions from '../../../ngrxs/playlist/playlist.actions';
 import { filter, take } from 'rxjs/operators';
 import * as VideoActions from '../../../ngrxs/video/video.actions';
 import * as CommentActions from '../../../ngrxs/comment/comment.actions';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
   selector: 'app-playlist-detail',
@@ -42,6 +43,7 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
     private store: Store<{ playlist: PlaylistState; user: UserState }>,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private alertService: AlertService,
   ) {
     this.user$ = this.store.select('user', 'user');
     this.playlistDetail$ = this.store.select('playlist', 'playlistDetail');
@@ -64,6 +66,25 @@ export class PlaylistDetailComponent implements OnInit, OnDestroy {
           this.playlistDetail = playlistDetail;
         }
       }),
+      this.store
+        .select('playlist', 'isDeleteVideoInPlaylistSuccess')
+        .subscribe((isDeleteVideoInPlaylistSuccess) => {
+          if (isDeleteVideoInPlaylistSuccess) {
+            this.store.dispatch(PlaylistActions.clearPlaylistState());
+            this.alertService.showAlert(
+              `Video has been removed from playlist`,
+              'Close',
+              3000,
+              'end',
+              'top',
+            );
+            this.store.dispatch(
+              PlaylistActions.getPlaylistById({
+                id: this.playlistDetail.playlist.id,
+              }),
+            );
+          }
+        }),
       this.store
         .select('user', 'isGetUserSuccess')
         .pipe(

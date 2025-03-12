@@ -47,6 +47,10 @@ const initialState: PlaylistState = {
   isDeletePlaylistByIdSuccess: false,
   deletePlaylistByIdErrorMessage: '',
 
+  isDeletingVideoInPlaylist: false,
+  isDeleteVideoInPlaylistSuccess: false,
+  deleteVideoInPlaylistErrorMessage: '',
+
   isUpsertingPlaylistById: false,
   isUpsertPlaylistByIdSuccess: false,
   upsertPlaylistByIdErrorMessage: '',
@@ -298,6 +302,33 @@ export const playlistReducer = createReducer(
     };
   }),
 
+  on(PlaylistActions.deleteVideoInPlaylist, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isDeletingVideoInPlaylist: true,
+      isDeleteVideoInPlaylistSuccess: false,
+    };
+  }),
+
+  on(PlaylistActions.deleteVideoInPlaylistSuccess, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isDeletingVideoInPlaylist: false,
+      isDeleteVideoInPlaylistSuccess: true,
+    };
+  }),
+
+  on(PlaylistActions.deleteVideoInPlaylistFailure, (state, action) => {
+    console.log(action.type);
+    return <PlaylistState>{
+      ...state,
+      isDeletingVideoInPlaylist: false,
+      deleteVideoInPlaylistErrorMessage: action.error,
+    };
+  }),
+
   on(PlaylistActions.upsertPlaylistById, (state, action) => {
     console.log(action.type);
     return <PlaylistState>{
@@ -349,6 +380,10 @@ export const playlistReducer = createReducer(
       isDeletingPlaylistById: false,
       isDeletePlaylistByIdSuccess: false,
       deletePlaylistByIdErrorMessage: '',
+
+      isDeletingVideoInPlaylist: false,
+      isDeleteVideoInPlaylistSuccess: false,
+      deleteVideoInPlaylistErrorMessage: '',
 
       isUpsertingPlaylistById: false,
       isUpsertPlaylistByIdSuccess: false,

@@ -57,6 +57,7 @@
             @for (video of (playlistDetail$ | async)?.videos; track $index) {
               <app-video-card-horizontal
                 [video]="video"
+                [playlistId]="(playlistDetail$ | async)?.playlist?.id"
               ></app-video-card-horizontal>
             }
           }

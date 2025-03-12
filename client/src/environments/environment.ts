@@ -8,6 +8,6 @@ export const environment = {
     messagingSenderId: '91999981024',
     appId: '1:91999981024:web:f4c836baaba72f5e58af85',
   },
-  apiUrl: 'http://localhost:3000',
-  socketIoConfig: { url: 'http://localhost:3000', options: {} },
+  apiUrl: 'https://svc.vidora.ext.itss.edu.vn',
+  socketIoConfig: { url: 'https://svc.vidora.ext.itss.edu.vn', options: {} },
 };

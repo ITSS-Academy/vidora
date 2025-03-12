@@ -159,4 +159,19 @@ export class PlaylistsService {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
+
+  async removeVideoInPlaylist(playlistId: string, videoId: string) {
+    try {
+      const { error } = await this.supabase.rpc('delete_video_in_playlist', {
+        p_playlist_id: playlistId,
+        p_video_id: videoId,
+      });
+
+      if (error) {
+        throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      }
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
 }

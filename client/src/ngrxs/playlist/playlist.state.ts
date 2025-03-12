@@ -44,6 +44,10 @@ export interface PlaylistState {
   isDeletePlaylistByIdSuccess: boolean;
   deletePlaylistByIdErrorMessage: string;
 
+  isDeletingVideoInPlaylist: boolean;
+  isDeleteVideoInPlaylistSuccess: boolean;
+  deleteVideoInPlaylistErrorMessage: string;
+
   isUpsertingPlaylistById: boolean;
   isUpsertPlaylistByIdSuccess: boolean;
   upsertPlaylistByIdErrorMessage: string;

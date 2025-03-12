@@ -264,3 +264,28 @@ export const upsertPlaylistById$ = createEffect(
   },
   { functional: true },
 );
+
+export const removeVideoInPlaylist$ = createEffect(
+  () => {
+    const actions$ = inject(Actions);
+    const playlistService = inject(PlaylistService);
+    return actions$.pipe(
+      ofType(PlaylistActions.deleteVideoInPlaylist),
+      exhaustMap((action) => {
+        return playlistService
+          .deleteVideoInPlaylist(action.playlistId, action.videoId)
+          .pipe(
+            map(() => PlaylistActions.deleteVideoInPlaylistSuccess()),
+            catchError((obj) => {
+              return of(
+                PlaylistActions.deleteVideoInPlaylistFailure({
+                  error: obj.error.message,
+                }),
+              );
+            }),
+          );
+      }),
+    );
+  },
+  { functional: true },
+);

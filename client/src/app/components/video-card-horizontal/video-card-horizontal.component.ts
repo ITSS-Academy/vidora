@@ -23,7 +23,7 @@ import { SidebarState } from '../../../ngrxs/sidebar/sidebar.state';
 import * as HistoryActions from '../../../ngrxs/history/history.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
-import {PlaylistDialogComponent} from '../../dialogs/playlist-dialog/playlist-dialog.component';
+import { PlaylistDialogComponent } from '../../dialogs/playlist-dialog/playlist-dialog.component';
 
 @Component({
   selector: 'app-video-card-horizontal',
@@ -96,13 +96,6 @@ export class VideoCardHorizontalComponent
             );
           }
         }),
-
-
-      this.isSidebarOpen$.subscribe((isSidebarOpen) => {
-        if (isSidebarOpen) {
-        } else {
-        }
-      }),
     );
   }
 
@@ -197,6 +190,17 @@ export class VideoCardHorizontalComponent
 
   openDialog(event: MouseEvent) {
     event.stopPropagation();
+  }
+
+  removeVideoInPlaylist() {
+    if (this.user) {
+      this.store.dispatch(
+        PlaylistActions.deleteVideoInPlaylist({
+          playlistId: this.playlistId as string,
+          videoId: this.video.id,
+        }),
+      );
+    }
   }
 
   addToWatchLater() {

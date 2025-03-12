@@ -142,4 +142,19 @@ export const upsertPlaylistByIdFailure = createAction(
   '[Playlist] Upsert Playlist By Id Failure',
   props<{ error: string }>(),
 );
+
+export const deleteVideoInPlaylist = createAction(
+  '[Playlist] Delete Video In Playlist',
+  props<{ playlistId: string; videoId: string }>(),
+);
+
+export const deleteVideoInPlaylistSuccess = createAction(
+  '[Playlist] Delete Video In Playlist Success',
+);
+
+export const deleteVideoInPlaylistFailure = createAction(
+  '[Playlist] Delete Video In Playlist Failure',
+  props<{ error: string }>(),
+);
+
 export const clearPlaylistState = createAction('[Playlist] Clear State');

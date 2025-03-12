@@ -50,6 +50,12 @@ export class PlaylistService {
     return this.http.delete('playlists', { params: { playlistId } });
   }
 
+  deleteVideoInPlaylist(playlistId: string, videoId: string) {
+    return this.http.delete('playlists/video', {
+      params: { playlistId, videoId },
+    });
+  }
+
   updatePlaylistById(playlistId: string, playlist: UpdatePlaylistDto) {
     return this.http.put('playlists', playlist, { params: { playlistId } });
   }
