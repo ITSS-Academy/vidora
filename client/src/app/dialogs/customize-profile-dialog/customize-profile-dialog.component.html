@@ -5,14 +5,14 @@
       >close
     </mat-icon>
   </div>
-  @if ((userProfile$ | async)?.banner_url || bannerUrl) {
+  @if ((user$ | async)?.channel_url || bannerUrl) {
     <div id="update-banner">
       <h3>Banner</h3>
       <div class="select-banner">
         <img
           (click)="onBannerClick()"
           class="banner"
-          src="{{ (userProfile$ | async)?.banner_url }}"
+          src="{{ (user$ | async)?.channel_url }}"
         />
         <input
           #bannerInput
@@ -36,16 +36,18 @@
   <div class="update-profile">
     <div class="update-description">
       <h3>Description</h3>
-      <form class="description-form">
+      <form [formGroup]="editProfileForm" class="description-form">
         <mat-form-field class="description-full-width">
           <textarea
+            #textarea
+            [value]="(user$ | async)?.describe"
+            formControlName="describe"
             matInput
-            placeholder="Enter description"
-            rows="6"
+            maxlength="1000"
+            placeholder="Input describe"
           ></textarea>
         </mat-form-field>
       </form>
-      <button class="publish-button" mat-flat-button>Publish</button>
     </div>
     <div class="update-picture">
       <h3>Picture</h3>
@@ -53,7 +55,7 @@
         <img
           (click)="onAvatarClick()"
           class="image"
-          src="{{ (userProfile$ | async)?.avatar_url }}"
+          src="{{ (user$ | async)?.avatar_url }}"
         />
         <input
           #avatarInput
@@ -63,5 +65,16 @@
         />
       </div>
     </div>
+  </div>
+
+  <div class="button-group">
+    <button
+      (click)="onSave()"
+      [disabled]="editProfileForm.invalid"
+      mat-flat-button
+    >
+      Save
+    </button>
+    <button (click)="onCancel()" mat-stroked-button>Cancel</button>
   </div>
 </div>

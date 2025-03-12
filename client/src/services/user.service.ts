@@ -17,11 +17,21 @@ export class UserService {
     return this.http.get(`users`);
   }
 
-  updateChannelImage(file: File, userId: string) {
+  updateChannelImage(channelImg: File, userId: string) {
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('userId', userId);
+    formData.append('file', channelImg);
+    formData.append('userId', JSON.stringify(userId));
+    return this.http.post(`users/channel`, formData);
+  }
 
-    return this.http.put(`users/channel`, formData);
+  updateAvatar(avatar: File, userId: string) {
+    const formData = new FormData();
+    formData.append('file', avatar);
+    formData.append('userId', JSON.stringify(userId));
+    return this.http.post(`users/avatar`, formData);
+  }
+
+  updateDescribe(userId: string, describe: string) {
+    return this.http.post(`users/describe`, { userId, describe });
   }
 }

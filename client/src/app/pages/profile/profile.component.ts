@@ -16,12 +16,7 @@ import { CustomizeProfileDialogComponent } from '../../dialogs/customize-profile
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [
-    SharedModule,
-    MaterialModule,
-    VideoModule,
-    VideoCardVerticalComponent,
-  ],
+  imports: [SharedModule, MaterialModule, VideoModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
@@ -68,9 +63,6 @@ export class ProfileComponent implements OnInit {
     const tabIndex = event.index;
     let route = '';
     switch (tabIndex) {
-      // case 0:
-      //   route = 'profile/featured';
-      //   break;
       case 0:
         route = 'profile/videos';
         break;

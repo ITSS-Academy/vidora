@@ -165,3 +165,10 @@
     object-fit: cover;
   }
 }
+
+.button-group {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 20px;
+}

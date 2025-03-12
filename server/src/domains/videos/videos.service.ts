@@ -311,10 +311,6 @@ export class VideosService {
           p_video_id: videoId,
           p_user_id: userId,
         });
-
-        if (error) {
-          throw new HttpException(error, HttpStatus.BAD_REQUEST);
-        }
       }
 
       return data[0];

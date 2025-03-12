@@ -4,8 +4,6 @@ export interface UserModel {
   email: string;
   avatar_url: string;
   joined_date: string;
-  banner_url: string;
-}
-
-export class getUserById {
+  channel_url: string;
+  describe: string;
 }

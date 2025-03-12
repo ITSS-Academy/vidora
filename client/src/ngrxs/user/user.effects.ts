@@ -57,18 +57,62 @@ export const updateChannelImage$ = createEffect(
     const actions$ = inject(Actions);
     const userService = inject(UserService);
     return actions$.pipe(
-      ofType(UserActions.uploadUserBanner),
+      ofType(UserActions.updateChannelImage),
       exhaustMap((action) => {
         return userService
-          .updateChannelImage(action.channelFile, action.userId)
+          .updateChannelImage(action.channelImg, action.userId)
           .pipe(
             map(() => {
-              return UserActions.uploadUserBannerSuccess();
+              return UserActions.updateChannelImageSuccess();
             }),
             catchError((error) => {
-              return of(UserActions.uploadUserBannerFailure({ error: error }));
+              return of(
+                UserActions.updateChannelImageFailure({ error: error }),
+              );
             }),
           );
+      }),
+    );
+  },
+  { functional: true },
+);
+
+export const updateAvatar$ = createEffect(
+  () => {
+    const actions$ = inject(Actions);
+    const userService = inject(UserService);
+    return actions$.pipe(
+      ofType(UserActions.updateAvatar),
+      exhaustMap((action) => {
+        return userService.updateAvatar(action.avatar, action.userId).pipe(
+          map(() => {
+            return UserActions.updateAvatarSuccess();
+          }),
+          catchError((error) => {
+            return of(UserActions.updateAvatarFailure({ error: error }));
+          }),
+        );
+      }),
+    );
+  },
+  { functional: true },
+);
+
+export const updateDescribe$ = createEffect(
+  () => {
+    const actions$ = inject(Actions);
+    const userService = inject(UserService);
+    return actions$.pipe(
+      ofType(UserActions.updateDescribe),
+      exhaustMap((action) => {
+        return userService.updateDescribe(action.userId, action.describe).pipe(
+          map(() => {
+            return UserActions.updateDescribeSuccess();
+          }),
+          catchError((error) => {
+            return of(UserActions.updateDescribeFailure({ error: error }));
+          }),
+        );
       }),
     );
   },

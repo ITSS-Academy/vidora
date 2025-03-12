@@ -26,6 +26,7 @@ import { VideoCardHorizontalComponent } from '../../components/video-card-horizo
 import { CommentState } from '../../../ngrxs/comment/comment.state';
 import { CommentCardComponent } from '../../components/comment-card/comment-card.component';
 import { CommentModel } from '../../../models/comment.model';
+import { AuthState } from '../../../ngrxs/auth/auth.state';
 
 @Component({
   selector: 'app-watch',
@@ -64,6 +65,7 @@ export class WatchComponent implements OnInit, OnDestroy {
   comment: string = '';
   createCommentFailure: Observable<string>;
   comments$!: Observable<CommentModel[]>;
+  isCheckLogin$!: Observable<boolean>;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -72,6 +74,7 @@ export class WatchComponent implements OnInit, OnDestroy {
       user: UserState;
       playlist: PlaylistState;
       comment: CommentState;
+      auth: AuthState;
     }>,
     private vgApi: VgApiService,
     private router: Router,
@@ -92,6 +95,7 @@ export class WatchComponent implements OnInit, OnDestroy {
     this.isGetPlaylistByIdSuccess$ = this.store.select(
       (state) => state.playlist.isGetPlaylistByIdSuccess,
     );
+    this.isCheckLogin$ = this.store.select('auth', 'isCheckLoggedIn');
   }
 
   toggleDescription(): void {
@@ -105,59 +109,41 @@ export class WatchComponent implements OnInit, OnDestroy {
         map((videos) => videos.filter((video) => video.id !== this.videoId)),
       );
     this.subscription.push(
-      this.createCommentFailure.subscribe((failure) => {
-        console.error(failure);
-      }),
-      this.store.select('user', 'user').subscribe((user) => {
+      combineLatest([
+        this.store.select('user', 'user'),
+        this.activatedRoute.queryParamMap,
+      ]).subscribe(([user, params]) => {
         this.user = user;
-      }),
-      this.store
-        .select('user', 'isGetUserSuccess')
-        .pipe(
-          filter((isGetSuccess) => isGetSuccess),
-          take(1),
-        )
-        .subscribe(() => {
-          combineLatest([
-            this.activatedRoute.queryParamMap,
-            this.store.select('user', 'isGetUserSuccess'),
-            this.store.select('user', 'isGettingUser'),
-          ]).subscribe(([params, isGetSuccess, isGetting]) => {
-            this.videoId = params.get('v') || '';
-            this.listId = params.get('list') || '';
-            this.startRadio = Number(params.get('index') || 0);
-            this.store.dispatch(VideoActions.getAllVideos());
-            this.store.dispatch(
-              CommentActions.getCommentsByVideoId({ videoId: this.videoId }),
-            );
+        this.isCheckLogin$ = this.store
+          .select('user', 'user')
+          .pipe(map((user) => !!user));
+        this.videoId = params.get('v') || '';
+        this.listId = params.get('list') || '';
+        this.startRadio = Number(params.get('index') || 0);
 
-            if (isGetSuccess && !isGetting) {
-              if (this.user) {
-                this.store.dispatch(
-                  VideoActions.getVideoById({
-                    videoId: this.videoId,
-                    userId: this.user.id,
-                  }),
-                );
-              }
-              if (this.listId) {
-                this.store.dispatch(
-                  PlaylistActions.getPlaylistById({ id: this.listId }),
-                );
-              }
-            } else {
-              this.store.dispatch(
-                VideoActions.getVideoById({
-                  videoId: this.videoId,
-                  userId: null,
-                }),
-              );
-              this.store.dispatch(
-                PlaylistActions.getPlaylistById({ id: this.listId as string }),
-              );
-            }
-          });
-        }),
+        // Dispatch action lấy video
+        this.store.dispatch(
+          VideoActions.getVideoById({
+            videoId: this.videoId,
+            userId: this.user?.id ? this.user.id : null,
+          }),
+        );
+
+        // Dispatch action lấy playlist nếu có listId
+        if (this.listId) {
+          this.store.dispatch(
+            PlaylistActions.getPlaylistById({ id: this.listId }),
+          );
+        }
+
+        // Dispatch action lấy tất cả video
+        this.store.dispatch(VideoActions.getAllVideos());
+
+        // Dispatch action lấy comments của video
+        this.store.dispatch(
+          CommentActions.getCommentsByVideoId({ videoId: this.videoId }),
+        );
+      }),
       this.isGetVideoSuccess$.subscribe((isGetVideoSuccess) => {
         if (isGetVideoSuccess && this.vgApi) {
           const media = this.vgApi.getDefaultMedia();

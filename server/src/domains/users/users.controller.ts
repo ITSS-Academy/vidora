@@ -34,4 +34,19 @@ export class UsersController {
     const parsedUserId = JSON.parse(userId);
     return await this.usersService.updateChannelImage(parsedUserId, file);
   }
+
+  @Post('avatar')
+  @UseInterceptors(FileInterceptor('file'))
+  async updateAvatar(
+    @UploadedFile() file: Multer.File,
+    @Body('userId') userId: string,
+  ) {
+    const parsedUserId = JSON.parse(userId);
+    return await this.usersService.updateAvatar(parsedUserId, file);
+  }
+
+  @Post('describe')
+  async updateDescribe(@Body() body: any) {
+    return await this.usersService.updateDescribe(body.userId, body.describe);
+  }
 }

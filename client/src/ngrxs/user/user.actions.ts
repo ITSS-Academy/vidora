@@ -18,17 +18,47 @@ export const getUserByIdFailure = createAction(
   props<{ error: any }>(),
 );
 
-export const uploadUserBanner = createAction(
-  '[User] Update Profile Banner',
-  props<{ channelFile: File; userId: string }>(),
+export const updateChannelImage = createAction(
+  '[User] Update Channel Image',
+  props<{
+    channelImg: File;
+    userId: string;
+  }>(),
+);
+export const updateChannelImageSuccess = createAction(
+  '[User] Update Channel Image Success',
+);
+export const updateChannelImageFailure = createAction(
+  '[User] Update Channel Image Failure',
+  props<{ error: any }>(),
 );
 
-export const uploadUserBannerSuccess = createAction(
-  '[User] Update Profile Banner Success',
+export const updateAvatar = createAction(
+  '[User] Update Avatar',
+  props<{
+    avatar: File;
+    userId: string;
+  }>(),
 );
 
-export const uploadUserBannerFailure = createAction(
-  '[User] Update Profile Banner Failure',
+export const updateAvatarSuccess = createAction('[User] Update Avatar Success');
+
+export const updateAvatarFailure = createAction(
+  '[User] Update Avatar Failure',
+  props<{ error: any }>(),
+);
+
+export const updateDescribe = createAction(
+  '[User] Update Describe',
+  props<{ userId: string; describe: string }>(),
+);
+
+export const updateDescribeSuccess = createAction(
+  '[User] Update Describe Success',
+);
+
+export const updateDescribeFailure = createAction(
+  '[User] Update Describe Failure',
   props<{ error: any }>(),
 );
 
