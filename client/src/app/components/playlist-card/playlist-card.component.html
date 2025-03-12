@@ -8,19 +8,19 @@
       alt="Thumbnail"
       class="thumbnail"
       mat-card-image
-      src="{{ playlist.thumbnail_url }}"
+      src="{{ playlist.thumbnail_url }} "
     />
     <img
+      [src]="playlist.thumbnail_url"
       alt="Thumbnail"
       class="thumbnail"
       mat-card-image
-      src="{{ playlist.thumbnail_url }}"
     />
     <img
+      [src]="playlist.thumbnail_url"
       alt="Thumbnail"
       class="thumbnail"
       mat-card-image
-      src="{{ playlist.thumbnail_url }}"
     />
     <div
       [ngClass]="{ 'show-overlay': showOverlay }"
