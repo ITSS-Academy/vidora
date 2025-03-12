@@ -26,6 +26,7 @@ import * as SidebarActions from '../../../ngrxs/sidebar/sidebar.actions';
 })
 export class HeaderComponent {
   user$: Observable<UserModel>;
+  user!: UserModel | null;
   isInputFocused: boolean = false;
   searchText: string = '';
   readonly dialog = inject(MatDialog);
@@ -82,6 +83,12 @@ export class HeaderComponent {
 
   signInWithGoogle() {
     this.store.dispatch(AuthActions.signInWithGoogle());
+  }
+
+  opButtonCreateVideoClick() {
+      if (!this.user?.id) {
+        this.signInWithGoogle(); // Dispatch signInWithGoogle action only if not logged in
+      }
   }
 
   signOut() {

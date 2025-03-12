@@ -3,4 +3,5 @@ export interface AuthState {
   loading: boolean;
   error: any;
   isCheckLoggedIn: boolean;
+
 }
