@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SharedModule } from '../../../shared/modules/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { VideoModule } from '../../../shared/modules/video.module';
 import { Router, ActivatedRoute } from '@angular/router';
-import { VideoCardVerticalComponent } from '../../components/video-card-vertical/video-card-vertical.component';
-import { Observable } from 'rxjs';
+import { combineLatest, filter, Observable, Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { MoreInfoDialogComponent } from '../../dialogs/more-info-dialog/more-info-dialog.component';
 import { Store } from '@ngrx/store';
-import { getUserById } from '../../../ngrxs/user/user.actions';
 import { UserModel } from '../../../models/user.model';
 import { UserState } from '../../../ngrxs/user/user.state';
 import { CustomizeProfileDialogComponent } from '../../dialogs/customize-profile-dialog/customize-profile-dialog.component';
+import * as UserActions from '../../../ngrxs/user/user.actions';
 
 @Component({
   selector: 'app-profile',
@@ -20,8 +19,8 @@ import { CustomizeProfileDialogComponent } from '../../dialogs/customize-profile
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
-export class ProfileComponent implements OnInit {
-  videos$: Observable<unknown> | undefined;
+export class ProfileComponent implements OnInit, OnDestroy {
+  subscriptions: Subscription[] = [];
   activeTabIndex = 0;
   userProfile$: Observable<UserModel>;
 
@@ -35,17 +34,39 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.url.subscribe((url) => {
-      const path = this.route.snapshot.firstChild?.url[0]?.path;
-      switch (path) {
-        case 'videos':
-          this.activeTabIndex = 0;
-          break;
-        case 'playlists':
-          this.activeTabIndex = 1;
-          break;
-      }
-    });
+    this.subscriptions.push(
+      this.route.url.subscribe((url) => {
+        const path = this.route.snapshot.firstChild?.url[0]?.path;
+        switch (path) {
+          case 'videos':
+            this.activeTabIndex = 0;
+            break;
+          case 'playlists':
+            this.activeTabIndex = 1;
+            break;
+        }
+      }),
+      combineLatest([
+        this.store.select((state) => state.user.isUpdateChannelImageSuccess),
+        this.store.select((state) => state.user.isUpdateAvatarSuccess),
+        this.store.select((state) => state.user.isUpdateDescribeSuccess),
+      ])
+        .pipe(
+          filter(
+            ([
+              isUpdateChannelImageSuccess,
+              isUpdateAvatarSuccess,
+              isUpdateDescribeSuccess,
+            ]) =>
+              isUpdateChannelImageSuccess ||
+              isUpdateAvatarSuccess ||
+              isUpdateDescribeSuccess,
+          ),
+        )
+        .subscribe(() => {
+          this.store.dispatch(UserActions.getUserById());
+        }),
+    );
   }
 
   openMoreInfoDialog() {
@@ -71,5 +92,9 @@ export class ProfileComponent implements OnInit {
         break;
     }
     this.router.navigate([route]);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => subscription.unsubscribe());
   }
 }
