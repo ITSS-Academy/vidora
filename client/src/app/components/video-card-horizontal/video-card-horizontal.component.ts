@@ -23,6 +23,7 @@ import { SidebarState } from '../../../ngrxs/sidebar/sidebar.state';
 import * as HistoryActions from '../../../ngrxs/history/history.actions';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
+import {PlaylistDialogComponent} from '../../dialogs/playlist-dialog/playlist-dialog.component';
 
 @Component({
   selector: 'app-video-card-horizontal',
@@ -70,6 +71,19 @@ export class VideoCardHorizontalComponent
         }
       }),
       this.store
+        .select('playlist', 'isUpdateWatchLaterPlaylistSuccess')
+        .subscribe((isUpdateWatchLaterSuccess) => {
+          if (isUpdateWatchLaterSuccess) {
+            this.alertService.showAlert(
+              'Added to Watch Later',
+              'Close',
+              3000,
+              'end',
+              'top',
+            );
+          }
+        }),
+      this.store
         .select('playlist', 'isDeleteWatchLaterPlaylistSuccess')
         .subscribe((isRemoveVideoInWatchLaterPlaylistSuccess) => {
           if (isRemoveVideoInWatchLaterPlaylistSuccess) {
@@ -82,6 +96,7 @@ export class VideoCardHorizontalComponent
             );
           }
         }),
+
 
       this.isSidebarOpen$.subscribe((isSidebarOpen) => {
         if (isSidebarOpen) {
@@ -171,5 +186,27 @@ export class VideoCardHorizontalComponent
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
+  }
+
+  openPlaylistDialog() {
+    const dialogRef = this.dialog.open(PlaylistDialogComponent, {
+      data: this.video.id,
+      disableClose: true,
+    });
+  }
+
+  openDialog(event: MouseEvent) {
+    event.stopPropagation();
+  }
+
+  addToWatchLater() {
+    if (this.user) {
+      this.store.dispatch(
+        PlaylistActions.updateWatchLaterPlaylist({
+          videoId: this.video.id,
+          userId: this.user.id,
+        }),
+      );
+    }
   }
 }
