@@ -93,32 +93,25 @@
           class="content"
         ></span>
       </div>
-      <div class="comments">
+      <div *ngIf="isCheckLogin$ | async; else loginPrompt" class="comments">
         <div class="comment-avatar">
-          <img alt="" src="{{ user?.avatar_url }}" />
+          <img alt="" src="{{ (user$ | async)?.avatar_url }}" />
         </div>
-        <div class="comment-forms">
-          <mat-form-field appearance="fill" class="comment-field">
+        <div  class="comment-forms">
+          <mat-form-field appearance="fill" (click)="onCommentFieldClick()" class="comment-field">
             <mat-label>Add a comment...</mat-label>
-            <textarea
-              [(ngModel)]="comment"
-              [rows]="comment ? 2 : 1"
-              matInput
-            ></textarea>
+            <textarea [(ngModel)]="comment" [rows]="comment ? 2 : 1" matInput></textarea>
           </mat-form-field>
         </div>
-        <button
-          (click)="createComment()"
-          [disabled]="comment == ''"
-          mat-stroked-button
-        >
-          Comment
-        </button>
+        <button (click)="createComment()" [disabled]="comment == ''"  mat-stroked-button>Comment</button>
       </div>
+      <ng-template #loginPrompt>
+        <p>Please log in to comment.</p>
+      </ng-template>
       <div class="comment-list">
-        @for (comment of comments$ | async; track comment.id) {
+        <ng-container *ngFor="let comment of comments$ | async; trackBy: trackByCommentId">
           <app-comment-card [comment]="comment"></app-comment-card>
-        }
+        </ng-container>
       </div>
     </div>
     <div class="right">

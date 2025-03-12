@@ -25,8 +25,14 @@ import { filter, map, take } from 'rxjs/operators';
 import { VideoCardHorizontalComponent } from '../../components/video-card-horizontal/video-card-horizontal.component';
 import { CommentState } from '../../../ngrxs/comment/comment.state';
 import { CommentCardComponent } from '../../components/comment-card/comment-card.component';
-import { CommentModel } from '../../../models/comment.model';
+import {CommentModel, CreateCommentDto} from '../../../models/comment.model';
 import { AuthState } from '../../../ngrxs/auth/auth.state';
+import {NgForOf, NgIf} from '@angular/common';
+import {MatDialog} from '@angular/material/dialog';
+import {signInWithGoogle} from '../../../ngrxs/auth/auth.actions';
+import {Auth} from '@angular/fire/auth';
+import {AuthService} from '../../../services/auth.service';
+import * as AuthActions from '../../../ngrxs/auth/auth.actions';
 
 @Component({
   selector: 'app-watch',
@@ -38,6 +44,8 @@ import { AuthState } from '../../../ngrxs/auth/auth.state';
     VideoCardHorizontalComponent,
     CommentCardComponent,
     CommentCardComponent,
+    NgIf,
+    NgForOf,
   ],
   templateUrl: './watch.component.html',
   styleUrl: './watch.component.scss',
@@ -66,6 +74,10 @@ export class WatchComponent implements OnInit, OnDestroy {
   createCommentFailure: Observable<string>;
   comments$!: Observable<CommentModel[]>;
   isCheckLogin$!: Observable<boolean>;
+  trackByCommentId: any;
+  user$: Observable<UserModel | null> | undefined;
+
+
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -291,18 +303,26 @@ export class WatchComponent implements OnInit, OnDestroy {
     this.vgApi = api; // Lưu trữ API sau khi khởi tạo
   }
 
-  createComment(): void {
-    this.store.dispatch(
-      CommentActions.createComment({
-        comment: {
-          content: this.comment,
-          video_id: this.videoId,
-          user_id: this.user?.id as string,
-        },
-      }),
-    );
-    this.comment = '';
+  signInWithGoogle() {
+    this.store.dispatch(AuthActions.signInWithGoogle());
   }
+
+  onCommentFieldClick(): void {
+    if (!this.user?.id) {
+      this.signInWithGoogle();
+
+    }
+  }
+
+  createComment(): void {
+          const newComment: CreateCommentDto = {
+            content: this.comment,
+            video_id: this.videoId,
+            user_id: this.user?.id as string,
+          };
+          this.store.dispatch(CommentActions.createComment({ comment: newComment }));
+          this.comment = '';
+        }
 
   ngOnDestroy(): void {
     if (this.watchHistory.length === 0 && this.totalWatchTime >= 30) {
@@ -334,4 +354,5 @@ export class WatchComponent implements OnInit, OnDestroy {
       this.subscription.forEach((sub) => sub.unsubscribe());
     }
   }
+
 }
